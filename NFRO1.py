@@ -1,0 +1,231 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+import os
+
+import numpy as np
+
+from pdb import set_trace
+
+F_FMT = '%.3f'
+FZ_FMT = '%0.3f'
+D_FMT = '%d'
+
+class BadDataError(Exception):
+    pass
+
+def split_dict(filep):
+    """ Decode and split a file"""
+
+    print("Opening %s..." % filep)
+    with open(filep) as f:
+        raw = f.read()
+    raw_sp = raw.split('\r\n')
+    raw_sp[:] = filter(lambda x: x != '', raw_sp)
+
+    good = []
+    # skip the header
+    good = [r.split('\t') for r in raw_sp]
+
+    print("Rearranging data...")
+    dict_list = []
+    #  Loop through trials
+    for trial in good[1:]:
+        trial_d = {}
+        #  Loop through column headers
+        for i, key in enumerate(good[0]):
+            try:
+                trial_d[key] = trial[i].replace('@', '')
+            except IndexError:
+                print("Skipping %s for trial #%d" % (key, good.index(trial)))
+                pass
+        dict_list.append(trial_d)
+    return dict_list 
+
+def REP(filep):
+    """ This parses NFRO1 REP e-prime files """
+    dl = split_dict(filep)
+    print("Computing REP stats...")
+
+    return {}
+
+def MI(filep):
+    """ This parses NFRO1 MI e prime files"""
+    dl = split_dict(filep)
+    print('Computing MI stats...')
+
+    #  No filter needed
+
+    if len(dl) != 96:
+        raise BadDataError("Did not find 96 trials in this MI e-primee file :(")
+
+    m1_trials = dl[:48]
+    m2_trials = dl[48:]   
+    
+    results = {}    
+
+    for m_data, m in zip((m1_trials, m2_trials), ('m1', 'm2')):
+        #  text2 contains strings like H10.bmp
+        #  S*.bmp are not-filled in, thus requiring actual work
+        #  So the real trials are x['text2'][0] == 'S'
+        #  Fake trials are others
+        real_trials = filter(lambda x: x['text2'][0] == 'S', m_data)
+        cont_trials = filter(lambda x: x['text2'][0] != 'S', m_data)
+
+        #  Responses are correct if the x was in the letter (a '1' the correct column) and the response was '6'
+        #  OR the x wasn't in the letter ('2' in the correct) and the response was '5'
+        corrf = lambda x: ((x['correct'] == '1' and x['Target.RESP'] == '6') or (x['correct'] == '2' and x['Target.RESP'] == '5'))
+        #  A false positive is a positive response when the x wasn't in the letter
+        fpf = lambda x: x['correct'] == '2' and x['Target.RESP'] == '6'
+        #  A false negative is a negative response when the x was in the letter
+        fnf = lambda x: x['correct'] == '1' and x['Target.RESP'] == '5'
+        omitf = lambda x: x['Target.RESP'] not in ('5', '6')
+        for tdata, ttext in zip((real_trials, cont_trials),('real', 'cont')):
+            #  Use the correct function
+            corr = [x for x in tdata if corrf(x)]
+            #  Use the false positive function
+            fp = [x for x in tdata if fpf(x)]
+            results['%s_%s_fp' % (m, ttext)] = D_FMT % len(fp)
+            #  Use the false negative function
+            fn = [x for x in tdata if fnf(x)]
+            results['%s_%s_fn' % (m, ttext)] = D_FMT % len(fn)
+            #  Use omit function
+            omit = [x for x in tdata if omitf(x)]
+            results['%s_%s_omit' % (m, ttext)] = D_FMT % len(omit)
+            
+            acc = (float(len(corr)) / len(tdata)) * 100
+            results['%s_%s_acc' % (m, ttext)] = F_FMT % acc
+            #  Generate a binary vector
+            resp = (1,) * len(corr) + (0,) * (len(tdata) - len(corr))
+            accsd = np.std(np.array(resp))
+            results['%s_%s_accsd' % (m, ttext)] = FZ_FMT % accsd
+
+            all_rt = np.array([float(x['Target.RT']) for x in corr])
+            rt_avg = np.mean(all_rt)
+            results['%s_%s_rtavg' % (m, ttext)] = F_FMT % rt_avg
+            rt_sd = np.std(all_rt)
+            results['%s_%s_rtsd' % (m, ttext)] = FZ_FMT % rt_sd
+    print("Finished with MI stats.")
+    return results
+
+def PIC(filep):
+    """ This parses NFRO1 PIC e-prime files"""
+    dl = split_dict(filep)
+    print('Computing PIC stats...')
+
+    #  Remove practice trial
+    dl[:] = [x for x in dl if x['runList'] != 'PracList']
+
+    #  If we don't have 134 trials, uh oh!
+    if len(dl) != 188:
+        raise BadDataError("Did not find 188 trials in this PIC e-prime file :(")
+
+    m1_trials = dl[:94]
+    m2_trials = dl[94:]
+    res = {}
+
+    for m_data, m in zip((m1_trials, m2_trials), ('m1', 'm2')):
+        loop_data = zip(('psw', 'con', 'wrd', 'match'),
+                        ('5', '5', '5', '6'),
+                        ('6', '6', '6', '5'))
+        for typ, good, bad in loop_data:
+            trials = filter(lambda x: x['type'] == typ, m_data)
+            correct = filter(lambda x: x['stim.RESP'] == good, trials)
+            #  Accuracy = # of correct / # trials * 100
+            acc = (float(len(correct)) / len(trials)) * 100
+            res['%s_%s_acc' % (m, typ)] = F_FMT % acc
+
+            #  Make a binary vector to compute sd
+            resp = (1,) * len(correct) + (0,) * (len(trials) - len(correct))
+            acc_std = np.std(np.array(resp))
+            res['%s_%s_accsd' % (m, typ)] = FZ_FMT % acc_std
+
+            #  Grab the correct reaction times
+            all_rt = np.array([float(t['stim.RT']) for t in correct])
+
+            #  Mean of correct rt
+            rt_avg = np.mean(all_rt)
+            res['%s_%s_rtavg' % (m, typ)] = F_FMT % rt_avg
+            #  SD of reaction time
+            rt_std = np.std(all_rt)
+            res['%s_%s_rtsd' % (m, typ)] = FZ_FMT % rt_std
+
+            #  N omit/comit
+            n_omit = len(filter(lambda x: x['stim.RESP'] not in (good, bad), trials))
+            res['%s_%s_omit' % (m, typ)] = D_FMT % n_omit
+            n_comit = len(filter(lambda x: x['stim.RESP'] == bad, trials))
+            res['%s_%s_comit' % (m, typ)] = D_FMT % n_comit
+    print("Finished PIC stats.")
+    return res
+
+def SWR(filep):
+    """ This parses NFRO1 SWR e-prime files"""
+    dl = split_dict(filep)
+
+    print("Computing SWR stats...")
+    #  Remove the practice trial
+    dl[:] = [x for x in dl if x['runList'] != 'PracList']
+
+    #  If we don't have 100 trials, uh oh!
+    if len(dl) != 100:
+        raise BadDataError("Did not find 100 trials in this SWR e-prime file :(")
+
+    m1_trials = dl[:50]
+    m2_trials = dl[50:]
+    res = {}
+    for m_data, m in zip((m1_trials, m2_trials), ('m1', 'm2')):
+        loop_data = zip(('HAI', 'HAR', 'HCI', 'HCR', 'word', 'nonword'),
+                        ('category',) * 4 + ('type',) * 2,
+                        ('6', '6', '6', '6', '6', '5'),
+                        ('5', '5', '5', '5', '5', '6'))
+        for cat, cat_key, good, bad in loop_data:
+            trials = filter(lambda x: x[cat_key] == cat, m_data)
+            corr = filter(lambda x: x['stim.RESP'] == good, trials)
+            #  Accuracy = # of correct / # of trials * 100
+            acc = (float(len(corr)) / len(trials)) * 100
+            res['%s_%s_acc' % (m, cat.lower())] = F_FMT % acc
+            #  make a binary vector to compute std deviation
+            resp = (1,) * len(corr) + (0,) * (len(trials) - len(corr))
+            acc_std = np.std(np.array(resp))
+            res['%s_%s_accsd' % (m, cat.lower())] = FZ_FMT % acc_std
+
+            #  Grab all correct reaction times
+            all_rt = np.array([float(t['stim.RT']) for t in corr])
+            #  Mean of reaction time
+            rt_avg = np.mean(all_rt)
+            res['%s_%s_rtavg' % (m, cat.lower())] = F_FMT % rt_avg 
+            #  STD of reaction time
+            rt_std = np.std(all_rt)
+            res['%s_%s_rtsd' % (m, cat.lower())] =  FZ_FMT % rt_std
+
+            #  N omit/comit
+            n_omit = len(filter(lambda x: x['stim.RESP'] not in (good, bad), trials))
+            res['%s_%s_omit' % (m, cat.lower())] = D_FMT % n_omit
+            n_comit = len(filter(lambda x: x['stim.RESP'] == bad, trials))
+            res['%s_%s_comit' % (m, cat.lower())] = D_FMT % n_comit
+    print("Finished SWR stats.")
+    return res
+
+if __name__ == '__main__':
+    swr = os.path.expanduser('~/Desktop/EPRIME/SWR/NF_SWR_Test_Pre_ListA.txt')
+    swr_data = SWR(swr)
+
+    print
+    print
+
+    pic = os.path.expanduser('~/Desktop/EPRIME/PIC/NF_PIC_Test_Post_ListA.txt')
+    pic_data = PIC(pic)
+
+    print
+    print
+
+    mi = os.path.expanduser('~/Desktop/EPRIME/MI/NF_MI_Test_Pre.txt')
+    mi_data = MI(mi)
+
+    print
+    print
+
+    rep = os.path.expanduser('~/Desktop/EPRIME/REP/NF_REP_1502.txt')
+    rep_data = REP(rep)
+
