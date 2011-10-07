@@ -1,0 +1,1146 @@
+Sub rep_WORDS()
+
+'
+' CLASSIFY_DATA MACRO
+' Aparna Sivapurapu 06'2010
+
+'---------------------------transfer raw data-------------------------
+Sheets("RAW DATA").Select
+Range("AG2").Select
+'transfer block information
+If Selection.Value = "M1" Then
+  If Selection.Offset(0, 1).Value = "M2" Then
+    If Selection.Offset(0, 2).Value = "M3" Then
+      Sheets("RAW DATA").Select
+      Range("AG1:AI370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("A1").PasteSpecial
+      'transfer response and response time
+      Sheets("RAW DATA").Select
+      Range("AM1:AN370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("E1").PasteSpecial
+    Else
+      Sheets("RAW DATA").Select
+      Range("AG1:AH370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("A1").PasteSpecial
+      'transfer response and response time
+      Sheets("RAW DATA").Select
+      Range("AL1:AM370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("E1").PasteSpecial
+    End If
+  Else
+    Sheets("RAW DATA").Select
+    Range("AG1:AG370").Copy
+    Sheets("FILTERED DATA").Select
+    Range("A1").PasteSpecial
+    'transfer response and response time
+    Sheets("RAW DATA").Select
+    Range("AK1:AL370").Copy
+    Sheets("FILTERED DATA").Select
+    Range("E1").PasteSpecial
+  End If
+ElseIf Selection.Offset(0, -1).Value = "M1" Then
+  If Selection.Value = "M2" Then
+    If Selection.Offset(0, 1).Value = "M3" Then
+      Sheets("RAW DATA").Select
+      Range("AF1:AH370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("A1").PasteSpecial
+      'transfer response and response time
+      Sheets("RAW DATA").Select
+      Range("AL1:AM370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("E1").PasteSpecial
+    Else
+      Sheets("RAW DATA").Select
+      Range("AF1:AG370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("A1").PasteSpecial
+      'transfer response and response time
+      Sheets("RAW DATA").Select
+      Range("AK1:AL370").Copy
+      Sheets("FILTERED DATA").Select
+      Range("E1").PasteSpecial
+    End If
+  Else
+    Sheets("RAW DATA").Select
+    Range("AF1:AF370").Copy
+    Sheets("FILTERED DATA").Select
+    Range("A1").PasteSpecial
+    'transfer response and response time
+    Sheets("RAW DATA").Select
+    Range("AJ1:AK370").Copy
+    Sheets("FILTERED DATA").Select
+    Range("E1").PasteSpecial
+  End If
+End If
+ 
+'transfer stimulus category
+ Sheets("SHEET4").Select
+ Range("A1:A370").Copy
+ Sheets("FILTERED DATA").Select
+ Range("D1").PasteSpecial
+
+Sheets("RAW DATA").Select
+Range("A1").Select
+
+'-------------------------------filter data----------------------------
+Sheets("FILTERED DATA").Select
+'separate blocks
+Dim varN As Integer 'iterate down column to read data
+Dim varA As Integer 'count elements in category "A"
+Dim varB As Integer 'count elements in category "C"
+Dim varC As Integer 'count elements in category "CS"
+Dim varD As Integer 'count elements in category "Non"
+Dim varCol As Integer 'iterate across rows to read data, i.e. M1, M2, M3
+Dim varOffset As Integer 'control distance between task number column and data columns
+varCol = 1
+
+Range("A3").Select
+Do While varCol < 4
+varA = 3
+varB = 3
+varC = 3
+varD = 3
+varN = 3
+If varCol = 1 Then
+  varOffset = 3
+ElseIf varCol = 2 Then
+  varOffset = 2
+ElseIf varCol = 3 Then
+  varOffset = 1
+End If
+Cells(varN, varCol).Select
+If Selection.Value < " " Then
+  Do While Selection.Value < " "
+   varN = varN + 1
+   Cells(varN, varCol).Select
+   If varN > 370 Then
+     varN = 3
+     Exit Do
+   End If
+  Loop
+End If
+  Do While Selection.Value > ""
+    If Selection.Offset(0, varOffset).Value = "A" Then
+      Cells(varA, 6 * varCol + 2).Value = Selection.Value
+      Cells(varA, 6 * varCol + 3).Value = Selection.Offset(0, varOffset).Value
+      Cells(varA, 6 * varCol + 4).Value = Selection.Offset(0, varOffset + 1).Value
+      Cells(varA, 6 * varCol + 5).Value = Selection.Offset(0, varOffset + 2).Value
+      Cells(varA, 6 * varCol + 6).Value = Selection.Offset(0, varOffset + 3).Value
+      varA = varA + 1
+      varN = varN + 1
+      Cells(varN, varCol).Select
+    ElseIf Selection.Offset(0, varOffset).Value = "C" Then
+      Cells(varB + 31, 6 * varCol + 2).Value = Selection.Value
+      Cells(varB + 31, 6 * varCol + 3).Value = Selection.Offset(0, varOffset).Value
+      Cells(varB + 31, 6 * varCol + 4).Value = Selection.Offset(0, varOffset + 1).Value
+      Cells(varB + 31, 6 * varCol + 5).Value = Selection.Offset(0, varOffset + 2).Value
+      Cells(varB + 31, 6 * varCol + 6).Value = Selection.Offset(0, varOffset + 3).Value
+      varB = varB + 1
+      varN = varN + 1
+      Cells(varN, varCol).Select
+    ElseIf Selection.Offset(0, varOffset).Value = "CS" Then
+      Cells(varC + 62, 6 * varCol + 2).Value = Selection.Value
+      Cells(varC + 62, 6 * varCol + 3).Value = Selection.Offset(0, varOffset).Value
+      Cells(varC + 62, 6 * varCol + 4).Value = Selection.Offset(0, varOffset + 1).Value
+      Cells(varC + 62, 6 * varCol + 5).Value = Selection.Offset(0, varOffset + 2).Value
+      Cells(varC + 62, 6 * varCol + 6).Value = Selection.Offset(0, varOffset + 3).Value
+      varC = varC + 1
+      varN = varN + 1
+      Cells(varN, varCol).Select
+    ElseIf Selection.Offset(0, varOffset).Value = "Non" Then
+      Cells(varD + 93, 6 * varCol + 2).Value = Selection.Value
+      Cells(varD + 93, 6 * varCol + 3).Value = Selection.Offset(0, varOffset).Value
+      Cells(varD + 93, 6 * varCol + 4).Value = Selection.Offset(0, varOffset + 1).Value
+      Cells(varD + 93, 6 * varCol + 5).Value = Selection.Offset(0, varOffset + 2).Value
+      Cells(varD + 93, 6 * varCol + 6).Value = Selection.Offset(0, varOffset + 3).Value
+      varD = varD + 1
+      varN = varN + 1
+      Cells(varN, varCol).Select
+    End If
+    Cells(2, 6 * varCol + 2).Value = Cells(2, varCol).Value
+  Loop
+varCol = varCol + 1
+Loop
+
+'----------------check if responses need to be adjusted----------------
+Dim varAdjust As Boolean
+'varAdjust = Null
+varN = 3
+  Do While varN < 120
+    Cells(varN, 5).Select
+    If Selection.Value = 1 Then
+         varAdjust = False
+         Exit Do
+      ElseIf Selection.Value = 3 Then
+         varAdjust = True
+         Exit Do
+      Else
+        varN = varN + 1
+    End If
+  Loop
+
+'adjust M1
+  If varAdjust Then
+    varN = 3
+    Cells(varN, 10).Select
+    Do While varN < 126
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varN = varN + 1
+      Cells(varN, 10).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -2).Value < "" Then    'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          Else
+             varN = varN + 1
+          End If
+        End If
+    Loop
+    Range("J1").Value = "Adjusted"
+'adjust M2
+    varN = 3
+    Cells(varN, 16).Select
+    Do While varN < 126
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varN = varN + 1
+      Cells(varN, 16).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -2).Value < "" Then    'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          Else
+             varN = varN + 1
+          End If
+        End If
+    Loop
+    Range("P1").Value = "Adjusted"
+'adjust M3
+    varN = 3
+    Cells(varN, 22).Select
+    Do While varN < 126
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varN = varN + 1
+      Cells(varN, 22).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -2).Value < "" Then    'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          Else
+             varN = varN + 1
+          End If
+        End If
+    Loop
+    Range("V1").Value = "Adjusted"
+  End If
+
+'-----------------------------check accuracy---------------------------
+Sheets("FILTERED DATA").Select
+'words
+'M1
+varN = 3
+Range("J3").Select
+ Do While varN < 64
+   If Selection.Value = 6 Then
+     Selection.Offset(0, 2).Value = 1
+   Else
+     If Selection.Offset(0, -1).Value > "" Then
+       Selection.Offset(0, 2).Value = 0
+     ElseIf Selection.Offset(1, -2).Value < " " Then
+        varN = varN + 1
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 10).Select
+ Loop
+'M2
+varN = 3
+Range("P3").Select
+ Do While varN < 64
+   If Selection.Value = 6 Then
+     Selection.Offset(0, 2).Value = 1
+   Else
+     If Selection.Offset(0, -1).Value > "" Then
+       Selection.Offset(0, 2).Value = 0
+     ElseIf Selection.Offset(1, -2).Value < " " Then
+        varN = varN + 1
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 16).Select
+ Loop
+'M3
+varN = 3
+Range("V3").Select
+ Do While varN < 64
+   If Selection.Value = 6 Then
+     Selection.Offset(0, 2).Value = 1
+   Else
+     If Selection.Offset(0, -1).Value > "" Then
+       Selection.Offset(0, 2).Value = 0
+     ElseIf Selection.Offset(1, -2).Value < " " Then
+        varN = varN + 1
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 22).Select
+ Loop
+'nonwords
+'M1
+varN = 65
+Range("J65").Select
+ Do While varN < 126
+   If Selection.Value = 5 Then
+     Selection.Offset(0, 2).Value = 1
+   Else
+     If Selection.Offset(0, -1).Value > "" Then
+       Selection.Offset(0, 2).Value = 0
+     ElseIf Selection.Offset(1, -2).Value < " " Then
+        varN = varN + 1
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 10).Select
+ Loop
+'M2
+varN = 65
+Range("P65").Select
+ Do While varN < 126
+   If Selection.Value = 5 Then
+     Selection.Offset(0, 2).Value = 1
+   Else
+     If Selection.Offset(0, -1).Value > "" Then
+       Selection.Offset(0, 2).Value = 0
+     ElseIf Selection.Offset(1, -2).Value < " " Then
+        varN = varN + 1
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 16).Select
+ Loop
+'M3
+varN = 65
+Range("V65").Select
+ Do While varN < 126
+   If Selection.Value = 5 Then
+     Selection.Offset(0, 2).Value = 1
+   Else
+     If Selection.Offset(0, -1).Value > "" Then
+       Selection.Offset(0, 2).Value = 0
+     ElseIf Selection.Offset(1, -2).Value < " " Then
+        varN = varN + 1
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 22).Select
+ Loop
+'labels
+Range("L2").Value = "Accuracy"
+Range("R2").Value = "Accuracy"
+Range("X2").Value = "Accuracy"
+
+Range("I2").Value = "Category"
+Range("J2").Value = "Response"
+Range("K1").Value = "Response"
+Range("K2").Value = "Time"
+Range("O2").Value = "Category"
+Range("P2").Value = "Response"
+Range("Q1").Value = "Response"
+Range("Q2").Value = "Time"
+Range("U2").Value = "Category"
+Range("V2").Value = "Response"
+Range("W1").Value = "Response"
+Range("W2").Value = "Time"
+
+'---------------------------compute statistics-------------------------
+Sheets("STATS DATA").Select
+'abstract words
+Range("C4").Formula = "=SUM('FILTERED DATA'!L3:L32)"
+Range("C5").Formula = "=SUM('FILTERED DATA'!L3:L32)*100/30"
+Range("H4").Formula = "=SUM('FILTERED DATA'!R3:R32)"
+Range("H5").Formula = "=SUM('FILTERED DATA'!R3:R32)*100/30"
+Range("M4").Formula = "=SUM('FILTERED DATA'!X3:X32)"
+Range("M5").Formula = "=SUM('FILTERED DATA'!X3:X32)*100/30"
+Range("E4").Formula = "=AVERAGE('FILTERED DATA'!K3:K32)"
+Range("E5").Formula = "=STDEV('FILTERED DATA'!K3:K32)"
+Range("J4").Formula = "=AVERAGE('FILTERED DATA'!Q3:Q32)"
+Range("J5").Formula = "=STDEV('FILTERED DATA'!Q3:Q32)"
+Range("O4").Formula = "=AVERAGE('FILTERED DATA'!W3:W32)"
+Range("O5").Formula = "=STDEV('FILTERED DATA'!W3:W32)"
+'concrete words
+Range("C7").Formula = "=SUM('FILTERED DATA'!L34:L63)"
+Range("C8").Formula = "=SUM('FILTERED DATA'!L34:L63)*100/30"
+Range("H7").Formula = "=SUM('FILTERED DATA'!R34:R63)"
+Range("H8").Formula = "=SUM('FILTERED DATA'!R34:R63)*100/30"
+Range("M7").Formula = "=SUM('FILTERED DATA'!X34:X63)"
+Range("M8").Formula = "=SUM('FILTERED DATA'!X34:X63)*100/30"
+Range("E7").Formula = "=AVERAGE('FILTERED DATA'!K34:K63)"
+Range("E8").Formula = "=STDEV('FILTERED DATA'!K34:K63)"
+Range("J7").Formula = "=AVERAGE('FILTERED DATA'!Q34:Q63)"
+Range("J8").Formula = "=STDEV('FILTERED DATA'!Q34:Q63)"
+Range("O7").Formula = "=AVERAGE('FILTERED DATA'!W34:W63)"
+Range("O8").Formula = "=STDEV('FILTERED DATA'!W34:W63)"
+'consonant strings
+Range("C10").Formula = "=SUM('FILTERED DATA'!L65:L94)"
+Range("C11").Formula = "=SUM('FILTERED DATA'!L65:L94)*100/30"
+Range("H10").Formula = "=SUM('FILTERED DATA'!R65:R94)"
+Range("H11").Formula = "=SUM('FILTERED DATA'!R65:R94)*100/30"
+Range("M10").Formula = "=SUM('FILTERED DATA'!X65:X94)"
+Range("M11").Formula = "=SUM('FILTERED DATA'!X65:X94)*100/30"
+Range("E10").Formula = "=AVERAGE('FILTERED DATA'!K65:K94)"
+Range("E11").Formula = "=STDEV('FILTERED DATA'!K65:K94)"
+Range("J10").Formula = "=AVERAGE('FILTERED DATA'!Q65:Q94)"
+Range("J11").Formula = "=STDEV('FILTERED DATA'!Q65:Q94)"
+Range("O10").Formula = "=AVERAGE('FILTERED DATA'!W65:W94)"
+Range("O11").Formula = "=STDEV('FILTERED DATA'!W65:W94)"
+'non-word
+Range("C13").Formula = "=SUM('FILTERED DATA'!L96:L125)"
+Range("C14").Formula = "=SUM('FILTERED DATA'!L96:L125)*100/30"
+Range("H13").Formula = "=SUM('FILTERED DATA'!R96:R125)"
+Range("H14").Formula = "=SUM('FILTERED DATA'!R96:R125)*100/30"
+Range("M13").Formula = "=SUM('FILTERED DATA'!X96:X125)"
+Range("M14").Formula = "=SUM('FILTERED DATA'!X96:X125)*100/30"
+Range("E13").Formula = "=AVERAGE('FILTERED DATA'!K96:K125)"
+Range("E14").Formula = "=STDEV('FILTERED DATA'!K96:K125)"
+Range("J13").Formula = "=AVERAGE('FILTERED DATA'!Q96:Q125)"
+Range("J14").Formula = "=STDEV('FILTERED DATA'!Q96:Q125)"
+Range("O13").Formula = "=AVERAGE('FILTERED DATA'!W96:W125)"
+Range("O14").Formula = "=STDEV('FILTERED DATA'!W96:W125)"
+'all words per mission
+Range("C18").Formula = "=SUM('FILTERED DATA'!L3:L32,'FILTERED DATA'!L34:L63)"
+Range("C19").Formula = "=SUM('FILTERED DATA'!L3:L32,'FILTERED DATA'!L34:L63)*100/60"
+Range("H18").Formula = "=SUM('FILTERED DATA'!R3:R32,'FILTERED DATA'!R34:R63)"
+Range("H19").Formula = "=SUM('FILTERED DATA'!R3:R32,'FILTERED DATA'!R34:R63)*100/60"
+Range("M18").Formula = "=SUM('FILTERED DATA'!X3:X32,'FILTERED DATA'!X34:X63)"
+Range("M19").Formula = "=SUM('FILTERED DATA'!X3:X32,'FILTERED DATA'!X34:X63)*100/60"
+Range("E18").Formula = "=AVERAGE('FILTERED DATA'!K3:K32,'FILTERED DATA'!K34:K63)"
+Range("E19").Formula = "=STDEV('FILTERED DATA'!K3:K32,'FILTERED DATA'!K34:K63)"
+Range("J18").Formula = "=AVERAGE('FILTERED DATA'!Q3:Q32,'FILTERED DATA'!Q34:Q63)"
+Range("J19").Formula = "=STDEV('FILTERED DATA'!Q3:Q32,'FILTERED DATA'!Q34:Q63)"
+Range("O18").Formula = "=AVERAGE('FILTERED DATA'!W3:W32,'FILTERED DATA'!W34:W63)"
+Range("O19").Formula = "=STDEV('FILTERED DATA'!W3:W32,'FILTERED DATA'!W34:W63)"
+'all nonwords per mission
+Range("C21").Formula = "=SUM('FILTERED DATA'!L65:L94,'FILTERED DATA'!L96:L125)"
+Range("C22").Formula = "=SUM('FILTERED DATA'!L65:L94,'FILTERED DATA'!L96:L125)*100/60"
+Range("H21").Formula = "=SUM('FILTERED DATA'!R65:R94,'FILTERED DATA'!R96:R125)"
+Range("H22").Formula = "=SUM('FILTERED DATA'!R65:R94,'FILTERED DATA'!R96:R125)*100/60"
+Range("M21").Formula = "=SUM('FILTERED DATA'!X65:X94,'FILTERED DATA'!X96:X125)"
+Range("M22").Formula = "=SUM('FILTERED DATA'!X65:X94,'FILTERED DATA'!X96:X125)*100/60"
+Range("E21").Formula = "=AVERAGE('FILTERED DATA'!K65:K94,'FILTERED DATA'!K96:K125)"
+Range("E22").Formula = "=STDEV('FILTERED DATA'!K65:K94,'FILTERED DATA'!K96:K125)"
+Range("J21").Formula = "=AVERAGE('FILTERED DATA'!Q65:Q94,'FILTERED DATA'!Q96:Q125)"
+Range("J22").Formula = "=STDEV('FILTERED DATA'!Q65:Q94,'FILTERED DATA'!Q96:Q125)"
+Range("O21").Formula = "=AVERAGE('FILTERED DATA'!W65:W94,'FILTERED DATA'!W96:W125)"
+Range("O22").Formula = "=STDEV('FILTERED DATA'!W65:W94,'FILTERED DATA'!W96:W125)"
+'all abstract words
+Range("C25").Formula = "=SUM('FILTERED DATA'!L3:L32,'FILTERED DATA'!R3:R32,'FILTERED DATA'!X3:X32)"
+Range("C26").Formula = "=SUM('FILTERED DATA'!L3:L32,'FILTERED DATA'!R3:R32,'FILTERED DATA'!X3:X32)*100/90"
+Range("E25").Formula = "=AVERAGE('FILTERED DATA'!K3:K32,'FILTERED DATA'!Q3:Q32,'FILTERED DATA'!W3:W32)"
+Range("E26").Formula = "=STDEV('FILTERED DATA'!K3:K32,'FILTERED DATA'!Q3:Q32,'FILTERED DATA'!W3:W32)"
+'all concrete words
+Range("C28").Formula = "=SUM('FILTERED DATA'!L34:L63,'FILTERED DATA'!R34:R63,'FILTERED DATA'!X34:X63)"
+Range("C29").Formula = "=SUM('FILTERED DATA'!L34:L63,'FILTERED DATA'!R34:R63,'FILTERED DATA'!X34:X63)*100/90"
+Range("E28").Formula = "=AVERAGE('FILTERED DATA'!K34:K63,'FILTERED DATA'!Q34:Q63,'FILTERED DATA'!W34:W63)"
+Range("E29").Formula = "=STDEV('FILTERED DATA'!K34:K63,'FILTERED DATA'!Q34:Q63,'FILTERED DATA'!W34:W63)"
+'all consonant strings
+Range("H25").Formula = "=SUM('FILTERED DATA'!L65:L94,'FILTERED DATA'!R65:R94,'FILTERED DATA'!X65:X94)"
+Range("H26").Formula = "=SUM('FILTERED DATA'!L65:L94,'FILTERED DATA'!R65:R94,'FILTERED DATA'!X65:X94)*100/90"
+Range("J25").Formula = "=AVERAGE('FILTERED DATA'!K65:K94,'FILTERED DATA'!Q65:Q94,'FILTERED DATA'!W65:W94)"
+Range("J26").Formula = "=STDEV('FILTERED DATA'!K65:K94,'FILTERED DATA'!Q65:Q94,'FILTERED DATA'!W65:W94)"
+'all non-word (category)
+Range("H28").Formula = "=SUM('FILTERED DATA'!L96:L125,'FILTERED DATA'!R96:R125,'FILTERED DATA'!X96:X125)"
+Range("H29").Formula = "=SUM('FILTERED DATA'!L96:L125,'FILTERED DATA'!R96:R125,'FILTERED DATA'!X96:X125)*100/90"
+Range("J28").Formula = "=AVERAGE('FILTERED DATA'!K96:K125,'FILTERED DATA'!Q96:Q125,'FILTERED DATA'!W96:W125)"
+Range("J29").Formula = "=STDEV('FILTERED DATA'!K96:K125,'FILTERED DATA'!Q96:Q125,'FILTERED DATA'!W96:W125)"
+'all words
+Range("M25").Formula = "=SUM('FILTERED DATA'!L3:L32,'FILTERED DATA'!L34:L63,'FILTERED DATA'!R3:R32,'FILTERED DATA'!R34:R63,'FILTERED DATA'!X3:X32,'FILTERED DATA'!X34:X63)"
+Range("M26").Formula = "=SUM('FILTERED DATA'!L3:L32,'FILTERED DATA'!L34:L63,'FILTERED DATA'!R3:R32,'FILTERED DATA'!R34:R63,'FILTERED DATA'!X3:X32,'FILTERED DATA'!X34:X63)*100/180"
+Range("O25").Formula = "=AVERAGE('FILTERED DATA'!K3:K32,'FILTERED DATA'!K34:K63,'FILTERED DATA'!Q3:Q32,'FILTERED DATA'!Q34:Q63,'FILTERED DATA'!W3:W32,'FILTERED DATA'!W34:W63)"
+Range("O26").Formula = "=STDEV('FILTERED DATA'!K3:K32,'FILTERED DATA'!K34:K63,'FILTERED DATA'!Q3:Q32,'FILTERED DATA'!Q34:Q63,'FILTERED DATA'!W3:W32,'FILTERED DATA'!W34:W63)"
+'all nonwords
+Range("M28").Formula = "=SUM('FILTERED DATA'!L65:L94,'FILTERED DATA'!L96:L125,'FILTERED DATA'!R65:R94,'FILTERED DATA'!R96:R125,'FILTERED DATA'!X65:X94,'FILTERED DATA'!X96:X125)"
+Range("M29").Formula = "=SUM('FILTERED DATA'!L65:L94,'FILTERED DATA'!L96:L125,'FILTERED DATA'!R65:R94,'FILTERED DATA'!R96:R125,'FILTERED DATA'!X65:X94,'FILTERED DATA'!X96:X125)*100/180"
+Range("O28").Formula = "=AVERAGE('FILTERED DATA'!K65:K94,'FILTERED DATA'!K96:K125,'FILTERED DATA'!Q65:Q94,'FILTERED DATA'!Q96:Q125,'FILTERED DATA'!W65:W94,'FILTERED DATA'!W96:W125)"
+Range("O29").Formula = "=STDEV('FILTERED DATA'!K65:K94,'FILTERED DATA'!K96:K125,'FILTERED DATA'!Q65:Q94,'FILTERED DATA'!Q96:Q125,'FILTERED DATA'!W65:W94,'FILTERED DATA'!W96:W125)"
+
+'M1
+Range("B2").Value = "Accuracy"
+Range("D2").Value = "Response Time"
+Range("A4").Value = "Abstract"
+Range("B4").Value = "Sum:"
+Range("B5").Value = "Percent:"
+Range("D4").Value = "Average:"
+Range("D5").Value = "Std Dev:"
+Range("A7").Value = "Concrete"
+Range("B7").Value = "Sum:"
+Range("B8").Value = "Percent:"
+Range("D7").Value = "Average:"
+Range("D8").Value = "Std Dev:"
+Range("A10").Value = "Consonant String"
+Range("B10").Value = "Sum:"
+Range("B11").Value = "Percent:"
+Range("D10").Value = "Average:"
+Range("D11").Value = "Std Dev:"
+Range("A13").Value = "Non-word"
+Range("B13").Value = "Sum:"
+Range("B14").Value = "Percent:"
+Range("D13").Value = "Average:"
+Range("D14").Value = "Std Dev:"
+Range("A18").Value = "Words"
+Range("B18").Value = "Sum:"
+Range("B19").Value = "Percent:"
+Range("D18").Value = "Average:"
+Range("D19").Value = "Std Dev:"
+Range("A21").Value = "Nonwords"
+Range("B21").Value = "Sum:"
+Range("B22").Value = "Percent:"
+Range("D21").Value = "Average:"
+Range("D22").Value = "Std Dev:"
+'M2
+Range("G2").Value = "Accuracy"
+Range("I2").Value = "Response Time"
+Range("F4").Value = "Abstract"
+Range("G4").Value = "Sum:"
+Range("G5").Value = "Percent:"
+Range("I4").Value = "Average:"
+Range("I5").Value = "Std Dev:"
+Range("F7").Value = "Concrete"
+Range("G7").Value = "Sum:"
+Range("G8").Value = "Percent:"
+Range("I7").Value = "Average:"
+Range("I8").Value = "Std Dev:"
+Range("F10").Value = "Consonant String"
+Range("G10").Value = "Sum:"
+Range("G11").Value = "Percent:"
+Range("I10").Value = "Average:"
+Range("I11").Value = "Std Dev:"
+Range("F13").Value = "Non-word"
+Range("G13").Value = "Sum:"
+Range("G14").Value = "Percent:"
+Range("I13").Value = "Average:"
+Range("I14").Value = "Std Dev:"
+Range("F18").Value = "Words"
+Range("G18").Value = "Sum:"
+Range("G19").Value = "Percent:"
+Range("I18").Value = "Average:"
+Range("I19").Value = "Std Dev:"
+Range("F21").Value = "Nonwords"
+Range("G21").Value = "Sum:"
+Range("G22").Value = "Percent:"
+Range("I21").Value = "Average:"
+Range("I22").Value = "Std Dev:"
+'M3
+Range("L2").Value = "Accuracy"
+Range("N2").Value = "Response Time"
+Range("K4").Value = "Abstract"
+Range("L4").Value = "Sum:"
+Range("L5").Value = "Percent:"
+Range("N4").Value = "Average:"
+Range("N5").Value = "Std Dev:"
+Range("K7").Value = "Concrete"
+Range("L7").Value = "Sum:"
+Range("L8").Value = "Percent:"
+Range("N7").Value = "Average:"
+Range("N8").Value = "Std Dev:"
+Range("K10").Value = "Consonant String"
+Range("L10").Value = "Sum:"
+Range("L11").Value = "Percent:"
+Range("N10").Value = "Average:"
+Range("N11").Value = "Std Dev:"
+Range("K13").Value = "Non-word"
+Range("L13").Value = "Sum:"
+Range("L14").Value = "Percent:"
+Range("N13").Value = "Average:"
+Range("N14").Value = "Std Dev:"
+Range("K18").Value = "Words"
+Range("L18").Value = "Sum:"
+Range("L19").Value = "Percent:"
+Range("N18").Value = "Average:"
+Range("N19").Value = "Std Dev:"
+Range("K21").Value = "Nonwords"
+Range("L21").Value = "Sum:"
+Range("L22").Value = "Percent:"
+Range("N21").Value = "Average:"
+Range("N22").Value = "Std Dev:"
+'overall
+Range("A25").Value = "Abstract"
+Range("B25").Value = "Sum:"
+Range("B26").Value = "Percent:"
+Range("D25").Value = "Average:"
+Range("D26").Value = "Std Dev:"
+Range("A28").Value = "Concrete"
+Range("B28").Value = "Sum:"
+Range("B29").Value = "Percent:"
+Range("D28").Value = "Average:"
+Range("D29").Value = "Std Dev:"
+Range("F25").Value = "Consonant String"
+Range("G25").Value = "Sum:"
+Range("G26").Value = "Percent:"
+Range("I25").Value = "Average:"
+Range("I26").Value = "Std Dev:"
+Range("F28").Value = "Non-word"
+Range("G28").Value = "Sum:"
+Range("G29").Value = "Percent:"
+Range("I28").Value = "Average:"
+Range("I29").Value = "Std Dev:"
+Range("K25").Value = "Words"
+Range("L25").Value = "Sum:"
+Range("L26").Value = "Percent:"
+Range("N25").Value = "Average:"
+Range("N26").Value = "Std Dev:"
+Range("K28").Value = "Nonwords"
+Range("L28").Value = "Sum:"
+Range("L29").Value = "Percent:"
+Range("N28").Value = "Average:"
+Range("N29").Value = "Std Dev:"
+Range("C1").Value = "M1"
+Range("H1").Value = "M2"
+Range("M1").Value = "M3"
+Range("C16").Value = "M1 Totals"
+Range("H16").Value = "M2 Totals"
+Range("M16").Value = "M3 Totals"
+Range("C24").Value = "OVERALL"
+Range("H24").Value = "OVERALL"
+Range("M24").Value = "OVERALL"
+Range("A1").Select
+
+Range("A1:O29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlInsideVertical).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("F1:F23").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeBottom).LineStyle = xlNone
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("K1:K23").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeBottom).LineStyle = xlNone
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("A23:O23").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeTop).LineStyle = xlNone
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Range("A1:O1").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlMedium
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Range("A16:O16").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeTop).LineStyle = xlNone
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlMedium
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Range("A16:O16").Select
+    Range("O16").Activate
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlMedium
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Range("A24:O24").Select
+    Range("O24").Activate
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlInsideVertical).LineStyle = xlNone
+    Range("F25:F29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("K25:K29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("A2:O2").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlMedium
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Range("C1").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .ShrinkToFit = False
+        .MergeCells = False
+    End With
+    Range("H1").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .ShrinkToFit = False
+        .MergeCells = False
+    End With
+    Range("M1").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .ShrinkToFit = False
+        .MergeCells = False
+    End With
+    Range("N3:N15").Select
+    Application.CutCopyMode = False
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("N17:N23").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlMedium
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("N25:N29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("I25:I29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("D25:D29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("D17:D23").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlMedium
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("I17:I23").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlMedium
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("I3:I15").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("D3:D15").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("K25:K29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("F25:F29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlDouble
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("F25:F29").Select
+    Application.CutCopyMode = False
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlDashDot
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("K25:K29").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlDashDot
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .Weight = xlThick
+        .ColorIndex = xlAutomatic
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .Weight = xlThin
+        .ColorIndex = xlAutomatic
+    End With
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+    Range("A31").Select
+End Sub
+
+
+

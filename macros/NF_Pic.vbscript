@@ -1,0 +1,300 @@
+Sub Pic_Vandy()
+'Aparna Sivapurapu 06'2010
+
+'
+
+'---------------------------transfer raw data-------------------------
+Dim varIsPractice As Boolean
+Dim varCTRL As String
+
+Sheets("RAW DATA").Select
+varCTRL = Range("AQ2").Value
+If varCTRL = "type" Then
+  varIsPractice = False
+ Else
+  varIsPractice = True
+End If
+'Range("AN1").Value = varIsPractice
+
+'transfer block information
+If varIsPractice Then
+ 'Sheets("RAW DATA").Select
+ 'Range("Z1:AA220").Copy
+ 'Sheets("FILTERED DATA").Select
+ 'Range("A1").PasteSpecial
+Else
+ Sheets("RAW DATA").Select
+ Range("AC1:AD220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("A1").PasteSpecial
+End If
+ 
+'transfer stimulus type and correct response
+If varIsPractice Then
+Else
+ Sheets("RAW DATA").Select
+ Range("AQ1:AQ220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("C1").PasteSpecial
+ Sheets("RAW DATA").Select
+ Range("X1:X220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("D1").PasteSpecial
+ 'Sheets("RAW DATA").Select
+ 'Range("AJ2").Select
+ 'If Selection.Value = "type" Then
+ ' Range("AJ1:AJ120").Copy
+ ' Sheets("FILTERED DATA").Select
+ ' Range("C1").PasteSpecial
+ 'Else
+ ' Range("AI1:AI120").Copy
+ ' Sheets("FILTERED DATA").Select
+ ' Range("C1").PasteSpecial
+ 'End If
+ 'Sheets("RAW DATA").Select
+ 'Range("U1:U220").Copy
+ 'Sheets("FILTERED DATA").Select
+ 'Range("D1").PasteSpecial
+End If
+
+'transfer response and response time
+If varIsPractice Then
+Else
+ Sheets("RAW DATA").Select
+ Range("AM1:AN220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("E1").PasteSpecial
+ Sheets("RAW DATA").Select
+ Range("AG1:AH220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("G1").PasteSpecial
+End If
+
+'-------------------------------filter data----------------------------
+Sheets("FILTERED DATA").Select
+'separate blocks
+Dim varN As Integer
+Dim varC
+
+
+varC = 2
+varN = 2
+
+'M1
+Range("A3").Select
+If Selection.Value > "" Then
+  Cells(varC, 11).Value = Range("A2").Value
+  Do While Selection.Value > ""
+    If Selection.Offset(0, 2).Value > " " Then
+      Cells(varC, 12).Value = Selection.Value
+      Cells(varC, 13).Value = Selection.Offset(0, 2).Value
+      Cells(varC, 14).Value = Selection.Offset(0, 3).Value
+      Cells(varC, 15).Value = Selection.Offset(0, 4).Value
+      Cells(varC, 16).Value = Selection.Offset(0, 5).Value
+      Cells(varC, 17).Value = Selection.Offset(0, 6).Value
+      Cells(varC, 18).Value = Selection.Offset(0, 7).Value
+      varC = varC + 1
+    End If
+    varN = varN + 1
+    Cells(varN, 1).Select
+  Loop
+Else
+  Do Until Selection.Value > ""
+    varN = varN + 1
+    Cells(varN, 1).Select
+  Loop
+  Cells(varC, 11).Value = Range("A2").Value
+  Do While Selection.Value > ""
+    If Selection.Offset(0, 2).Value > " " Then
+      Cells(varC, 12).Value = Selection.Value
+      Cells(varC, 13).Value = Selection.Offset(0, 2).Value
+      Cells(varC, 14).Value = Selection.Offset(0, 3).Value
+      Cells(varC, 15).Value = Selection.Offset(0, 4).Value
+      Cells(varC, 16).Value = Selection.Offset(0, 5).Value
+      Cells(varC, 17).Value = Selection.Offset(0, 6).Value
+      Cells(varC, 18).Value = Selection.Offset(0, 7).Value
+      varC = varC + 1
+    End If
+    varN = varN + 1
+    Cells(varN, 1).Select
+  Loop
+End If
+
+'M2
+Range("B3").Select
+If Selection.Value > "" Then
+  Cells(varC, 11).Value = Range("B2").Value
+  Do While Selection.Value > ""
+    If Selection.Offset(0, 1).Value > " " Then
+      Cells(varC, 12).Value = Selection.Value
+      Cells(varC, 13).Value = Selection.Offset(0, 1).Value
+      Cells(varC, 14).Value = Selection.Offset(0, 2).Value
+      Cells(varC, 15).Value = Selection.Offset(0, 3).Value
+      Cells(varC, 16).Value = Selection.Offset(0, 4).Value
+      Cells(varC, 17).Value = Selection.Offset(0, 5).Value
+      Cells(varC, 18).Value = Selection.Offset(0, 6).Value
+      varC = varC + 1
+    End If
+    varN = varN + 1
+    Cells(varN, 2).Select
+  Loop
+Else
+  Do Until Selection.Value > ""
+    varN = varN + 1
+    Cells(varN, 2).Select
+  Loop
+  Cells(varC, 11).Value = Range("B2").Value
+  Do While Selection.Value > ""
+    If Selection.Offset(0, 1).Value > " " Then
+      Cells(varC, 12).Value = Selection.Value
+      Cells(varC, 13).Value = Selection.Offset(0, 1).Value
+      Cells(varC, 14).Value = Selection.Offset(0, 2).Value
+      Cells(varC, 15).Value = Selection.Offset(0, 3).Value
+      Cells(varC, 16).Value = Selection.Offset(0, 4).Value
+      Cells(varC, 17).Value = Selection.Offset(0, 5).Value
+      Cells(varC, 18).Value = Selection.Offset(0, 6).Value
+      varC = varC + 1
+    End If
+    varN = varN + 1
+    Cells(varN, 2).Select
+  Loop
+End If
+ 
+
+'if there is no response while stimulus is on the screen,
+'check to see if there is a response during the inter-stimulus interval (ISI)
+'record how many responses are omitted
+
+Dim varOmit As Integer
+Range("O2").Select
+varN = 2
+varOmit = 0
+Do While Cells(varN, 13).Value > " "
+  If Selection.Value > "" Then
+    Cells(varN, 20).Value = Selection.Value
+    Cells(varN, 21).Value = Selection.Offset(0, 1).Value
+    varN = varN + 1
+    Cells(varN, 15).Select
+  Else
+    'ignore scanner pulse (response = 5)
+    If Cells(varN, 17).Value < 5 Then
+      If Cells(varN, 17).Value > "" Then
+        Cells(varN, 20).Value = Selection.Offset(0, 2).Value
+        Cells(varN, 21).Formula = Cells(varN, 18) + 1500
+      Else
+        varOmit = varOmit + 1
+      End If
+    End If
+    varN = varN + 1
+    Cells(varN, 15).Select
+  End If
+Loop
+
+'accuracy
+Range("N2").Select
+varN = 2
+Do While Cells(varN, 14).Value > ""
+  If Selection.Value = 1 Then
+    If Selection.Offset(0, 6).Value = 6 Then
+      Selection.Offset(0, 9).Value = 1
+    Else
+      Selection.Offset(0, 9).Value = 0
+    End If
+  ElseIf Selection.Value = 0 Then
+    If Selection.Offset(0, 6).Value = 5 Then
+      Selection.Offset(0, 9).Value = 1
+    Else
+      Selection.Offset(0, 9).Value = 0
+    End If
+  End If
+  varN = varN + 1
+  Cells(varN, 14).Select
+Loop
+
+
+Range("L1").Value = "trial"
+Range("M1").Value = "type"
+Range("N1").Value = "correct"
+Range("O1").Value = "stim_Resp (Stimulus Screen)"
+Range("P1").Value = "stim_RT (Stimulus Screen)"
+Range("Q1").Value = "ISI_Resp (Blank Screen)"
+Range("R1").Value = "ISI_RT (Blank Screen)"
+Range("T1").Value = "Response"
+Range("U1").Value = "Response Time"
+Range("W1").Value = "Accuracy"
+
+Range("T154").Value = "Average Reaction Time"
+Range("T155").Value = "Std.Dev Reaction Time"
+Range("W154").Value = "Accuracy Sum"
+Range("W155").Value = "Percent Correct"
+Range("W157").Value = "omit"
+Range("W158").Value = "comit"
+
+Range("U154").Formula = "=Average('FILTERED DATA'!U2:U151)"
+Range("U155").Formula = "=Stdev('FILTERED DATA'!U2:U151)"
+Range("X154").Formula = "=Sum('FILTERED DATA'!W2:W151)"
+Range("X155").Formula = "=Sum('FILTERED DATA'!W2:W151)/150*100"
+Range("X157").Value = varOmit
+Range("X158").Formula = 150 - varOmit - Range("X154").Value
+ 
+'Columns("K:K").EntireColumn.AutoFit
+
+
+
+'Border around M1 data
+'    Range("L3:R76").Select
+'    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+'    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+'    With Selection.Borders(xlEdgeLeft)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+'    With Selection.Borders(xlEdgeTop)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+'    With Selection.Borders(xlEdgeBottom)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+'    With Selection.Borders(xlEdgeRight)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+'    Selection.Borders(xlInsideVertical).LineStyle = xlNone
+'    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+'
+'    Range("K3").Select
+'    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+'    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+'    With Selection.Borders(xlEdgeLeft)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+'    With Selection.Borders(xlEdgeTop)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+'    With Selection.Borders(xlEdgeBottom)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+'    With Selection.Borders(xlEdgeRight)
+'        .LineStyle = xlContinuous
+'        .Weight = xlThin
+'        .ColorIndex = xlAutomatic
+'    End With
+
+
+'Sheets("RAW DATA").Select
+'Range("A1").Select
+
+
+End Sub

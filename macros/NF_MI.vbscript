@@ -1,0 +1,280 @@
+Sub MI_REVISED_VANDY()
+'
+' Created by Aparna Sivapurapu, 06'2010
+'Sub CLASSIFY_DATA()
+'
+'
+'
+
+'
+'---------------------------transfer raw data-------------------------
+Dim varIsPractice As Boolean
+Sheets("RAW DATA").Select
+Range("AA2").Select
+If Selection.Value < "aaaaaaa" Then
+  varIsPractice = False
+ Else
+  varIsPractice = True
+End If
+
+'transfer block category
+Sheets("RAW DATA").Select
+Range("J1:J150").Copy
+Sheets("FILTERED DATA").Select
+Range("A1").PasteSpecial
+'transfer response and
+'transfer response time         'columns different depending on practice
+Sheets("RAW DATA").Select
+Range("W2").Select
+If Selection.Value > "LLLLL" Then
+ ' Range("Z2").Select
+ 'If Selection.Value < "aaaaaaa" Then 'practice column????
+ ' Range("AF1:AG150").Copy
+ ' Sheets("FILTERED DATA").Select
+ ' Range("B1").PasteSpecial
+ 'Else
+  Range("BC1:BD150").Copy
+  Sheets("FILTERED DATA").Select
+  Range("B1").PasteSpecial
+ 'End If
+Else
+ If varIsPractice Then
+  Sheets("RAW DATA").Select
+  Range("BC1:BC150").Copy
+  Sheets("FILTERED DATA").Select
+  Range("B1").PasteSpecial
+  Sheets("RAW DATA").Select
+  Range("BD1:BD150").Copy
+  Sheets("FILTERED DATA").Select
+  Range("C1").PasteSpecial
+ Else
+  Sheets("RAW DATA").Select
+  Range("BC1:BC150").Copy
+  Sheets("FILTERED DATA").Select
+  Range("B1").PasteSpecial
+  Sheets("RAW DATA").Select
+  Range("BD1:BD150").Copy
+  Sheets("FILTERED DATA").Select
+  Range("C1").PasteSpecial
+ End If
+End If
+'transfer correct responses
+Sheets("RAW DATA").Select
+Range("AQ1:AQ150").Copy
+Sheets("FILTERED DATA").Select
+Range("D1").PasteSpecial
+
+Sheets("RAW DATA").Select
+Range("A1").Select
+
+'-------------------------------filter data----------------------------
+Sheets("FILTERED DATA").Select
+
+Dim varNumber As Integer
+Dim varCount As Integer
+Range("A3").Select
+varNumber = 3
+varCount = 3
+Do While Selection.Value < 1
+ varNumber = varNumber + 1
+ Cells(varNumber, 1).Select
+Loop
+
+Cells(varCount - 1, 9).Value = "Block"
+Cells(varCount - 1, 10).Value = "Response"
+Cells(varCount - 1, 11).Value = "Correct Response"
+Cells(varCount - 1, 12).Value = "Accuracy"
+Cells(varCount - 1, 13).Value = "Response Time"
+
+Do While Selection.Value >= 1
+Cells(varCount, 9).Value = Selection.Value
+Cells(varCount, 10).Value = Selection.Offset(0, 1).Value
+Cells(varCount, 11).Value = Selection.Offset(0, 3).Value
+Cells(varCount, 13).Value = Selection.Offset(0, 2).Value
+
+varNumber = varNumber + 1
+Cells(varNumber, 1).Select
+varCount = varCount + 1
+Loop
+
+'----------------check if responses need to be adjusted----------------
+Dim varAdjust As Boolean
+'varAdjust = Null
+varNumber = 3
+
+  Do While varNumber < varCount
+    Cells(varNumber, 10).Select
+    If Selection.Value = 1 Then
+         varAdjust = False
+         Exit Do
+      ElseIf Selection.Value = 3 Then
+         varAdjust = True
+         Exit Do
+      Else
+        varNumber = varNumber + 1
+    End If
+  Loop
+
+  If varAdjust Then
+    varNumber = 4
+    Cells(varNumber - 1, 10).Value = "Response (Adjusted)"
+    Cells(varNumber, 10).Select
+    Do While varNumber < varCount
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varNumber = varNumber + 1
+      Cells(varNumber, 10).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -1).Value < 1 Then     'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          End If
+        End If
+    Loop
+  End If
+
+'-----------------------------check accuracy---------------------------
+Dim varCompare As Integer
+Sheets("FILTERED DATA").Select
+
+    Range("E3").Select
+    ActiveCell.FormulaR1C1 = "=IF(RC[-3]=6,1,IF(RC[-3],2))"
+    Range("E3").Select
+    Selection.AutoFill Destination:=Range("E3:E98"), Type:=xlFillDefault
+Sheets("FILTERED DATA").Select
+  
+varNumber = 3
+
+ Do While varNumber < varCount
+   Cells(varNumber, 5).Select
+   varCompare = Selection.Offset(0, -1).Value 'correct response
+    If Selection.Value < 1 Then                     'check for data
+      If Selection.Offset(0, -4).Value < 1 Then     'make sure there are no more entries
+        Exit Do                                     'end loop at end of data
+      End If
+    End If
+   If Selection.Offset(0, -1).Value > "" Then
+     If Abs(varCompare - Selection.Value) = 0 Then
+       Selection.Offset(0, 7).Value = 1
+     Else
+       Selection.Offset(0, 7).Value = 0
+     End If
+   End If
+   varNumber = varNumber + 1
+ Loop
+ 
+'---------------------------classify responses-------------------------
+Dim varOmit As Integer
+Dim varComit As Integer
+varNumber = 3
+varOmit = 0
+varComit = 0
+
+Cells(varNumber, 12).Select
+Do While Selection.Value > " "
+  If Selection.Value = 0 Then
+    If Selection.Offset(0, -2).Value > " " Then
+      varComit = varComit + 1
+      Selection.Offset(0, 4).Value = 1
+    Else
+      varOmit = varOmit + 1
+      Selection.Offset(0, 3).Value = 1
+    End If
+  End If
+varNumber = varNumber + 1
+Cells(varNumber, 12).Select
+Loop
+Range("O2").Value = "omit"
+Range("P2").Value = "comit"
+Range("O1").Value = varOmit
+Range("P1").Value = varComit
+
+'-------------------separate imagery and control data------------------
+varNumber = 3
+Dim varN As Integer
+varN = 3
+
+Do While varNumber < varCount
+  Range(Cells(varNumber, 12), Cells(varNumber + 7, 13)).Copy
+  Sheets("STATS DATA").Select
+  Cells(varN, 2).PasteSpecial
+  Sheets("FILTERED DATA").Select
+  varNumber = varNumber + 16
+  varN = varN + 8
+Loop
+varNumber = 3
+varN = 3
+Do While varNumber < varCount
+  Range(Cells(varNumber + 8, 12), Cells(varNumber + 15, 13)).Copy
+  Sheets("STATS DATA").Select
+  Cells(varN, 7).PasteSpecial
+  Sheets("FILTERED DATA").Select
+  varNumber = varNumber + 16
+  varN = varN + 8
+Loop
+Sheets("FILTERED DATA").Select
+Range("A1").Select
+Sheets("STATS DATA").Select
+
+Range("E22").Value = "omit:"
+Range("F22").Formula = "=SUM('FILTERED DATA'! O3:O10,'FILTERED DATA'! O19:O26,'FILTERED DATA'! O35:O42,'FILTERED DATA'! O51:O58,'FILTERED DATA'! O67:O74,'FILTERED DATA'! O83:O90)"
+Range("J22").Value = "omit:"
+Range("K22").Formula = "=SUM('FILTERED DATA'! O11:O18,'FILTERED DATA'! O27:O34,'FILTERED DATA'! O43:O50,'FILTERED DATA'! O59:O66,'FILTERED DATA'! O75:O82,'FILTERED DATA'! O91:O98)"
+Range("E23").Value = "comit:"
+Range("F23").Formula = "=SUM('FILTERED DATA'! P3:P10,'FILTERED DATA'! P19:P26,'FILTERED DATA'! P35:P42,'FILTERED DATA'! P51:P58,'FILTERED DATA'! P67:P74,'FILTERED DATA'! P83:P90)"
+Range("J23").Value = "comit:"
+Range("K23").Formula = "=SUM('FILTERED DATA'! P11:P18,'FILTERED DATA'! P27:P34,'FILTERED DATA'! P43:P50,'FILTERED DATA'! P59:P66,'FILTERED DATA'! P75:P82,'FILTERED DATA'! P91:P98)"
+
+Range("E6").Formula = "=AVERAGE(C3:C62)"
+Range("E9").Formula = "=STDEV(C3:C62)"
+Range("E16").Formula = "=SUM(B3:B62)"
+Range("E19").Formula = "=SUM(B3:B62)/48*100"
+Range("J6").Formula = "=AVERAGE(H3:H62)"
+Range("J9").Formula = "=STDEV(H3:H62)"
+Range("J16").Formula = "=SUM(G3:G62)"
+Range("J19").Formula = "=SUM(G3:G62)/48*100"
+
+Range("B2").Value = "Accuracy"
+Range("C2").Value = "Response Time"
+Range("E5").Value = "Avg Response Time:"
+Range("E8").Value = "Standard Deviation:"
+Range("E15").Value = "Accuracy Sum:"
+Range("E18").Value = "Percentage:"
+Range("G2").Value = "Accuracy"
+Range("H2").Value = "Response Time"
+Range("J5").Value = "Avg Response Time:"
+Range("J8").Value = "Standard Deviation:"
+Range("J15").Value = "Accuracy Sum:"
+Range("J18").Value = "Percentage:"
+
+Range("C1").Value = "IMAGERY TASK"
+Range("H1").Value = "CONTROL TASK"
+
+Range("L3").Value = "*calculated statistics assume 48 words per condition"
+Range("M5").Value = "OVERALL PERFORMANCE:"
+Range("N6").Value = "Avg Response Time:"
+Range("N9").Value = "Standard Deviation:"
+Range("N7").Formula = "=AVERAGE(C3:C62,H3:H62)"
+Range("N10").Formula = "=STDEV(C3:C62,H3:H62)"
+Range("N12").Value = "Accuracy Sum:"
+Range("N15").Value = "Percentage:"
+Range("N13").Formula = "=SUM(B3:B62,G3:G62)"
+Range("N16").Formula = "=SUM(B3:B62,G3:G62)/96*100"
+Range("N18").Value = "omit:"
+Range("N21").Value = "comit:"
+Range("N19").Value = varOmit
+Range("N22").Value = varComit
+Range("N27").Value = "Mission 1 Accuracy Percent"
+Range("N30").Value = "Mission 2 Accuracy Percent"
+Range("N28").Formula = "=(48-SUM('FILTERED DATA'! O3:O50,'FILTERED DATA'! P3:P50))/48*100"
+Range("N31").Formula = "=(48-SUM('FILTERED DATA'! O51:O98,'FILTERED DATA'! P51:P98))/48*100"
+
+Range("A1").Select
+    
+End Sub
+
+
+
+

@@ -1,0 +1,1070 @@
+Sub CLASSIFY_DATA()
+'
+' CLASSIFY_DATA MACRO
+' Gaur September 11 2006
+'
+
+'---------------------------transfer raw data-------------------------
+Dim varIsPractice As Boolean
+Dim varCTRL As String
+
+Sheets("RAW DATA").Select
+varCTRL = Range("AE2").Value
+If varCTRL > "MMMM" Then
+  varIsPractice = False
+ Else
+  varIsPractice = True
+End If
+
+'transfer block information
+If varIsPractice Then
+ Sheets("RAW DATA").Select
+ Range("AB1:AE220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("A1").PasteSpecial
+Else
+ Sheets("RAW DATA").Select
+ Range("AA1:AD220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("A1").PasteSpecial
+End If
+ 
+'transfer stimulus type and category
+If varIsPractice Then
+ Sheets("RAW DATA").Select
+ Range("AO1:AO220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("E1").PasteSpecial
+ Sheets("RAW DATA").Select
+ Range("V1:V220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("F1").PasteSpecial
+Else
+ Sheets("RAW DATA").Select
+ Range("AL1:AL220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("E1").PasteSpecial
+ Sheets("RAW DATA").Select
+ Range("U1:U220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("F1").PasteSpecial
+End If
+
+'transfer response and response time
+If varIsPractice Then
+ Sheets("RAW DATA").Select
+ Range("AK1:AL220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("G1").PasteSpecial
+Else
+ Sheets("RAW DATA").Select
+ Range("AH1:AI220").Copy
+ Sheets("FILTERED DATA").Select
+ Range("G1").PasteSpecial
+End If
+
+Sheets("RAW DATA").Select
+Range("A1").Select
+
+'-------------------------------filter data----------------------------
+Sheets("FILTERED DATA").Select
+'separate blocks
+Dim varN As Integer
+Dim varC
+'M1
+varC = 3
+varN = 3
+Range("A3").Select
+If Selection.Value > "" Then
+  Do While Selection.Value > ""
+    Selection.Offset(0, 9).Value = Selection.Value
+    Selection.Offset(0, 10).Value = Selection.Offset(0, 4).Value
+    Selection.Offset(0, 11).Value = Selection.Offset(0, 5).Value
+    Selection.Offset(0, 12).Value = Selection.Offset(0, 6).Value
+    Selection.Offset(0, 13).Value = Selection.Offset(0, 7).Value
+    varC = varC + 1
+    Cells(varC, 1).Select
+  Loop
+Else
+  Do Until Selection.Value > ""
+  varN = varN + 1
+  Cells(varN, 1).Select
+  Loop
+  Do While Selection.Value > ""
+    Cells(varC, 10).Value = Selection.Value
+    Cells(varC, 11).Value = Selection.Offset(0, 4).Value
+    Cells(varC, 12).Value = Selection.Offset(0, 5).Value
+    Cells(varC, 13).Value = Selection.Offset(0, 6).Value
+    Cells(varC, 14).Value = Selection.Offset(0, 7).Value
+    varC = varC + 1
+    varN = varN + 1
+    Cells(varN, 1).Select
+  Loop
+End If
+
+'M2
+varC = 3
+varN = 3
+Range("B3").Select
+If Selection.Value > "" Then
+  Do While Selection.Value > ""
+    Selection.Offset(0, 14).Value = Selection.Value
+    Selection.Offset(0, 15).Value = Selection.Offset(0, 3).Value
+    Selection.Offset(0, 16).Value = Selection.Offset(0, 4).Value
+    Selection.Offset(0, 17).Value = Selection.Offset(0, 5).Value
+    Selection.Offset(0, 18).Value = Selection.Offset(0, 6).Value
+    varC = varC + 1
+    Cells(varC, 1).Select
+  Loop
+Else
+  Do Until Selection.Value > ""
+  varN = varN + 1
+  Cells(varN, 2).Select
+  Loop
+  Do While Selection.Value > ""
+    Cells(varC, 16).Value = Selection.Value
+    Cells(varC, 17).Value = Selection.Offset(0, 3).Value
+    Cells(varC, 18).Value = Selection.Offset(0, 4).Value
+    Cells(varC, 19).Value = Selection.Offset(0, 5).Value
+    Cells(varC, 20).Value = Selection.Offset(0, 6).Value
+    varC = varC + 1
+    varN = varN + 1
+    Cells(varN, 2).Select
+  Loop
+End If
+
+'M3
+varC = 3
+varN = 3
+Range("C3").Select
+If Selection.Value > "" Then
+  Do While Selection.Value > ""
+    Selection.Offset(0, 19).Value = Selection.Value
+    Selection.Offset(0, 20).Value = Selection.Offset(0, 2).Value
+    Selection.Offset(0, 21).Value = Selection.Offset(0, 3).Value
+    Selection.Offset(0, 22).Value = Selection.Offset(0, 4).Value
+    Selection.Offset(0, 23).Value = Selection.Offset(0, 5).Value
+    varC = varC + 1
+    Cells(varC, 3).Select
+  Loop
+Else
+  Do Until Selection.Value > ""
+  varN = varN + 1
+  Cells(varN, 3).Select
+  Loop
+  Do While Selection.Value > ""
+    Cells(varC, 22).Value = Selection.Value
+    Cells(varC, 23).Value = Selection.Offset(0, 2).Value
+    Cells(varC, 24).Value = Selection.Offset(0, 3).Value
+    Cells(varC, 25).Value = Selection.Offset(0, 4).Value
+    Cells(varC, 26).Value = Selection.Offset(0, 5).Value
+    varC = varC + 1
+    varN = varN + 1
+    Cells(varN, 3).Select
+  Loop
+End If
+
+'M4
+varC = 3
+varN = 3
+Range("D3").Select
+If Selection.Value > "" Then
+  Do While Selection.Value > ""
+    Selection.Offset(0, 24).Value = Selection.Value
+    Selection.Offset(0, 25).Value = Selection.Offset(0, 1).Value
+    Selection.Offset(0, 26).Value = Selection.Offset(0, 2).Value
+    Selection.Offset(0, 27).Value = Selection.Offset(0, 3).Value
+    Selection.Offset(0, 28).Value = Selection.Offset(0, 4).Value
+    varC = varC + 1
+    Cells(varC, 4).Select
+  Loop
+Else
+  Do Until Selection.Value > ""
+  varN = varN + 1
+  Cells(varN, 4).Select
+  Loop
+  Do While Selection.Value > ""
+    Cells(varC, 28).Value = Selection.Value
+    Cells(varC, 29).Value = Selection.Offset(0, 1).Value
+    Cells(varC, 30).Value = Selection.Offset(0, 2).Value
+    Cells(varC, 31).Value = Selection.Offset(0, 3).Value
+    Cells(varC, 32).Value = Selection.Offset(0, 4).Value
+    varC = varC + 1
+    varN = varN + 1
+    Cells(varN, 4).Select
+  Loop
+End If
+
+Range("J2").Value = "M1"
+Range("K2").Value = "Type"
+Range("L2").Value = "Category"
+Range("M2").Value = "Response"
+Range("N2").Value = "Response Time"
+
+Range("P2").Value = "M2"
+Range("Q2").Value = "Type"
+Range("R2").Value = "Category"
+Range("S2").Value = "Response"
+Range("T2").Value = "Response Time"
+
+Range("V2").Value = "M3"
+Range("W2").Value = "Type"
+Range("X2").Value = "Category"
+Range("Y2").Value = "Response"
+Range("Z2").Value = "Response Time"
+
+Range("AB2").Value = "M4"
+Range("AC2").Value = "Type"
+Range("AD2").Value = "Category"
+Range("AE2").Value = "Response"
+Range("AF2").Value = "Response Time"
+
+'----------------check if responses need to be adjusted----------------
+
+Dim varAdjust As Boolean
+'varAdjust = Null
+varN = 3
+
+  Do While varN < 55
+    Cells(varN, 13).Select
+    If Selection.Value = 1 Then
+         varAdjust = False
+         Exit Do
+      ElseIf Selection.Value = 3 Then
+         varAdjust = True
+         Exit Do
+      Else
+        varN = varN + 1
+    End If
+  Loop
+
+'adjust M1
+  If varAdjust Then
+    varN = 3
+    Cells(varN, 13).Select
+    Do While varN < 55
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varN = varN + 1
+      Cells(varN, 13).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -1).Value < "" Then     'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          End If
+        End If
+    Loop
+    Range("M1").Value = "Adjusted"
+
+'adjust M2
+    varN = 3
+    Cells(varN, 19).Select
+    Do While varN < 55
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varN = varN + 1
+      Cells(varN, 19).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -1).Value < "" Then     'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          End If
+        End If
+    Loop
+    Range("S1").Value = "Adjusted"
+    
+'adjust M3
+    varN = 3
+    Cells(varN, 25).Select
+    Do While varN < 55
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varN = varN + 1
+      Cells(varN, 25).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -1).Value < "" Then     'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          End If
+        End If
+    Loop
+    Range("Y1").Value = "Adjusted"
+    
+'adjust M4
+    varN = 3
+    Cells(varN, 31).Select
+    Do While varN < 55
+      If Selection.Value = 2 Then
+         Selection.Value = 1
+      ElseIf Selection.Value = 3 Then
+         Selection.Value = 2
+      End If
+      varN = varN + 1
+      Cells(varN, 31).Select
+        If Selection.Value < 1 Then                     'check for data
+          If Selection.Offset(0, -1).Value < "" Then     'make sure there are no more entries
+             Exit Do                                    'end loop at end of data
+          End If
+        End If
+    Loop
+    Range("AE1").Value = "Adjusted"
+
+  End If
+  
+'--------------------------------sort data-----------------------------
+'segment words and nonwords
+Dim varWCount As Integer
+Dim varNWCount As Integer
+varWCount = 0
+varNWCount = 0
+'M1
+varN = 3
+Cells(varN, 11).Select
+Do While Selection.Value > ""
+ If Selection.Value > "truer" Then
+ 'word
+ varWCount = varWCount + 1
+ Cells(58 + varWCount, 10).Value = Selection.Offset(0, -1).Value
+ Cells(58 + varWCount, 11).Value = Selection.Value
+ Cells(58 + varWCount, 12).Value = Selection.Offset(0, 1).Value
+ Cells(58 + varWCount, 13).Value = Selection.Offset(0, 2).Value
+ Cells(58 + varWCount, 14).Value = Selection.Offset(0, 3).Value
+ Else
+ 'nonword
+ varNWCount = varNWCount + 1
+ Cells(100 + varNWCount, 10).Value = Selection.Offset(0, -1).Value
+ Cells(100 + varNWCount, 11).Value = Selection.Value
+ Cells(100 + varNWCount, 12).Value = Selection.Offset(0, 1).Value
+ Cells(100 + varNWCount, 13).Value = Selection.Offset(0, 2).Value
+ Cells(100 + varNWCount, 14).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 11).Select
+Loop
+Range("J55").Value = "(M1) Sort Words and Nonwords:"
+
+varWCount = 0
+varNWCount = 0
+'M2
+varN = 3
+Cells(varN, 17).Select
+Do While Selection.Value > ""
+ If Selection.Value > "truer" Then
+ 'word
+ varWCount = varWCount + 1
+ Cells(58 + varWCount, 16).Value = Selection.Offset(0, -1).Value
+ Cells(58 + varWCount, 17).Value = Selection.Value
+ Cells(58 + varWCount, 18).Value = Selection.Offset(0, 1).Value
+ Cells(58 + varWCount, 19).Value = Selection.Offset(0, 2).Value
+ Cells(58 + varWCount, 20).Value = Selection.Offset(0, 3).Value
+ Else
+ 'nonword
+ varNWCount = varNWCount + 1
+ Cells(100 + varNWCount, 16).Value = Selection.Offset(0, -1).Value
+ Cells(100 + varNWCount, 17).Value = Selection.Value
+ Cells(100 + varNWCount, 18).Value = Selection.Offset(0, 1).Value
+ Cells(100 + varNWCount, 19).Value = Selection.Offset(0, 2).Value
+ Cells(100 + varNWCount, 20).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 17).Select
+Loop
+Range("P55").Value = "(M2) Sort Words and Nonwords:"
+
+varWCount = 0
+varNWCount = 0
+'M3
+varN = 3
+Cells(varN, 23).Select
+Do While Selection.Value > ""
+ If Selection.Value > "truer" Then
+ 'word
+ varWCount = varWCount + 1
+ Cells(58 + varWCount, 22).Value = Selection.Offset(0, -1).Value
+ Cells(58 + varWCount, 23).Value = Selection.Value
+ Cells(58 + varWCount, 24).Value = Selection.Offset(0, 1).Value
+ Cells(58 + varWCount, 25).Value = Selection.Offset(0, 2).Value
+ Cells(58 + varWCount, 26).Value = Selection.Offset(0, 3).Value
+ Else
+ 'nonword
+ varNWCount = varNWCount + 1
+ Cells(100 + varNWCount, 22).Value = Selection.Offset(0, -1).Value
+ Cells(100 + varNWCount, 23).Value = Selection.Value
+ Cells(100 + varNWCount, 24).Value = Selection.Offset(0, 1).Value
+ Cells(100 + varNWCount, 25).Value = Selection.Offset(0, 2).Value
+ Cells(100 + varNWCount, 26).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 23).Select
+Loop
+Range("V55").Value = "(M3) Sort Words and Nonwords:"
+
+varWCount = 0
+varNWCount = 0
+'M4
+varN = 3
+Cells(varN, 29).Select
+Do While Selection.Value > ""
+ If Selection.Value > "truer" Then
+ 'word
+ varWCount = varWCount + 1
+ Cells(58 + varWCount, 28).Value = Selection.Offset(0, -1).Value
+ Cells(58 + varWCount, 29).Value = Selection.Value
+ Cells(58 + varWCount, 30).Value = Selection.Offset(0, 1).Value
+ Cells(58 + varWCount, 31).Value = Selection.Offset(0, 2).Value
+ Cells(58 + varWCount, 32).Value = Selection.Offset(0, 3).Value
+ Else
+ 'nonword
+ varNWCount = varNWCount + 1
+ Cells(100 + varNWCount, 28).Value = Selection.Offset(0, -1).Value
+ Cells(100 + varNWCount, 29).Value = Selection.Value
+ Cells(100 + varNWCount, 30).Value = Selection.Offset(0, 1).Value
+ Cells(100 + varNWCount, 31).Value = Selection.Offset(0, 2).Value
+ Cells(100 + varNWCount, 32).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 29).Select
+Loop
+Range("AB55").Value = "(M4) Sort Words and Nonwords:"
+
+'-----------------------------check accuracy---------------------------
+Sheets("FILTERED DATA").Select
+'words
+'M1
+varN = 59
+Range("K59").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 1 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 11).Select
+ Loop
+'M2
+varN = 59
+Range("Q59").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 1 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 17).Select
+ Loop
+'M3
+varN = 59
+Range("W59").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 1 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 23).Select
+ Loop
+'M4
+varN = 59
+Range("AC59").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 1 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 29).Select
+ Loop
+'nonwords
+'M1
+varN = 101
+Range("K101").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 2 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 11).Select
+ Loop
+'M2
+varN = 101
+Range("Q101").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 2 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 17).Select
+ Loop
+'M3
+varN = 101
+Range("W101").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 2 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 23).Select
+ Loop
+'M4
+varN = 101
+Range("AC101").Select
+ Do While Selection.Value > ""
+   If Selection.Offset(0, 2).Value = 2 Then
+     Selection.Offset(0, 4).Value = 1
+   Else
+     If Selection.Value < 1 Then
+       Exit Do
+     Else
+        Selection.Offset(0, 4).Value = 0
+     End If
+   End If
+   varN = varN + 1
+   Cells(varN, 29).Select
+ Loop
+Range("O58").Value = "M1 accuracy"
+Range("U58").Value = "M2 accuracy"
+Range("AA58").Value = "M3 accuracy"
+Range("AG58").Value = "M4 accuracy"
+
+'--------------------------------sort data-----------------------------
+'segment words by category
+Dim varB As Integer
+Dim varD As Integer
+Dim varA As Integer
+'M1
+varN = 59
+varA = 0
+varB = 0
+varC = 0
+varD = 0
+Range("L59").Select
+Do While Selection.Value > ""
+ If Selection.Value = "LAI" Then
+ varA = varA + 1
+ Cells(113 + varA, 10).Value = Selection.Offset(0, -2).Value
+ Cells(113 + varA, 11).Value = Selection.Offset(0, -1).Value
+ Cells(113 + varA, 12).Value = Selection.Value
+ Cells(113 + varA, 13).Value = Selection.Offset(0, 1).Value
+ Cells(113 + varA, 14).Value = Selection.Offset(0, 2).Value
+ Cells(113 + varA, 15).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "LAR" Then
+ varB = varB + 1
+ Cells(125 + varB, 10).Value = Selection.Offset(0, -2).Value
+ Cells(125 + varB, 11).Value = Selection.Offset(0, -1).Value
+ Cells(125 + varB, 12).Value = Selection.Value
+ Cells(125 + varB, 13).Value = Selection.Offset(0, 1).Value
+ Cells(125 + varB, 14).Value = Selection.Offset(0, 2).Value
+ Cells(125 + varB, 15).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "LCI" Then
+ varC = varC + 1
+ Cells(137 + varC, 10).Value = Selection.Offset(0, -2).Value
+ Cells(137 + varC, 11).Value = Selection.Offset(0, -1).Value
+ Cells(137 + varC, 12).Value = Selection.Value
+ Cells(137 + varC, 13).Value = Selection.Offset(0, 1).Value
+ Cells(137 + varC, 14).Value = Selection.Offset(0, 2).Value
+ Cells(137 + varC, 15).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "LCR" Then
+ varD = varD + 1
+ Cells(149 + varD, 10).Value = Selection.Offset(0, -2).Value
+ Cells(149 + varD, 11).Value = Selection.Offset(0, -1).Value
+ Cells(149 + varD, 12).Value = Selection.Value
+ Cells(149 + varD, 13).Value = Selection.Offset(0, 1).Value
+ Cells(149 + varD, 14).Value = Selection.Offset(0, 2).Value
+ Cells(149 + varD, 15).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 12).Select
+Loop
+'M2
+varN = 59
+varA = 0
+varB = 0
+varC = 0
+varD = 0
+Range("R59").Select
+Do While Selection.Value > ""
+ If Selection.Value = "HAI" Then
+ varA = varA + 1
+ Cells(113 + varA, 16).Value = Selection.Offset(0, -2).Value
+ Cells(113 + varA, 17).Value = Selection.Offset(0, -1).Value
+ Cells(113 + varA, 18).Value = Selection.Value
+ Cells(113 + varA, 19).Value = Selection.Offset(0, 1).Value
+ Cells(113 + varA, 20).Value = Selection.Offset(0, 2).Value
+ Cells(113 + varA, 21).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "HAR" Then
+ varB = varB + 1
+ Cells(125 + varB, 16).Value = Selection.Offset(0, -2).Value
+ Cells(125 + varB, 17).Value = Selection.Offset(0, -1).Value
+ Cells(125 + varB, 18).Value = Selection.Value
+ Cells(125 + varB, 19).Value = Selection.Offset(0, 1).Value
+ Cells(125 + varB, 20).Value = Selection.Offset(0, 2).Value
+ Cells(125 + varB, 21).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "HCI" Then
+ varC = varC + 1
+ Cells(137 + varC, 16).Value = Selection.Offset(0, -2).Value
+ Cells(137 + varC, 17).Value = Selection.Offset(0, -1).Value
+ Cells(137 + varC, 18).Value = Selection.Value
+ Cells(137 + varC, 19).Value = Selection.Offset(0, 1).Value
+ Cells(137 + varC, 20).Value = Selection.Offset(0, 2).Value
+ Cells(137 + varC, 21).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "HCR" Then
+ varD = varD + 1
+ Cells(149 + varD, 16).Value = Selection.Offset(0, -2).Value
+ Cells(149 + varD, 17).Value = Selection.Offset(0, -1).Value
+ Cells(149 + varD, 18).Value = Selection.Value
+ Cells(149 + varD, 19).Value = Selection.Offset(0, 1).Value
+ Cells(149 + varD, 20).Value = Selection.Offset(0, 2).Value
+ Cells(149 + varD, 21).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 18).Select
+Loop
+'M3
+varN = 59
+varA = 0
+varB = 0
+varC = 0
+varD = 0
+Range("X59").Select
+Do While Selection.Value > ""
+ If Selection.Value = "LAI" Then
+ varA = varA + 1
+ Cells(113 + varA, 22).Value = Selection.Offset(0, -2).Value
+ Cells(113 + varA, 23).Value = Selection.Offset(0, -1).Value
+ Cells(113 + varA, 24).Value = Selection.Value
+ Cells(113 + varA, 25).Value = Selection.Offset(0, 1).Value
+ Cells(113 + varA, 26).Value = Selection.Offset(0, 2).Value
+ Cells(113 + varA, 27).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "LAR" Then
+ varB = varB + 1
+ Cells(125 + varB, 22).Value = Selection.Offset(0, -2).Value
+ Cells(125 + varB, 23).Value = Selection.Offset(0, -1).Value
+ Cells(125 + varB, 24).Value = Selection.Value
+ Cells(125 + varB, 25).Value = Selection.Offset(0, 1).Value
+ Cells(125 + varB, 26).Value = Selection.Offset(0, 2).Value
+ Cells(125 + varB, 27).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "LCI" Then
+ varC = varC + 1
+ Cells(137 + varC, 22).Value = Selection.Offset(0, -2).Value
+ Cells(137 + varC, 23).Value = Selection.Offset(0, -1).Value
+ Cells(137 + varC, 24).Value = Selection.Value
+ Cells(137 + varC, 25).Value = Selection.Offset(0, 1).Value
+ Cells(137 + varC, 26).Value = Selection.Offset(0, 2).Value
+ Cells(137 + varC, 27).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "LCR" Then
+ varD = varD + 1
+ Cells(149 + varD, 22).Value = Selection.Offset(0, -2).Value
+ Cells(149 + varD, 23).Value = Selection.Offset(0, -1).Value
+ Cells(149 + varD, 24).Value = Selection.Value
+ Cells(149 + varD, 25).Value = Selection.Offset(0, 1).Value
+ Cells(149 + varD, 26).Value = Selection.Offset(0, 2).Value
+ Cells(149 + varD, 27).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 24).Select
+Loop
+'M4
+varN = 59
+varA = 0
+varB = 0
+varC = 0
+varD = 0
+Range("AD59").Select
+Do While Selection.Value > ""
+ If Selection.Value = "HAI" Then
+ varA = varA + 1
+ Cells(113 + varA, 28).Value = Selection.Offset(0, -2).Value
+ Cells(113 + varA, 29).Value = Selection.Offset(0, -1).Value
+ Cells(113 + varA, 30).Value = Selection.Value
+ Cells(113 + varA, 31).Value = Selection.Offset(0, 1).Value
+ Cells(113 + varA, 32).Value = Selection.Offset(0, 2).Value
+ Cells(113 + varA, 33).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "HAR" Then
+ varB = varB + 1
+ Cells(125 + varB, 28).Value = Selection.Offset(0, -2).Value
+ Cells(125 + varB, 29).Value = Selection.Offset(0, -1).Value
+ Cells(125 + varB, 30).Value = Selection.Value
+ Cells(125 + varB, 31).Value = Selection.Offset(0, 1).Value
+ Cells(125 + varB, 32).Value = Selection.Offset(0, 2).Value
+ Cells(125 + varB, 33).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "HCI" Then
+ varC = varC + 1
+ Cells(137 + varC, 28).Value = Selection.Offset(0, -2).Value
+ Cells(137 + varC, 29).Value = Selection.Offset(0, -1).Value
+ Cells(137 + varC, 30).Value = Selection.Value
+ Cells(137 + varC, 31).Value = Selection.Offset(0, 1).Value
+ Cells(137 + varC, 32).Value = Selection.Offset(0, 2).Value
+ Cells(137 + varC, 33).Value = Selection.Offset(0, 3).Value
+ ElseIf Selection.Value = "HCR" Then
+ varD = varD + 1
+ Cells(149 + varD, 28).Value = Selection.Offset(0, -2).Value
+ Cells(149 + varD, 29).Value = Selection.Offset(0, -1).Value
+ Cells(149 + varD, 30).Value = Selection.Value
+ Cells(149 + varD, 31).Value = Selection.Offset(0, 1).Value
+ Cells(149 + varD, 32).Value = Selection.Offset(0, 2).Value
+ Cells(149 + varD, 33).Value = Selection.Offset(0, 3).Value
+ End If
+ varN = varN + 1
+ Cells(varN, 30).Select
+Loop
+Range("A1").Select
+
+'---------------------------classify responses-------------------------
+'M1
+varC = 0
+varN = 101
+Cells(varN, 15).Select
+Do While varN < 160
+  If Selection.Value = 0 Then
+    If Selection.Offset(0, -2).Value > " " Then
+      Selection.Offset(0, 22).Value = 1
+    Else
+      Selection.Offset(0, 21).Value = 1
+    End If
+  End If
+varN = varN + 1
+varC = varC + 1
+If varC = 10 Then
+  varN = 114
+ElseIf varC = 20 Then
+  varN = 126
+ElseIf varC = 30 Then
+  varN = 138
+ElseIf varC = 40 Then
+  varN = 150
+End If
+Cells(varN, 15).Select
+Loop
+
+'M2
+varC = 0
+varN = 101
+Cells(varN, 21).Select
+Do While varN < 160
+  If Selection.Value = 0 Then
+    If Selection.Offset(0, -2).Value > " " Then
+      Selection.Offset(0, 19).Value = 1
+    Else
+      Selection.Offset(0, 18).Value = 1
+    End If
+  End If
+varN = varN + 1
+varC = varC + 1
+If varC = 10 Then
+  varN = 114
+ElseIf varC = 20 Then
+  varN = 126
+ElseIf varC = 30 Then
+  varN = 138
+ElseIf varC = 40 Then
+  varN = 150
+End If
+Cells(varN, 21).Select
+Loop
+
+'M3
+varC = 0
+varN = 101
+Cells(varN, 27).Select
+Do While varN < 160
+  If Selection.Value = 0 Then
+    If Selection.Offset(0, -2).Value > " " Then
+      Selection.Offset(0, 16).Value = 1
+    Else
+      Selection.Offset(0, 15).Value = 1
+    End If
+  End If
+varN = varN + 1
+varC = varC + 1
+If varC = 10 Then
+  varN = 114
+ElseIf varC = 20 Then
+  varN = 126
+ElseIf varC = 30 Then
+  varN = 138
+ElseIf varC = 40 Then
+  varN = 150
+End If
+Cells(varN, 27).Select
+Loop
+
+'M4
+varC = 0
+varN = 101
+Cells(varN, 33).Select
+Do While varN < 160
+  If Selection.Value = 0 Then
+    If Selection.Offset(0, -2).Value > " " Then
+      Selection.Offset(0, 13).Value = 1
+    Else
+      Selection.Offset(0, 12).Value = 1
+    End If
+  End If
+varN = varN + 1
+varC = varC + 1
+If varC = 10 Then
+  varN = 114
+ElseIf varC = 20 Then
+  varN = 126
+ElseIf varC = 30 Then
+  varN = 138
+ElseIf varC = 40 Then
+  varN = 150
+End If
+Cells(varN, 33).Select
+Loop
+
+Range("AI100").Value = "M1:"
+Range("AJ100").Value = "omit"
+Range("AK100").Value = "comit"
+Range("AL100").Value = "M2:"
+Range("AM100").Value = "omit"
+Range("AN100").Value = "comit"
+Range("AO100").Value = "M3:"
+Range("AP100").Value = "omit"
+Range("AQ100").Value = "comit"
+Range("AR100").Value = "M4:"
+Range("AS100").Value = "omit"
+Range("AT100").Value = "comit"
+
+'---------------------------compute statistics-------------------------
+Sheets("STATS DATA").Select
+'low frequency
+Range("C4").Formula = "=SUM('FILTERED DATA'!O114:O123,'FILTERED DATA'!AA114:AA123)"
+Range("C5").Formula = "=SUM('FILTERED DATA'!O114:O123,'FILTERED DATA'!AA114:AA123)*100/20"
+Range("F4").Formula = "=AVERAGE('FILTERED DATA'!N114:N123,'FILTERED DATA'!Z114:Z123)"
+Range("F5").Formula = "=STDEV('FILTERED DATA'!N114:N123,'FILTERED DATA'!Z114:Z123)"
+Range("I4").Formula = "=SUM('FILTERED DATA'! AJ114:AJ123,'FILTERED DATA'!AP114:AP123)"
+Range("I5").Formula = "=SUM('FILTERED DATA'! AK114:AK123,'FILTERED DATA'!AQ114:AQ123)"
+
+Range("C7").Formula = "=SUM('FILTERED DATA'!O126:O135,'FILTERED DATA'!AA126:AA135)"
+Range("C8").Formula = "=SUM('FILTERED DATA'!O126:O135,'FILTERED DATA'!AA126:AA135)*100/20"
+Range("F7").Formula = "=AVERAGE('FILTERED DATA'!N126:N135,'FILTERED DATA'!Z126:Z135)"
+Range("F8").Formula = "=STDEV('FILTERED DATA'!N126:N135,'FILTERED DATA'!Z126:Z135)"
+Range("I7").Formula = "=SUM('FILTERED DATA'! AJ126:AJ135,'FILTERED DATA'!AP126:AP135)"
+Range("I8").Formula = "=SUM('FILTERED DATA'! AK126:AK135,'FILTERED DATA'!AQ126:AQ135)"
+
+Range("C10").Formula = "=SUM('FILTERED DATA'!O138:O147,'FILTERED DATA'!AA138:AA147)"
+Range("C11").Formula = "=SUM('FILTERED DATA'!O138:O147,'FILTERED DATA'!AA138:AA147)*100/20"
+Range("F10").Formula = "=AVERAGE('FILTERED DATA'!N138:N147,'FILTERED DATA'!Z138:Z147)"
+Range("F11").Formula = "=STDEV('FILTERED DATA'!N138:N147,'FILTERED DATA'!Z138:Z147)"
+Range("I10").Formula = "=SUM('FILTERED DATA'! AJ138:AJ147,'FILTERED DATA'!AP138:AP147)"
+Range("I11").Formula = "=SUM('FILTERED DATA'! AK138:AK147,'FILTERED DATA'!AQ138:AQ147)"
+
+Range("C13").Formula = "=SUM('FILTERED DATA'!O150:O159,'FILTERED DATA'!AA150:AA159)"
+Range("C14").Formula = "=SUM('FILTERED DATA'!O150:O159,'FILTERED DATA'!AA150:AA159)*100/20"
+Range("F13").Formula = "=AVERAGE('FILTERED DATA'!N150:N159,'FILTERED DATA'!Z150:Z159)"
+Range("F14").Formula = "=STDEV('FILTERED DATA'!N150:N159,'FILTERED DATA'!Z150:Z159)"
+Range("I13").Formula = "=SUM('FILTERED DATA'! AJ150:AJ159,'FILTERED DATA'!AP150:AP159)"
+Range("I14").Formula = "=SUM('FILTERED DATA'! AK150:AK159,'FILTERED DATA'!AQ150:AQ159)"
+
+'high frequency
+Range("M4").Formula = "=SUM('FILTERED DATA'!U114:U123,'FILTERED DATA'!AG114:AG123)"
+Range("M5").Formula = "=SUM('FILTERED DATA'!U114:U123,'FILTERED DATA'!AG114:AG123)*100/20"
+Range("P4").Formula = "=AVERAGE('FILTERED DATA'!T114:T123,'FILTERED DATA'!AF114:AF123)"
+Range("P5").Formula = "=STDEV('FILTERED DATA'!T114:T123,'FILTERED DATA'!AF114:AF123)"
+Range("S4").Formula = "=SUM('FILTERED DATA'! AM114:AM123,'FILTERED DATA'!AS114:AS123)"
+Range("S5").Formula = "=SUM('FILTERED DATA'! AN114:AN123,'FILTERED DATA'!AT114:AT123)"
+
+Range("M7").Formula = "=SUM('FILTERED DATA'!U126:U135,'FILTERED DATA'!AG126:AG135)"
+Range("M8").Formula = "=SUM('FILTERED DATA'!U126:U135,'FILTERED DATA'!AG126:AG135)*100/20"
+Range("P7").Formula = "=AVERAGE('FILTERED DATA'!T126:T135,'FILTERED DATA'!AF126:AF135)"
+Range("P8").Formula = "=STDEV('FILTERED DATA'!T126:T135,'FILTERED DATA'!AF126:AF135)"
+Range("S7").Formula = "=SUM('FILTERED DATA'! AM126:AM135,'FILTERED DATA'!AS126:AS135)"
+Range("S8").Formula = "=SUM('FILTERED DATA'! AN126:AN135,'FILTERED DATA'!AT126:AT135)"
+
+Range("M10").Formula = "=SUM('FILTERED DATA'!U138:U147,'FILTERED DATA'!AG138:AG147)"
+Range("M11").Formula = "=SUM('FILTERED DATA'!U138:U147,'FILTERED DATA'!AG138:AG147)*100/20"
+Range("P10").Formula = "=AVERAGE('FILTERED DATA'!T138:T147,'FILTERED DATA'!AF138:AF147)"
+Range("P11").Formula = "=STDEV('FILTERED DATA'!T138:T147,'FILTERED DATA'!AF138:AF147)"
+Range("S10").Formula = "=SUM('FILTERED DATA'! AM138:AM147,'FILTERED DATA'!AS138:AS147)"
+Range("S11").Formula = "=SUM('FILTERED DATA'! AN138:AN147,'FILTERED DATA'!AT138:AT147)"
+
+Range("M13").Formula = "=SUM('FILTERED DATA'!U150:U159,'FILTERED DATA'!AG150:AG159)"
+Range("M14").Formula = "=SUM('FILTERED DATA'!U150:U159,'FILTERED DATA'!AG150:AG159)*100/20"
+Range("P13").Formula = "=AVERAGE('FILTERED DATA'!T150:T159,'FILTERED DATA'!AF150:AF159)"
+Range("P14").Formula = "=STDEV('FILTERED DATA'!T150:T159,'FILTERED DATA'!AF150:AF159)"
+Range("S13").Formula = "=SUM('FILTERED DATA'! AM150:AM159,'FILTERED DATA'!AS150:AS159)"
+Range("S14").Formula = "=SUM('FILTERED DATA'! AN150:AN159,'FILTERED DATA'!AT150:AT159)"
+'low freq total
+Range("C17").Formula = "=SUM('FILTERED DATA'!O59:O98,'FILTERED DATA'!AA59:AA98)"
+Range("C18").Formula = "=SUM('FILTERED DATA'!O59:O98,'FILTERED DATA'!AA59:AA98)*100/80"
+Range("F17").Formula = "=AVERAGE('FILTERED DATA'!N59:N98,'FILTERED DATA'!Z59:Z98)"
+Range("F18").Formula = "=STDEV('FILTERED DATA'!N59:N98,'FILTERED DATA'!Z59:Z98)"
+Range("I17").Formula = "=SUM('FILTERED DATA'! AJ114:AJ123,'FILTERED DATA'!AP114:AP123,'FILTERED DATA'! AJ126:AJ135,'FILTERED DATA'!AP126:AP135,'FILTERED DATA'! AJ138:AJ147,'FILTERED DATA'!AP138:AP147,'FILTERED DATA'! AJ150:AJ159,'FILTERED DATA'!AP150:AP159)"
+Range("I18").Formula = "=SUM('FILTERED DATA'! AK114:AK123,'FILTERED DATA'!AQ114:AQ123,'FILTERED DATA'! AK126:AK135,'FILTERED DATA'!AQ126:AQ135,'FILTERED DATA'! AK138:AK147,'FILTERED DATA'!AQ138:AQ147,'FILTERED DATA'! AK150:AK159,'FILTERED DATA'!AQ150:AQ159)"
+'high freq total
+Range("M17").Formula = "=SUM('FILTERED DATA'!U59:U98,'FILTERED DATA'!AG59:AG98)"
+Range("M18").Formula = "=SUM('FILTERED DATA'!U59:U98,'FILTERED DATA'!AG59:AG98)*100/80"
+Range("P17").Formula = "=AVERAGE('FILTERED DATA'!T59:T98,'FILTERED DATA'!AF59:AF98)"
+Range("P18").Formula = "=STDEV('FILTERED DATA'!T59:T98,'FILTERED DATA'!AF59:AF98)"
+Range("S17").Formula = "=SUM('FILTERED DATA'! AM114:AM123,'FILTERED DATA'!AS114:AS123,'FILTERED DATA'! AM126:AM135,'FILTERED DATA'!AS126:AS135,'FILTERED DATA'! AM138:AM147,'FILTERED DATA'!AS138:AS147,'FILTERED DATA'! AM150:AM159,'FILTERED DATA'!AS150:AS159)"
+Range("S18").Formula = "=SUM('FILTERED DATA'! AN114:AN123,'FILTERED DATA'!AT114:AT123,'FILTERED DATA'! AN126:AN135,'FILTERED DATA'!AT126:AT135,'FILTERED DATA'! AN138:AN147,'FILTERED DATA'!AT138:AT147,'FILTERED DATA'! AN150:AN159,'FILTERED DATA'!AT150:AT159)"
+'words total
+Range("C21").Formula = "=SUM('FILTERED DATA'!O59:O98,'FILTERED DATA'!AA59:AA98,'FILTERED DATA'!U59:U98,'FILTERED DATA'!AG59:AG98)"
+Range("C22").Formula = "=SUM('FILTERED DATA'!O59:O98,'FILTERED DATA'!AA59:AA98,'FILTERED DATA'!U59:U98,'FILTERED DATA'!AG59:AG98)*100/160"
+Range("F21").Formula = "=AVERAGE('FILTERED DATA'!N59:N98,'FILTERED DATA'!Z59:Z98,'FILTERED DATA'!T59:T98,'FILTERED DATA'!AF59:AF98)"
+Range("F22").Formula = "=STDEV('FILTERED DATA'!N59:N98,'FILTERED DATA'!Z59:Z98,'FILTERED DATA'!T59:T98,'FILTERED DATA'!AF59:AF98)"
+Range("I21").Formula = "=SUM('FILTERED DATA'! AJ114:AJ123,'FILTERED DATA'!AP114:AP123,'FILTERED DATA'! AJ126:AJ135,'FILTERED DATA'!AP126:AP135,'FILTERED DATA'! AJ138:AJ147,'FILTERED DATA'!AP138:AP147,'FILTERED DATA'! AJ150:AJ159,'FILTERED DATA'!AP150:AP159,'FILTERED DATA'! AM114:AM123,'FILTERED DATA'!AS114:AS123,'FILTERED DATA'! AM126:AM135,'FILTERED DATA'!AS126:AS135,'FILTERED DATA'! AM138:AM147,'FILTERED DATA'!AS138:AS147,'FILTERED DATA'! AM150:AM159,'FILTERED DATA'!AS150:AS159)"
+Range("I22").Formula = "=SUM('FILTERED DATA'! AK114:AK123,'FILTERED DATA'!AQ114:AQ123,'FILTERED DATA'! AK126:AK135,'FILTERED DATA'!AQ126:AQ135,'FILTERED DATA'! AK138:AK147,'FILTERED DATA'!AQ138:AQ147,'FILTERED DATA'! AK150:AK159,'FILTERED DATA'!AQ150:AQ159,'FILTERED DATA'! AN114:AN123,'FILTERED DATA'!AT114:AT123,'FILTERED DATA'! AN126:AN135,'FILTERED DATA'!AT126:AT135,'FILTERED DATA'! AN138:AN147,'FILTERED DATA'!AT138:AT147,'FILTERED DATA'! AN150:AN159,'FILTERED DATA'!AT150:AT159)"
+'nonwords total
+Range("M21").Formula = "=SUM('FILTERED DATA'!O101:O110,'FILTERED DATA'!AA101:AA110,'FILTERED DATA'!U101:U110,'FILTERED DATA'!AG101:AG110)"
+Range("M22").Formula = "=SUM('FILTERED DATA'!O101:O110,'FILTERED DATA'!AA101:AA110,'FILTERED DATA'!U101:U110,'FILTERED DATA'!AG101:AG110)*100/40"
+Range("P21").Formula = "=AVERAGE('FILTERED DATA'!N101:N110,'FILTERED DATA'!Z101:Z110,'FILTERED DATA'!T101:T110,'FILTERED DATA'!AF101:AF110)"
+Range("P22").Formula = "=STDEV('FILTERED DATA'!N101:N110,'FILTERED DATA'!Z101:Z110,'FILTERED DATA'!T101:T110,'FILTERED DATA'!AF101:AF110)"
+Range("S21").Formula = "=SUM('FILTERED DATA'! AJ101:AJ110,'FILTERED DATA'! AM101:AM110,'FILTERED DATA'! AP101:AP110,'FILTERED DATA'! AS101:AS110)"
+Range("S22").Formula = "=SUM('FILTERED DATA'! AK101:AK110,'FILTERED DATA'! AN101:AN110,'FILTERED DATA'! AQ101:AQ110,'FILTERED DATA'! AT101:AT110)"
+'all words
+Range("C26").Formula = "=SUM('FILTERED DATA'!O59:O98,'FILTERED DATA'!O101:O110,'FILTERED DATA'!U59:U98,'FILTERED DATA'!U101:U110,'FILTERED DATA'!AA59:AA98,'FILTERED DATA'!AA101:AA110,'FILTERED DATA'!AG59:AG98,'FILTERED DATA'!AG101:AG110)"
+Range("C27").Formula = "=SUM('FILTERED DATA'!O59:O98,'FILTERED DATA'!O101:O110,'FILTERED DATA'!U59:U98,'FILTERED DATA'!U101:U110,'FILTERED DATA'!AA59:AA98,'FILTERED DATA'!AA101:AA110,'FILTERED DATA'!AG59:AG98,'FILTERED DATA'!AG101:AG110)/200*100"
+Range("F26").Formula = "=AVERAGE('FILTERED DATA'!N59:N98,'FILTERED DATA'!N101:N110,'FILTERED DATA'!T59:T98,'FILTERED DATA'!T101:T110,'FILTERED DATA'!Z59:Z98,'FILTERED DATA'!Z101:Z110,'FILTERED DATA'!AF59:AF98,'FILTERED DATA'!AF101:AF110)"
+Range("F27").Formula = "=STDEV('FILTERED DATA'!N59:N98,'FILTERED DATA'!N101:N110,'FILTERED DATA'!T59:T98,'FILTERED DATA'!T101:T110,'FILTERED DATA'!Z59:Z98,'FILTERED DATA'!Z101:Z110,'FILTERED DATA'!AF59:AF98,'FILTERED DATA'!AF101:AF110)"
+Range("I26").Formula = "=SUM('FILTERED DATA'! AJ101:AJ110,'FILTERED DATA'! AM101:AM110,'FILTERED DATA'! AP101:AP110,'FILTERED DATA'! AS101:AS110,'FILTERED DATA'! AJ114:AJ123,'FILTERED DATA'!AP114:AP123,'FILTERED DATA'! AJ126:AJ135,'FILTERED DATA'!AP126:AP135,'FILTERED DATA'! AJ138:AJ147,'FILTERED DATA'!AP138:AP147,'FILTERED DATA'! AJ150:AJ159,'FILTERED DATA'!AP150:AP159,'FILTERED DATA'! AM114:AM123,'FILTERED DATA'!AS114:AS123,'FILTERED DATA'! AM126:AM135,'FILTERED DATA'!AS126:AS135,'FILTERED DATA'! AM138:AM147,'FILTERED DATA'!AS138:AS147,'FILTERED DATA'! AM150:AM159,'FILTERED DATA'!AS150:AS159)"
+Range("I27").Formula = "=SUM('FILTERED DATA'! AK101:AK110,'FILTERED DATA'! AN101:AN110,'FILTERED DATA'! AQ101:AQ110,'FILTERED DATA'! AT101:AT110,'FILTERED DATA'! AK114:AK123,'FILTERED DATA'!AQ114:AQ123,'FILTERED DATA'! AK126:AK135,'FILTERED DATA'!AQ126:AQ135,'FILTERED DATA'! AK138:AK147,'FILTERED DATA'!AQ138:AQ147,'FILTERED DATA'! AK150:AK159,'FILTERED DATA'!AQ150:AQ159,'FILTERED DATA'! AN114:AN123,'FILTERED DATA'!AT114:AT123,'FILTERED DATA'! AN126:AN135,'FILTERED DATA'!AT126:AT135,'FILTERED DATA'! AN138:AN147,'FILTERED DATA'!AT138:AT147,'FILTERED DATA'! AN150:AN159,'FILTERED DATA'!AT150:AT159)"
+'labels
+'low frequency
+Range("C2").Value = "Accuracy"
+Range("F2").Value = "Response Time"
+Range("A4").Value = "LAI"
+Range("B4").Value = "Sum:"
+Range("B5").Value = "Percent:"
+Range("E4").Value = "Average:"
+Range("E5").Value = "Std Dev:"
+Range("A7").Value = "LAR"
+Range("B7").Value = "Sum:"
+Range("B8").Value = "Percent:"
+Range("E7").Value = "Average:"
+Range("E8").Value = "Std Dev:"
+Range("A10").Value = "LCI"
+Range("B10").Value = "Sum:"
+Range("B11").Value = "Percent:"
+Range("E10").Value = "Average:"
+Range("E11").Value = "Std Dev:"
+Range("A13").Value = "LCR"
+Range("B13").Value = "Sum:"
+Range("B14").Value = "Percent:"
+Range("E13").Value = "Average:"
+Range("E14").Value = "Std Dev:"
+Range("A17").Value = "Low Freq"
+Range("B17").Value = "Sum:"
+Range("B18").Value = "Percent:"
+Range("E17").Value = "Average:"
+Range("E18").Value = "Std Dev:"
+Range("A21").Value = "Words"
+Range("B21").Value = "Sum:"
+Range("B22").Value = "Percent:"
+Range("E21").Value = "Average:"
+Range("E22").Value = "Std Dev:"
+Range("H4").Value = "omit:"
+Range("H5").Value = "comit:"
+Range("H7").Value = "omit:"
+Range("H8").Value = "comit:"
+Range("H10").Value = "omit:"
+Range("H11").Value = "comit:"
+Range("H13").Value = "omit:"
+Range("H14").Value = "comit:"
+Range("H17").Value = "omit:"
+Range("H18").Value = "comit:"
+Range("H21").Value = "omit:"
+Range("H22").Value = "comit:"
+'high frequency
+Range("M2").Value = "Accuracy"
+Range("P2").Value = "Response Time"
+Range("K4").Value = "HAI"
+Range("L4").Value = "Sum:"
+Range("L5").Value = "Percent:"
+Range("O4").Value = "Average:"
+Range("O5").Value = "Std Dev:"
+Range("K7").Value = "HAR"
+Range("L7").Value = "Sum:"
+Range("L8").Value = "Percent:"
+Range("O7").Value = "Average:"
+Range("O8").Value = "Std Dev:"
+Range("K10").Value = "HCI"
+Range("L10").Value = "Sum:"
+Range("L11").Value = "Percent:"
+Range("O10").Value = "Average:"
+Range("O11").Value = "Std Dev:"
+Range("K13").Value = "HCR"
+Range("L13").Value = "Sum:"
+Range("L14").Value = "Percent:"
+Range("O13").Value = "Average:"
+Range("O14").Value = "Std Dev:"
+Range("K17").Value = "High Freq"
+Range("L17").Value = "Sum:"
+Range("L18").Value = "Percent:"
+Range("O17").Value = "Average:"
+Range("O18").Value = "Std Dev:"
+Range("K21").Value = "Nonwords"
+Range("L21").Value = "Sum:"
+Range("L22").Value = "Percent:"
+Range("O21").Value = "Average:"
+Range("O22").Value = "Std Dev:"
+Range("R4").Value = "omit:"
+Range("R5").Value = "comit:"
+Range("R7").Value = "omit:"
+Range("R8").Value = "comit:"
+Range("R10").Value = "omit:"
+Range("R11").Value = "comit:"
+Range("R13").Value = "omit:"
+Range("R14").Value = "comit:"
+Range("R17").Value = "omit:"
+Range("R18").Value = "comit:"
+Range("R21").Value = "omit:"
+Range("R22").Value = "comit:"
+
+Range("A26").Value = "TOTAL"
+Range("B26").Value = "Sum:"
+Range("B27").Value = "Percent:"
+Range("E26").Value = "Average:"
+Range("E27").Value = "Std Dev:"
+Range("H26").Value = "omit:"
+Range("H27").Value = "comit:"
+Range("A33").Value = "*calculated statstics assume 10 words per trial. verify that there are 10 words for each LAI, LAR (see FILTERED DATA--columns L and X, rows 114:123 and 126:135)"
+Range("A1").Select
+
+End Sub
