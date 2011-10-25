@@ -12,15 +12,231 @@ F_FMT = '%.3f'
 FZ_FMT = '%0.3f'
 D_FMT = '%d'
 
+REP_DICT = {
+'fine': 'A',
+'hope': 'A',
+'kept': 'A',
+'jeet': 'Non',
+'libe': 'Non',
+'pait': 'Non',
+'rock': 'C',
+'ship': 'C',
+'sit': 'C',
+'pdgp': 'CS',
+'wlr': 'CS',
+'fxct': 'CS',
+'sound': 'C',
+'wife': 'C',
+'wood': 'C',
+'write': 'C',
+'preet': 'Non',
+'reat': 'Non',
+'saip': 'Non',
+'dwql': 'CS',
+'chdncp': 'CS',
+'flhhr': 'CS',
+'stop': 'A',
+'try': 'A',
+'turn': 'A',
+'buy': 'A',
+'care': 'A',
+'feel': 'A',
+'brong': 'Non',
+'doil': 'Non',
+'fomp': 'Non',
+'box': 'C',
+'dark': 'C',
+'eat': 'C',
+'farm': 'C',
+'yad': 'Non',
+'spt': 'CS',
+'rcd': 'CS',
+'zood': 'Non',
+'wrong': 'A',
+'floor': 'C',
+'foot': 'C',
+'wait': 'A',
+'trat': 'Non',
+'kwpt': 'CS',
+'mdp': 'CS',
+'green': 'C',
+'horse': 'C',
+'hot': 'C',
+'late': 'A',
+'rest': 'A',
+'stay': 'A',
+'skib': 'Non',
+'smy': 'Non',
+'tey': 'Non',
+'bhx': 'CS',
+'hdrsp': 'CS',
+'rzst': 'CS',
+'line': 'C',
+'moon': 'C',
+'rain': 'C',
+'stnm': 'CS',
+'sthnr': 'CS',
+'hct': 'CS',
+'wish': 'A',
+'red': 'C',
+'road': 'C',
+'gorn': 'Non',
+'heen': 'Non',
+'hoad': 'Non',
+'svnt': 'CS',
+'mlxth': 'CS',
+'rock': 'C',
+'ship': 'C',
+'sit': 'C',
+'buy': 'A',
+'care': 'A',
+'feel': 'A',
+'brong': 'Non',
+'doil': 'Non',
+'fomp': 'Non',
+'dwql': 'CS',
+'chdncp': 'CS',
+'flhhr': 'CS',
+'stop': 'A',
+'try': 'A',
+'turn': 'A',
+'sound': 'C',
+'wife': 'C',
+'wood': 'C',
+'write': 'C',
+'preet': 'Non',
+'reat': 'Non',
+'saip': 'Non',
+'yad': 'Non',
+'spt': 'CS',
+'rcd': 'CS',
+'zood': 'Non',
+'wrong': 'A',
+'floor': 'C',
+'foot': 'C',
+'wait': 'A',
+'trat': 'Non',
+'kwpt': 'CS',
+'mdp': 'CS',
+'box': 'C',
+'dark': 'C',
+'eat': 'C',
+'farm': 'C',
+'line': 'C',
+'moon': 'C',
+'rain': 'C',
+'stnm': 'CS',
+'sthnr': 'CS',
+'hct': 'CS',
+'wish': 'A',
+'red': 'C',
+'road': 'C',
+'skib': 'Non',
+'smy': 'Non',
+'tey': 'Non',
+'bhx': 'CS',
+'hdrsp': 'CS',
+'rzst': 'CS',
+'jeet': 'Non',
+'libe': 'Non',
+'pait': 'Non',
+'pdgp': 'CS',
+'wlr': 'CS',
+'fxct': 'CS',
+'fine': 'A',
+'hope': 'A',
+'kept': 'A',
+'green': 'C',
+'horse': 'C',
+'hot': 'C',
+'gorn': 'Non',
+'heen': 'Non',
+'hoad': 'Non',
+'svnt': 'CS',
+'mlxth': 'CS',
+'late': 'A',
+'rest': 'A',
+'stay': 'A',
+'brong': 'Non',
+'doil': 'Non',
+'fomp': 'Non',
+'dwql': 'CS',
+'chdncp': 'CS',
+'flhhr': 'CS',
+'wrong': 'A',
+'floor': 'C',
+'foot': 'C',
+'wait': 'A',
+'trat': 'Non',
+'kwpt': 'CS',
+'mdp': 'CS',
+'box': 'C',
+'dark': 'C',
+'eat': 'C',
+'preet': 'Non',
+'reat': 'Non',
+'saip': 'Non',
+'stop': 'A',
+'try': 'A',
+'turn': 'A',
+'sound': 'C',
+'wife': 'C',
+'wood': 'C',
+'write': 'C',
+'yad': 'Non',
+'spt': 'CS',
+'rcd': 'CS',
+'zood': 'Non',
+'rock': 'C',
+'ship': 'C',
+'sit': 'C',
+'buy': 'A',
+'care': 'A',
+'feel': 'A',
+'stnm': 'CS',
+'sthnr': 'CS',
+'hct': 'CS',
+'wish': 'A',
+'red': 'C',
+'road': 'C',
+'pait': 'Non',
+'pdgp': 'CS',
+'wlr': 'CS',
+'fxct': 'CS',
+'fine': 'A',
+'hope': 'A',
+'kept': 'A',
+'green': 'C',
+'horse': 'C',
+'hot': 'C',
+'gorn': 'Non',
+'heen': 'Non',
+'hoad': 'Non',
+'svnt': 'CS',
+'mlxth': 'CS',
+'late': 'A',
+'rest': 'A',
+'stay': 'A',
+'hdrsp': 'CS',
+'rzst': 'CS',
+'jeet': 'Non',
+'libe': 'Non',
+'farm': 'C',
+'line': 'C',
+'moon': 'C',
+'rain': 'C',
+'skib': 'Non',
+'smy': 'Non',
+'tey': 'Non',
+'bhx': 'CS'}
+
 class BadDataError(Exception):
     pass
 
-def split_dict(filep):
+def split_dict(fobj):
     """ Decode and split a file"""
 
-    print("Opening %s..." % filep)
-    with open(filep) as f:
-        raw = f.read()
+    raw = fobj.read()
     raw_sp = raw.split('\r\n')
     raw_sp[:] = filter(lambda x: x != '', raw_sp)
 
@@ -43,16 +259,57 @@ def split_dict(filep):
         dict_list.append(trial_d)
     return dict_list 
 
-def REP(filep):
+def REP(fobj):
     """ This parses NFRO1 REP e-prime files """
-    dl = split_dict(filep)
+    dl = split_dict(fobj)
     print("Computing REP stats...")
 
-    return {}
+    if len(dl) != 216:
+        raise BadDataError("Did not find 216 trials in this REP e-prime file :(")
+    
+    m1_trials = dl[:72]
+    m2_trials = dl[72:144]
+    m3_trials = dl[144:]
+    
+    results = {}
+    for m_data, m in zip((m1_trials, m2_trials, m3_trials), ('m1', 'm2', 'm3')):
+        #  text1 contains strings.  REP_DICT matches these strings to their 
+        #  category.
+        loop_data = zip(('A', 'C', 'Non', 'CS'),
+                        ('6', '6', '5', '5'),
+                        ('5', '5', '6', '6'),
+                        ('abs', 'conc', 'non', 'cons'))
+        for cat, good, bad, catt in loop_data:
+            trials = filter(lambda x: REP_DICT[x['text1']] == cat, m_data)
+            corr = filter(lambda x: x['stim.RESP'] == good, trials)
+            #  Accuracy = # of correct / # of trials * 100
+            acc = (float(len(corr)) / len(trials)) * 100
+            results['%s_%s_acc' % (m, catt)] = F_FMT % acc
+            #  binary vector to compute SD
+            resp = (1,) * len(corr) + (0,) * (len(trials) - len(corr))
+            accsd = np.std(np.array(resp))
+            results['%s_%s_accsd' % (m, catt)] = FZ_FMT % accsd
+            
+            #  Grab correct RT
+            corr_rt = np.array([float(t['stim.RT']) for t in corr])
+            #  Mean RT
+            rtavg = np.mean(corr_rt)
+            results['%s_%s_rtavg' % (m, catt)] = F_FMT % rtavg
+            #  SD of RT
+            rtsd = np.std(corr_rt)
+            results['%s_%s_rtsd' % (m, catt)] = FZ_FMT % rtsd
+            
+            #  N omit, comit
+            n_omit = len(filter(lambda x: x['stim.RESP'] not in (good, bad), trials))
+            results['%s_%s_omit' % (m, catt)] = D_FMT % n_omit
+            n_comit = len(filter(lambda x: x['stim.RESP'] == bad, trials))
+            results['%s_%s_comit' % (m, catt)] = D_FMT % n_comit
+    print("Finished REP stats.")
+    return results
 
-def MI(filep):
+def MI(fobj):
     """ This parses NFRO1 MI e prime files"""
-    dl = split_dict(filep)
+    dl = split_dict(fobj)
     print('Computing MI stats...')
 
     #  No filter needed
@@ -81,7 +338,7 @@ def MI(filep):
         #  A false negative is a negative response when the x was in the letter
         fnf = lambda x: x['correct'] == '1' and x['Target.RESP'] == '5'
         omitf = lambda x: x['Target.RESP'] not in ('5', '6')
-        for tdata, ttext in zip((real_trials, cont_trials),('real', 'cont')):
+        for tdata, ttext in zip((real_trials, cont_trials),('imag', 'cont')):
             #  Use the correct function
             corr = [x for x in tdata if corrf(x)]
             #  Use the false positive function
@@ -109,9 +366,9 @@ def MI(filep):
     print("Finished with MI stats.")
     return results
 
-def PIC(filep):
+def PIC(fobj):
     """ This parses NFRO1 PIC e-prime files"""
-    dl = split_dict(filep)
+    dl = split_dict(fobj)
     print('Computing PIC stats...')
 
     #  Remove practice trial
@@ -159,9 +416,9 @@ def PIC(filep):
     print("Finished PIC stats.")
     return res
 
-def SWR(filep):
+def SWR(fobj):
     """ This parses NFRO1 SWR e-prime files"""
-    dl = split_dict(filep)
+    dl = split_dict(fobj)
 
     print("Computing SWR stats...")
     #  Remove the practice trial
@@ -208,24 +465,25 @@ def SWR(filep):
     return res
 
 if __name__ == '__main__':
-    swr = os.path.expanduser('~/Desktop/EPRIME/SWR/NF_SWR_Test_Pre_ListA.txt')
+    swr = open(os.path.expanduser('~/Desktop/EPRIME/SWR/NF_SWR_Test_Test_Pre_ListA.txt'))
     swr_data = SWR(swr)
-
+    swr.close()
     print
     print
 
-    pic = os.path.expanduser('~/Desktop/EPRIME/PIC/NF_PIC_Test_Post_ListA.txt')
+    pic = open(os.path.expanduser('~/Desktop/EPRIME/PIC/NF_PIC_Test_Test_Post_ListA.txt'))
     pic_data = PIC(pic)
+    pic.close()
 
     print
     print
 
-    mi = os.path.expanduser('~/Desktop/EPRIME/MI/NF_MI_Test_Pre.txt')
+    mi = open(os.path.expanduser('~/Desktop/EPRIME/MI/NF_MI_Test_Test_Pre.txt'))
     mi_data = MI(mi)
-
+    mi.close()
     print
     print
 
-    rep = os.path.expanduser('~/Desktop/EPRIME/REP/NF_REP_1502.txt')
+    rep = open(os.path.expanduser('~/Desktop/EPRIME/REP/NF_REP_Test_Test.txt'))
     rep_data = REP(rep)
-
+    rep.close()
