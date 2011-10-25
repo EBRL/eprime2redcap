@@ -43,7 +43,8 @@ Where:
     -   "PIC" for the Pictures Task
     -   "REP" for the Repetition Task
     -   (Add more, Nikki)
--   [SUBJECTID] is the grant-specific unique identifier
+-   [SUBJECTID] is grant specific:
+    -   NF: studyid_subjscanid (the redcap keys)
 -   [EXTRA] is optional, but could include list versions, pre/post, etc. and will be used only when necessary. The exact use of this field will be grant-specific. See below.
 
 ### Extra fields
