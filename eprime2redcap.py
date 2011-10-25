@@ -4,7 +4,8 @@
 
 import os
 
-import rc_upload
+#  Import when we have API key
+#  import rc_upload
 import NFRO1
 
 #  This maps grants/tasks to the correct parser
@@ -60,16 +61,17 @@ def rc_prefix(info):
     #  Add other grants here
     return pre
 
-def parse_file(fpath):
-    bname = os.path.basename(fpath)
-    fname, ext = os.path.splitext(bname)
+def parse_file(fname, fobj):
+    bname = os.path.basename(fname)
+    name, ext = os.path.splitext(bname)
     #  GRANT_TASK_BEHAVID_SCANID_EXTRA
-    parts = fname.split('_')
+    parts = name.split('_')
     grant = parts[0]
-    info = parse_fname(grant, fname)        
+    info = parse_fname(grant, name)        
     parser = TASK_PARSER[grant][info['task']]
-    with open(fpath) as f:
-        data = parser(f)
+
+    #  Parse the file
+    data = parser(fobj)
     to_redcap = {}
     pre = rc_prefix(info)
     for k, v in data.items():
@@ -91,5 +93,6 @@ if __name__ == '__main__':
     if args.file:
         if not os.path.isfile(args.file):
             raise ValueError("This file doesn't exist")
-        to_redcap =  parse_file(args.file)
+        with open(args.file) as f:
+            to_redcap =  parse_file(args.file, f)
         upload(to_redcap)

@@ -233,7 +233,7 @@ REP_DICT = {
 class BadDataError(Exception):
     pass
 
-def split_dict(fobj):
+def split_dict(fobj, new_fname=None):
     """ Decode and split a file"""
 
     raw = fobj.read()

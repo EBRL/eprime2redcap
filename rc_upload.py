@@ -6,7 +6,7 @@ import redcap
 
 cfg = ConfigParser()
 cfg.read([os.path.expanduser('~/pycap.cfg')])
-KEY = config.get('keys', 'In-Magnet')
+KEY = cfg.get('keys', 'In-Magnet')
 
 del cfg
 

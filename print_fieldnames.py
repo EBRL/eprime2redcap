@@ -17,8 +17,8 @@ data = {'mi1': {'per_mission': ['imag_rtavg', 'imag_rtsd', 'imag_acc', 'imag_acc
                           'cont_omit', 'cont_fn', 'cont_fp'],
                'visit': ['pre', 'post'],
                'mission': ['m1', 'm2'],
-               'per_visit': ['']},
-        'swr1': {'per_mission': ['hai_acc', 'hai_accsd', 'hai_rtavg', 'hai_rtsd',
+               'per_visit': ['upload']},
+        'swr1': {'per_mission': ['upload','hai_acc', 'hai_accsd', 'hai_rtavg', 'hai_rtsd',
                              'hai_omit', 'hai_comit', 'har_acc', 'har_accsd',
                              'har_rtavg', 'har_rtsd', 'har_omit', 'har_comit',
                              'hci_acc', 'hci_accsd', 'hci_rtavg', 'hci_rtsd',
@@ -30,7 +30,7 @@ data = {'mi1': {'per_mission': ['imag_rtavg', 'imag_rtsd', 'imag_acc', 'imag_acc
                              'nonword_rtsd', 'nonword_omit', 'nonword_comit'],
                  'visit': ['pre', 'post'],
                  'mission': ['m1', 'm2'],
-                 'per_visit': ['']},
+                 'per_visit': ['upload']},
         'pic1': {'per_mission': ['con_acc', 'con_accsd', 'con_rtavg', 'con_rtsd',
                              'con_omit', 'con_comit', 'match_acc', 'match_accsd',
                              'match_rtavg', 'match_rtsd', 'match_omit', 'match_comit',
@@ -39,7 +39,7 @@ data = {'mi1': {'per_mission': ['imag_rtavg', 'imag_rtsd', 'imag_acc', 'imag_acc
                              'wrd_rtavg', 'wrd_rtsd', 'wrd_omit', 'wrd_comit'],
                 'visit': ['pre', 'post'],
                 'mission': ['m1', 'm2'],
-                'per_visit': ['']},
+                'per_visit': ['upload']},
         'rep1': {'per_mission': ['abs_acc', 'abs_accsd', 'abs_rtavg', 'abs_rtsd',
                              'abs_omit', 'abs_comit', 'conc_acc', 'conc_accsd',
                              'conc_rtavg', 'conc_rtsd', 'conc_omit', 'conc_comit',
@@ -48,7 +48,7 @@ data = {'mi1': {'per_mission': ['imag_rtavg', 'imag_rtsd', 'imag_acc', 'imag_acc
                              'non_rtavg', 'non_rtsd', 'non_omit', 'non_comit'],
                 'visit': [''],
                 'mission': ['m1', 'm2', 'm3'],
-                'per_visit': ['']}}
+                'per_visit': ['upload']}}
                 
 for task, d in data.items():
     for visit in d['visit']:
