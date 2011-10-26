@@ -52,6 +52,12 @@ def upload(to_upload):
     
 def previous_upload(id, key):
     d = project.export_records(records=[id], fields=[key])
-    if len(d) != 1:
+    if len(d) > 1:
         raise ValueError("Received results from multiple subjects")
-    return d[0][key] == 'yes'
+    elif len(d) == 1:
+        to_return = d[0][key] == 'yes'
+    elif len(d) == 0:
+        to_return = False
+    else:
+        to_return = False
+    return to_return
