@@ -18,7 +18,7 @@ data = {'mi1': {'per_mission': ['imag_rtavg', 'imag_rtsd', 'imag_acc', 'imag_acc
                'visit': ['pre', 'post'],
                'mission': ['m1', 'm2'],
                'per_visit': ['upload']},
-        'swr1': {'per_mission': ['upload','hai_acc', 'hai_accsd', 'hai_rtavg', 'hai_rtsd',
+        'swr1': {'per_mission': ['hai_acc', 'hai_accsd', 'hai_rtavg', 'hai_rtsd',
                              'hai_omit', 'hai_comit', 'har_acc', 'har_accsd',
                              'har_rtavg', 'har_rtsd', 'har_omit', 'har_comit',
                              'hci_acc', 'hci_accsd', 'hci_rtavg', 'hci_rtsd',

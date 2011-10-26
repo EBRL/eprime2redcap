@@ -1,32 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import os
 
-#  Import when we have API key
-#  import rc_upload
-import NFRO1
+import grants
 
 #  This maps grants/tasks to the correct parser
-TASK_PARSER = {'NF':{'MI': NFRO1.MI,
-                     'SWR': NFRO1.SWR,
-                     'PIC': NFRO1.PIC,
-                      'REP': NFRO1.REP}}
+TASK_PARSER = {'NF':{'MI': grants.NFRO1.MI,
+                     'SWR': grants.NFRO1.SWR,
+                     'PIC': grants.NFRO1.PIC,
+                      'REP': grants.NFRO1.REP}}
 #  This maps grants/tasks to the correct redcap prefix
 GRANT_TASKS = {'NF': {'MI': 'mi1',
                       'SWR': 'swr1',
                       'PIC': 'pic1',
                       'REP': 'rep1'}}
-
-def arguments():
-    import argparse
-    ap = argparse.ArgumentParser()
-    
-    #  Arguments
-    ap.add_argument('-f', dest='file',
-        help='Parse and upload data from a (properly named) file')
-    return ap.parse_args()
 
 def parse_fname(grant, fname):
     info = {}
@@ -76,23 +64,16 @@ def parse_file(fname, fobj):
     pre = rc_prefix(info)
     for k, v in data.items():
         to_redcap['%s_%s' % (pre, k)] = v
+    #  Fill out grant and id
     to_redcap['grant'] = info['grant']
     to_redcap['id'] = '%s_%s' % (info['behavid'], info['scanid'])
+    #  Fill out upload field
+    to_redcap['%s_upload' % pre] = 'yes'
     return to_redcap
 
 def upload(data):
-    success = rc_upload.upload(data)
+    success = rc.upload(data)
     if not success:
         from pprint import pprint
         print("Failed to upload to redcap. See below for data for manual entry.")
         pprint(data)
-
-if __name__ == '__main__':
-    args = arguments()
-
-    if args.file:
-        if not os.path.isfile(args.file):
-            raise ValueError("This file doesn't exist")
-        with open(args.file) as f:
-            to_redcap =  parse_file(args.file, f)
-        upload(to_redcap)
