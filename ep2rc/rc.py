@@ -9,8 +9,15 @@ from ConfigParser import ConfigParser
 
 from redcap import Project
 
+platform = os.uname()[0]
+if platform == 'Linux':
+    prefix = '/fs0/'
+else:
+    prefix = os.path.expanduser('~')
+pycap_cfg = os.path.join(prefix, '.pycap.cfg')
+
 cfg = ConfigParser()
-with open(os.path.expanduser('~/.pycap.cfg')) as f:
+with open(pycap_cfg) as f:
     cfg.readfp(f)
 KEY = cfg.get('keys', 'In-Magnet')
 del cfg

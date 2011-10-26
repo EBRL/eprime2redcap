@@ -16,7 +16,15 @@ import rc
 temp_dir = os.path.join(os.path.split(__file__)[0], 'templates')
 render = web.template.render(temp_dir)
 
-with open(os.path.expanduser('~/.ep2rc.cfg')) as f:
+platform = os.uname()[0]
+if platform == 'Linux':
+    prefix = '/fs0/'
+else:
+    prefix = os.path.expanduser('~')
+ep2rc_cfg = os.path.join(prefix, '.ep2rc.cfg')
+
+
+with open(ep2rc_cfg) as f:
     allow_raw = f.readlines()
 allow_raw[:] = map(string.strip, allow_raw)
 allowed = [(l.split(':')[0], l.split(':')[1]) for l in allow_raw]
