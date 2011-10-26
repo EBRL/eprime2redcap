@@ -1,0 +1,2 @@
+include README.rst HISTORY.rst
+recursive-include ep2rc/templates *.html
