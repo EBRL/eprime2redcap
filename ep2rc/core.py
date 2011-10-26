@@ -1,20 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+__author__ = 'Scott Burns <scott.s.burns@gmail.com>'
+__license__ = 'BSD 3-Clause'
+
 
 import os
 
-import grants
+#  import other grants here
+import NFRO1
 
 #  This maps grants/tasks to the correct parser
-TASK_PARSER = {'NF':{'MI': grants.NFRO1.MI,
-                     'SWR': grants.NFRO1.SWR,
-                     'PIC': grants.NFRO1.PIC,
-                      'REP': grants.NFRO1.REP}}
+TASK_PARSER = {'NF':{'MI': NFRO1.MI,
+                     'SWR': NFRO1.SWR,
+                     'PIC': NFRO1.PIC,
+                      'REP': NFRO1.REP}}
 #  This maps grants/tasks to the correct redcap prefix
 GRANT_TASKS = {'NF': {'MI': 'mi1',
                       'SWR': 'swr1',
                       'PIC': 'pic1',
                       'REP': 'rep1'}}
+
+#  Fully implemented grants
+GRANTS = ('NF',)
 
 def parse_fname(grant, fname):
     info = {}
@@ -49,6 +56,9 @@ def rc_prefix(info):
     #  Add other grants here
     return pre
 
+def upload_key(info):
+    return '%s_upload' % rc_prefix(info)
+
 def parse_file(fname, fobj):
     bname = os.path.basename(fname)
     name, ext = os.path.splitext(bname)
@@ -68,7 +78,7 @@ def parse_file(fname, fobj):
     to_redcap['grant'] = info['grant']
     to_redcap['id'] = '%s_%s' % (info['behavid'], info['scanid'])
     #  Fill out upload field
-    to_redcap['%s_upload' % pre] = 'yes'
+    to_redcap[upload_key(info)] = 'yes'
     return to_redcap
 
 def upload(data):

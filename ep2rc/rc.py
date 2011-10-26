@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+__author__ = 'Scott Burns <scott.s.burns@gmail.com>'
+__license__ = 'BSD 3-Clause'
+
+
 import os
 from ConfigParser import ConfigParser
 
@@ -27,8 +33,18 @@ def upload(to_upload):
         False on failure
     """
     data = [to_upload]
+    print("Uploading...")
     num_uploaded = project.import_records(data)
-    success = True
     if num_uploaded != len(data):
+        print("Upload failed")
         success = False
+    else:
+        print("Upload succeeded")
+        success = True
     return success
+    
+def previous_upload(id, key):
+    d = project.export_records(records=[id], fields=[key])
+    if len(d) != 1:
+        raise ValueError("Received results from multiple subjects")
+    return d[0][key] == 'yes'

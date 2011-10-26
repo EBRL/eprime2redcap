@@ -1,0 +1,14 @@
+$def with(s, d)
+
+<html>
+<body>
+$if s > 0:
+    <h1>Upload <em>success</em></h1>
+    <a href="/"> Go back to subject information page.</a>
+$else:
+    <h1>Upload <em>failed</em></h1>
+    <p> Here's the raw data: </p>
+    $for k,v in d.items():
+        $k:$v</br>
+</body>
+</html>
