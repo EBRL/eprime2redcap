@@ -6,3 +6,4 @@ __version__ = '0.1.1'
 
 from core import parse_file
 from rc import upload
+from errors import BadDataError

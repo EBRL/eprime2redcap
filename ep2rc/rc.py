@@ -40,13 +40,11 @@ def upload(to_upload):
         False on failure
     """
     data = [to_upload]
-    print("Uploading...")
     num_uploaded = project.import_records(data)
     if num_uploaded != len(data):
         print("Upload failed")
         success = False
     else:
-        print("Upload succeeded")
         success = True
     return success
     

@@ -6,10 +6,9 @@ __license__ = 'BSD 3-Clause'
 
 import sys
 import os
-
 import numpy as np
 
-from pdb import set_trace
+import errors
 
 F_FMT = '%.3f'
 FZ_FMT = '%0.3f'
@@ -233,9 +232,6 @@ REP_DICT = {
 'tey': 'Non',
 'bhx': 'CS'}
 
-class BadDataError(Exception):
-    pass
-
 def split_dict(fobj, new_fname=None):
     """ Decode and split a file"""
 
@@ -247,7 +243,6 @@ def split_dict(fobj, new_fname=None):
     # skip the header
     good = [r.split('\t') for r in raw_sp]
 
-    print("Rearranging data...")
     dict_list = []
     #  Loop through trials
     for trial in good[1:]:
@@ -265,10 +260,9 @@ def split_dict(fobj, new_fname=None):
 def REP(fobj):
     """ This parses NFRO1 REP e-prime files """
     dl = split_dict(fobj)
-    print("Computing REP stats...")
 
     if len(dl) != 216:
-        raise BadDataError("Did not find 216 trials in this REP e-prime file :(")
+        raise errors.BadDataError("Did not find 216 trials in this REP e-prime file :(")
     
     m1_trials = dl[:72]
     m2_trials = dl[72:144]
@@ -307,18 +301,16 @@ def REP(fobj):
             results['%s_%s_omit' % (m, catt)] = D_FMT % n_omit
             n_comit = len(filter(lambda x: x['stim.RESP'] == bad, trials))
             results['%s_%s_comit' % (m, catt)] = D_FMT % n_comit
-    print("Finished REP stats.")
     return results
 
 def MI(fobj):
     """ This parses NFRO1 MI e prime files"""
     dl = split_dict(fobj)
-    print('Computing MI stats...')
 
     #  No filter needed
 
     if len(dl) != 96:
-        raise BadDataError("Did not find 96 trials in this MI e-primee file :(")
+        raise errors.BadDataError("Did not find 96 trials in this MI e-primee file :(")
 
     m1_trials = dl[:48]
     m2_trials = dl[48:]   
@@ -366,20 +358,18 @@ def MI(fobj):
             results['%s_%s_rtavg' % (m, ttext)] = F_FMT % rt_avg
             rt_sd = np.std(all_rt)
             results['%s_%s_rtsd' % (m, ttext)] = FZ_FMT % rt_sd
-    print("Finished with MI stats.")
     return results
 
 def PIC(fobj):
     """ This parses NFRO1 PIC e-prime files"""
     dl = split_dict(fobj)
-    print('Computing PIC stats...')
 
     #  Remove practice trial
     dl[:] = [x for x in dl if x['runList'] != 'PracList']
 
     #  If we don't have 134 trials, uh oh!
     if len(dl) != 188:
-        raise BadDataError("Did not find 188 trials in this PIC e-prime file :(")
+        raise errors.BadDataError("Did not find 188 trials in this PIC e-prime file :(")
 
     m1_trials = dl[:94]
     m2_trials = dl[94:]
@@ -416,20 +406,18 @@ def PIC(fobj):
             res['%s_%s_omit' % (m, typ)] = D_FMT % n_omit
             n_comit = len(filter(lambda x: x['stim.RESP'] == bad, trials))
             res['%s_%s_comit' % (m, typ)] = D_FMT % n_comit
-    print("Finished PIC stats.")
     return res
 
 def SWR(fobj):
     """ This parses NFRO1 SWR e-prime files"""
     dl = split_dict(fobj)
 
-    print("Computing SWR stats...")
     #  Remove the practice trial
     dl[:] = [x for x in dl if x['runList'] != 'PracList']
 
     #  If we don't have 100 trials, uh oh!
     if len(dl) != 100:
-        raise BadDataError("Did not find 100 trials in this SWR e-prime file :(")
+        raise errors.BadDataError("Did not find 100 trials in this SWR e-prime file :(")
 
     m1_trials = dl[:50]
     m2_trials = dl[50:]
@@ -464,7 +452,6 @@ def SWR(fobj):
             res['%s_%s_omit' % (m, cat.lower())] = D_FMT % n_omit
             n_comit = len(filter(lambda x: x['stim.RESP'] == bad, trials))
             res['%s_%s_comit' % (m, cat.lower())] = D_FMT % n_comit
-    print("Finished SWR stats.")
     return res
 
 if __name__ == '__main__':
