@@ -13,15 +13,15 @@ import base64
 
 import core
 import rc
-from config import cfg
-
+from config import user_pws
+from config import pname_keys
 temp_dir = os.path.join(os.path.split(__file__)[0], 'templates')
 render = web.template.render(temp_dir)
 
-allowed = cfg.items('users')
+available_rc = [p[0] for p in pname_keys]
 
 user = ''
-sub_info = {}
+info = {}
 
 available_grants = ['']
 available_grants.extend(core.GRANTS)
@@ -32,26 +32,27 @@ subject_form = web.form.Form(
     web.form.Textbox('task', description="Task"),
     web.form.Textbox('visit', description="Visit"),
     web.form.Textbox('list', description="List"),
+    web.form.Radio('database', args=available_rc, value=''),
     web.form.Button('submit', type='submit', description="Go to upload page")
 )
-
+fields = ('user', 'id', 'grant', 'task', 'visit', 'list', 'database')
 
 class Upload:
     def GET(self):
-        key = core.upload_key(sub_info)
-        p = rc.previous_upload(sub_info['id'], key)
-        return render.upload(p)
+        key = core.upload_key(info)
+        p = rc.previous_upload(info['id'], key, info['database'])
+        return render.upload(p, info)
         
     def POST(self):
         x = web.input(myfile={})
         
         #  Parse!
         to_redcap = core.parse_file(x['myfile'].filename, x['myfile'].file)
-        success = rc.upload(to_redcap)
+        success = rc.upload(to_redcap, info['database'])
         res = 0
         if success:
             res = 1
-            sub_info = {}
+            info = {}
         return render.results(res, to_redcap)
 
 
@@ -68,10 +69,9 @@ class Index:
         if not f.validates():
             pass    
         else:
-            to_log = ('user', 'id', 'grant', 'task', 'visit', 'list')
-            for k in to_log:
-                sub_info[k] = f[k].get_value()
-            print sub_info
+            for k in fields:
+                info[k] = f[k].get_value()
+            print info
             raise web.seeother('/upload')
 
 class Login:
@@ -83,7 +83,7 @@ class Login:
         else:
             auth = re.sub('^Basic ','',auth)
             username,password = base64.decodestring(auth).split(':')
-            if (username,password) in allowed:
+            if (username,password) in user_pws:
                 user = username
                 raise web.seeother('/')
             else:

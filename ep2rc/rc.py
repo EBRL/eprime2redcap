@@ -8,10 +8,10 @@ import os
 
 from redcap import Project
 
-from config import cfg
+from config import pname_keys
 #  Instantiate all projects that ep2rc could use
 projects = {}
-for pname, key in cfg.items('rc'):
+for pname, key in pname_keys:
     projects[pname] = Project('https://redcap.vanderbilt.edu/api/', key)
 
 
@@ -22,7 +22,8 @@ def upload(to_upload, pname='in-magnet'):
     ----------
     to_upload: dict
         Dictionary of data to upload
-        
+    pname: str
+        project name that defines to which project data will be uploaded
     Returns
     -------
     success: bool
