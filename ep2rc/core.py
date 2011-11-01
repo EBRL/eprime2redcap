@@ -59,6 +59,20 @@ def rc_prefix(info):
 def upload_key(info):
     return '%s_upload' % rc_prefix(info)
 
+def copy_fname(info, fname):
+    _platform = os.uname()[0]
+    if _platform == 'Linux':
+        new_dir = os.path.join('/', 'fs0', 'New_Server', info['grant'], 
+                            'In_Behavioral', '%s_%s' % (info['behavid'], info['scanid']))
+    else:
+        new_dir = os.path.join(os.path.expanduser('~'), 'Code', 'eprime2redcap',
+                                'New_Server', info['grant'], 'In_Behavioral', 
+                                '%s_%s' % (info['behavid'], info['scanid']))
+    # Make dirs if necessary
+    os.makedirs(new_dir)
+    return os.path.join(new_dir, fname)
+
+
 def parse_file(fname, fobj):
     bname = os.path.basename(fname)
     name, ext = os.path.splitext(bname)
@@ -68,8 +82,8 @@ def parse_file(fname, fobj):
     info = parse_fname(grant, name)        
     parser = TASK_PARSER[grant][info['task']]
 
-    #  Parse the file
-    data = parser(fobj)
+    #  Parse the file and write out a copy
+    data = parser(fobj, copy_fname(info, name))
     to_redcap = {}
     pre = rc_prefix(info)
     for k, v in data.items():
@@ -81,9 +95,9 @@ def parse_file(fname, fobj):
     to_redcap[upload_key(info)] = 'yes'
     return to_redcap
 
-def upload(data):
-    success = rc.upload(data)
-    if not success:
-        from pprint import pprint
-        print("Failed to upload to redcap. See below for data for manual entry.")
-        pprint(data)
+# def upload(data):
+#     success = rc.upload(data)
+#     if not success:
+#         from pprint import pprint
+#         print("Failed to upload to redcap. See below for data for manual entry.")
+#         pprint(data)
