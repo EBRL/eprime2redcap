@@ -33,18 +33,20 @@ Where:
 
 -   [GRANT] is one of the following:
     -   "NF" for the NFRO1 grant.
-    -   "RC2" for the new, Vanderbilt-only RC grant.
+    -   "RCV" for the new, Vanderbilt-only RC grant.
     -   "LERD" for the Late-Emerging RD grant (Vanderbilt only).
     -   "LMS" for the Last-Minute Study
-    -   (Add more, Nikki)
+    -   "LDRC1" for LDRC project 1.
 -   [TASK] is one of the following:
     -   "SWR" for Single-Word Reading
     -   "MI" for Mental Imagery
     -   "PIC" for the Pictures Task
     -   "REP" for the Repetition Task
-    -   (Add more, Nikki)
+    -   "SENT" for Sentence Task
+    -   "NBACK" for the N-Back Task
 -   [SUBJECTID] is grant specific:
     -   NF: studyid_subjscanid (the redcap keys)
+    -   LDRC1: 
 -   [EXTRA] is optional, but could include list versions, pre/post, etc. and will be used only when necessary. The exact use of this field will be grant-specific. See below.
 
 ### Extra fields
