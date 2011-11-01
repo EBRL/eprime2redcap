@@ -8,7 +8,8 @@ import sys
 import os
 import numpy as np
 
-import errors
+from . import errors
+from . import io
 
 F_FMT = '%.3f'
 FZ_FMT = '%0.3f'
@@ -232,34 +233,10 @@ REP_DICT = {
 'tey': 'Non',
 'bhx': 'CS'}
 
-def split_dict(fobj, new_fname=None):
-    """ Decode and split a file"""
 
-    raw = fobj.read()
-    raw_sp = raw.split('\r\n')
-    raw_sp[:] = filter(lambda x: x != '', raw_sp)
-
-    good = []
-    # skip the header
-    good = [r.split('\t') for r in raw_sp]
-
-    dict_list = []
-    #  Loop through trials
-    for trial in good[1:]:
-        trial_d = {}
-        #  Loop through column headers
-        for i, key in enumerate(good[0]):
-            try:
-                trial_d[key] = trial[i].replace('@', '')
-            except IndexError:
-                print("Skipping %s for trial #%d" % (key, good.index(trial)))
-                pass
-        dict_list.append(trial_d)
-    return dict_list 
-
-def REP(fobj):
+def REP(fobj, new_fname=None):
     """ This parses NFRO1 REP e-prime files """
-    dl = split_dict(fobj)
+    dl = io.split_dict(fobj, new_fname=None)
 
     if len(dl) != 216:
         raise errors.BadDataError("Did not find 216 trials in this REP e-prime file :(")
@@ -303,9 +280,9 @@ def REP(fobj):
             results['%s_%s_comit' % (m, catt)] = D_FMT % n_comit
     return results
 
-def MI(fobj):
+def MI(fobj, new_fname=None):
     """ This parses NFRO1 MI e prime files"""
-    dl = split_dict(fobj)
+    dl = io.split_dict(fobj, new_fname=None)
 
     #  No filter needed
 
@@ -360,9 +337,9 @@ def MI(fobj):
             results['%s_%s_rtsd' % (m, ttext)] = FZ_FMT % rt_sd
     return results
 
-def PIC(fobj):
+def PIC(fobj, new_fname=None):
     """ This parses NFRO1 PIC e-prime files"""
-    dl = split_dict(fobj)
+    dl = io.split_dict(fobj, new_fname=None)
 
     #  Remove practice trial
     dl[:] = [x for x in dl if x['runList'] != 'PracList']
@@ -408,9 +385,9 @@ def PIC(fobj):
             res['%s_%s_comit' % (m, typ)] = D_FMT % n_comit
     return res
 
-def SWR(fobj):
+def SWR(fobj, new_fname=None):
     """ This parses NFRO1 SWR e-prime files"""
-    dl = split_dict(fobj)
+    dl = io.split_dict(fobj, new_fname=None)
 
     #  Remove the practice trial
     dl[:] = [x for x in dl if x['runList'] != 'PracList']
