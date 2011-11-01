@@ -1,10 +1,10 @@
-$def with(d)
+$def with(p, d)
 
 <html>
 <head>
 </head>
 <body>
-    $if d['previous']:
+    $if p:
         <h1>WARNING! THIS DATA HAS BEEN PREVIOUSLY UPLOADED. PROCEED WITH CAUTION.</h1>
     $for k,v in d.items():
         <h3> $k : $v </h3>
