@@ -59,7 +59,7 @@ def rc_prefix(info):
 def upload_key(info):
     return '%s_upload' % rc_prefix(info)
 
-def copy_fname(info, fname):
+def copy_fname(info, bname):
     _platform = os.uname()[0]
     if _platform == 'Linux':
         new_dir = os.path.join('/', 'fs0', 'New_Server', info['grant'], 
@@ -69,8 +69,9 @@ def copy_fname(info, fname):
                                 'New_Server', info['grant'], 'In_Behavioral', 
                                 '%s_%s' % (info['behavid'], info['scanid']))
     # Make dirs if necessary
-    os.makedirs(new_dir)
-    return os.path.join(new_dir, fname)
+    if not os.path.isdir(new_dir):
+        os.makedirs(new_dir)
+    return os.path.join(new_dir, bname)
 
 
 def parse_file(fname, fobj):
@@ -79,7 +80,7 @@ def parse_file(fname, fobj):
     #  GRANT_TASK_BEHAVID_SCANID_EXTRA
     parts = name.split('_')
     grant = parts[0]
-    info = parse_fname(grant, name)        
+    info = parse_fname(grant, bname)        
     parser = TASK_PARSER[grant][info['task']]
 
     #  Parse the file and write out a copy

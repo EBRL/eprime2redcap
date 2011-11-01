@@ -236,7 +236,7 @@ REP_DICT = {
 
 def REP(fobj, new_fname=None):
     """ This parses NFRO1 REP e-prime files """
-    dl = io.split_dict(fobj, new_fname=None)
+    dl = io.split_dict(fobj, new_fname)
 
     if len(dl) != 216:
         raise errors.BadDataError("Did not find 216 trials in this REP e-prime file :(")
@@ -282,7 +282,7 @@ def REP(fobj, new_fname=None):
 
 def MI(fobj, new_fname=None):
     """ This parses NFRO1 MI e prime files"""
-    dl = io.split_dict(fobj, new_fname=None)
+    dl = io.split_dict(fobj, new_fname)
 
     #  No filter needed
 
@@ -339,7 +339,7 @@ def MI(fobj, new_fname=None):
 
 def PIC(fobj, new_fname=None):
     """ This parses NFRO1 PIC e-prime files"""
-    dl = io.split_dict(fobj, new_fname=None)
+    dl = io.split_dict(fobj, new_fname)
 
     #  Remove practice trial
     dl[:] = [x for x in dl if x['runList'] != 'PracList']
@@ -387,7 +387,7 @@ def PIC(fobj, new_fname=None):
 
 def SWR(fobj, new_fname=None):
     """ This parses NFRO1 SWR e-prime files"""
-    dl = io.split_dict(fobj, new_fname=None)
+    dl = io.split_dict(fobj, new_fname)
 
     #  Remove the practice trial
     dl[:] = [x for x in dl if x['runList'] != 'PracList']

@@ -13,7 +13,7 @@ def split_dict(fobj, new_fname=None):
     raw_sp[:] = filter(lambda x: x != '', raw_sp)
 
     if new_fname:
-        with open(new_fname) as f:
+        with open(new_fname, 'w') as f:
             f.write('\n'.join(raw_sp))
 
     good = []
