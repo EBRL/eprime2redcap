@@ -3,16 +3,23 @@
 __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 
-import os
-from ConfigParser import ConfigParser
+import os as _os
+from ConfigParser import ConfigParser as _CP
 
-platform = os.uname()[0]
-if platform == 'Linux':
-    prefix = '/fs0/'
+_platform = _os.uname()[0]
+if _platform == 'Linux':
+    _prefix = '/fs0/'
 else:
-    prefix = os.path.expanduser('~')
-ep2rc_cfg = os.path.join(prefix, '.ep2rc.cfg')
+    _prefix = _os.path.expanduser('~')
+_ep2rc_cfg = _os.path.join(_prefix, '.ep2rc.cfg')
 
-cfg = ConfigParser()
-with open(ep2rc_cfg) as f:
-    cfg.readfp(f)
+_cfg = _CP()
+with open(_ep2rc_cfg) as _f:
+    _cfg.readfp(_f)
+
+""" Define usable data here so other files grab only what they need """
+
+#  Usernames and passwords
+user_pws = _cfg.items('users')
+#  Redcap project names and API keys
+pname_keys = _cfg.items('rc')
