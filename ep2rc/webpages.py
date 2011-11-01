@@ -40,8 +40,8 @@ fields = ('user', 'id', 'grant', 'task', 'visit', 'list', 'database')
 class Upload:
     def GET(self):
         key = core.upload_key(info)
-        p = rc.previous_upload(info['id'], key, info['database'])
-        return render.upload(p, info)
+        info['previous'] = rc.previous_upload(info['id'], key, info['database'])
+        return render.upload(info)
         
     def POST(self):
         x = web.input(myfile={})
