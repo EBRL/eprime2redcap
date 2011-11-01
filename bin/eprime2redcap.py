@@ -32,7 +32,7 @@ if __name__ == '__main__':
     if args.file:
         if not os.path.isfile(args.file):
             raise ValueError("This file doesn't exist")
-        parse_and_upload(fname)
+        parse_and_upload(args.file)
     if args.dir:
         if not os.path.isdir(args.dir):
             raise ValueError("This directory doesn't exist")
