@@ -5,28 +5,17 @@ __license__ = 'BSD 3-Clause'
 
 
 import os
-from ConfigParser import ConfigParser
 
 from redcap import Project
 
-platform = os.uname()[0]
-if platform == 'Linux':
-    prefix = '/fs0/'
-else:
-    prefix = os.path.expanduser('~')
-pycap_cfg = os.path.join(prefix, '.pycap.cfg')
+from config import cfg
+#  Instantiate all projects that ep2rc could use
+projects = {}
+for pname, key in cfg.items('rc'):
+    projects[pname] = Project('https://redcap.vanderbilt.edu/api/', key)
 
-cfg = ConfigParser()
-with open(pycap_cfg) as f:
-    cfg.readfp(f)
-KEY = cfg.get('keys', 'In-Magnet')
-del cfg
 
-URL = 'https://redcap.vanderbilt.edu/api/'
-
-project = Project(URL, KEY)
-
-def upload(to_upload):
+def upload(to_upload, pname='in-magnet'):
     """ Upload a dictionary to the In-Magnet database 
     
     Parameters
@@ -40,7 +29,7 @@ def upload(to_upload):
         False on failure
     """
     data = [to_upload]
-    num_uploaded = project.import_records(data)
+    num_uploaded = projects[pname].import_records(data)
     if num_uploaded != len(data):
         print("Upload failed")
         success = False
@@ -48,8 +37,8 @@ def upload(to_upload):
         success = True
     return success
     
-def previous_upload(id, key):
-    d = project.export_records(records=[id], fields=[key])
+def previous_upload(id, key, pname='in-magnet'):
+    d = projects[pname].export_records(records=[id], fields=[key])
     if len(d) > 1:
         raise ValueError("Received results from multiple subjects")
     elif len(d) == 1:

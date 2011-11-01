@@ -10,24 +10,15 @@ import web
 import re
 import base64
 
+
 import core
 import rc
+from config import cfg
 
 temp_dir = os.path.join(os.path.split(__file__)[0], 'templates')
 render = web.template.render(temp_dir)
 
-platform = os.uname()[0]
-if platform == 'Linux':
-    prefix = '/fs0/'
-else:
-    prefix = os.path.expanduser('~')
-ep2rc_cfg = os.path.join(prefix, '.ep2rc.cfg')
-
-
-with open(ep2rc_cfg) as f:
-    allow_raw = f.readlines()
-allow_raw[:] = map(string.strip, allow_raw)
-allowed = [(l.split(':')[0], l.split(':')[1]) for l in allow_raw]
+allowed = cfg.items('users')
 
 user = ''
 sub_info = {}
