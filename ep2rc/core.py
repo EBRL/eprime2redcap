@@ -21,8 +21,14 @@ GRANT_TASKS = {'NF': {'MI': 'mi1',
                       'PIC': 'pic1',
                       'REP': 'rep1'}}
 
-#  Fully implemented grants
+#  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS
 GRANTS = ('NF',)
+
+
+all_tasks = []
+for _, tasks in GRANT_TASKS.items():
+    all_tasks.extend(tasks.keys())
+TASKS = set(all_tasks)
 
 def parse_fname(grant, fname):
     info = {}
