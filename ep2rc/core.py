@@ -9,6 +9,7 @@ import os
 #  import other grants here
 import NFRO1
 
+
 #  This maps grants/tasks to the correct parser
 TASK_PARSER = {'NF':{'MI': NFRO1.MI,
                      'SWR': NFRO1.SWR,
@@ -80,20 +81,21 @@ def parse_file(fname, fobj):
     #  GRANT_TASK_BEHAVID_SCANID_EXTRA
     parts = name.split('_')
     grant = parts[0]
-    info = parse_fname(grant, bname)        
+    info = parse_fname(grant, name)        
     parser = TASK_PARSER[grant][info['task']]
 
     #  Parse the file and write out a copy
     data = parser(fobj, copy_fname(info, name))
     to_redcap = {}
-    pre = rc_prefix(info)
-    for k, v in data.items():
-        to_redcap['%s_%s' % (pre, k)] = v
-    #  Fill out grant and id
-    to_redcap['grant'] = info['grant']
-    to_redcap['id'] = '%s_%s' % (info['behavid'], info['scanid'])
-    #  Fill out upload field
-    to_redcap[upload_key(info)] = 'yes'
+    if data:
+        pre = rc_prefix(info)
+        for k, v in data.items():
+            to_redcap['%s_%s' % (pre, k)] = v
+        #  Fill out grant and id
+        to_redcap['grant'] = info['grant']
+        to_redcap['id'] = '%s_%s' % (info['behavid'], info['scanid'])
+        #  Fill out upload field
+        to_redcap[upload_key(info)] = 'yes'
     return to_redcap
 
 # def upload(data):
