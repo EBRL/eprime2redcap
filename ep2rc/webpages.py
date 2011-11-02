@@ -25,7 +25,6 @@ render = web.template.render(temp_dir)
 available_rc = [p[0] for p in pname_keys]
 
 user = ''
-global info 
 info = {}
 
 available_grants = ['']
@@ -46,8 +45,8 @@ class Upload:
     def GET(self):
         global info
         key = core.upload_key(info)
-        p = rc.previous_upload(info['id'], key, info['database'])
-        return render.upload(p, info)
+        info['previous'] = rc.previous_upload(info['id'], key, info['database'])
+        return render.upload(info)
         
     def POST(self):
         x = web.input(myfile={})
