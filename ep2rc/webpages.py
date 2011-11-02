@@ -27,14 +27,19 @@ available_rc = [p[0] for p in pname_keys]
 user = ''
 info = {}
 
-available_grants = ['']
-available_grants.extend(core.GRANTS)
+grants = ['']
+grants.extend(core.GRANTS)
+tasks = ['']
+tasks.extend(core.TASKS)
+visits = ['']
+visits.extend(['Pre', 'Post'])
+
 subject_form = web.form.Form(
     web.form.Textbox('user', description="Your name", value=user),
     web.form.Textbox('id', description="Unique subject ID"),
-    web.form.Dropdown(name='grant', args=available_grants, value=''),
-    web.form.Textbox('task', description="Task"),
-    web.form.Textbox('visit', description="Visit"),
+    web.form.Dropdown(name='grant', args=grants, value=''),
+    web.form.Dropdown(name='task', args=tasks, value=''),
+    web.form.Dropdown(name='visit', args=visits, value=''),
     web.form.Textbox('list', description="List"),
     web.form.Radio('database', args=available_rc, value=''),
     web.form.Button('submit', type='submit', description="Go to upload page")
