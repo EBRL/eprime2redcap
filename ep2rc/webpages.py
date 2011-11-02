@@ -25,6 +25,7 @@ render = web.template.render(temp_dir)
 available_rc = [p[0] for p in pname_keys]
 
 user = ''
+global info 
 info = {}
 
 available_grants = ['']
@@ -43,8 +44,8 @@ fields = ('user', 'id', 'grant', 'task', 'visit', 'list', 'database')
 
 class Upload:
     def GET(self):
-        key = core.upload_key(info)
         global info
+        key = core.upload_key(info)
         p = rc.previous_upload(info['id'], key, info['database'])
         return render.upload(p, info)
         
@@ -71,6 +72,7 @@ class Index:
     
     def POST(self):
         f = subject_form()
+        global info
         if not f.validates():
             pass    
         else:
