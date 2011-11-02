@@ -15,6 +15,10 @@ import core
 import rc
 from config import user_pws
 from config import pname_keys
+
+from pdb import set_trace
+
+
 temp_dir = os.path.join(os.path.split(__file__)[0], 'templates')
 render = web.template.render(temp_dir)
 
@@ -40,13 +44,14 @@ fields = ('user', 'id', 'grant', 'task', 'visit', 'list', 'database')
 class Upload:
     def GET(self):
         key = core.upload_key(info)
-        p = rc.previous_upload(info['id'], key, info['database'])
-        return render.upload(p, info)
+        global info
+        info['previous'] = rc.previous_upload(info['id'], key, info['database'])
+        return render.upload(info)
         
     def POST(self):
         x = web.input(myfile={})
-        
-        #  Parse!
+        global info
+        #  Parse
         to_redcap = core.parse_file(x['myfile'].filename, x['myfile'].file)
         success = rc.upload(to_redcap, info['database'])
         res = 0
