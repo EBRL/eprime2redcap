@@ -26,7 +26,7 @@ GRANTS = ('NF',)
 
 
 all_tasks = []
-for _, tasks in GRANT_TASKS.items():
+for _, tasks in TASK_PARSER.items():
     all_tasks.extend(tasks.keys())
 TASKS = set(all_tasks)
 
