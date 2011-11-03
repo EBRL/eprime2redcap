@@ -78,12 +78,10 @@ def upload_key(info):
 def copy_fname(info, bname):
     _platform = os.uname()[0]
     if _platform == 'Linux':
-        new_dir = os.path.join('/', 'fs0', 'New_Server', info['grant'], 
-                            'In_Behavioral', '%s_%s' % (info['behavid'], info['scanid']))
+        prefix = os.path.join('/', 'fs0', 'New_Server')
     else:
-        new_dir = os.path.join(os.path.expanduser('~'), 'Code', 'eprime2redcap',
-                                'New_Server', info['grant'], 'In_Behavioral', 
-                                '%s_%s' % (info['behavid'], info['scanid']))
+        prefix = os.path.join(os.path.expanduser('~'), 'Code', 'eprime2redcap')
+    new_dir = os.path.join(prefix, grant, behav, '%s_%s' % (info['behavid'], info['scanid']))
     # Make dirs if necessary
     if not os.path.isdir(new_dir):
         os.makedirs(new_dir)
