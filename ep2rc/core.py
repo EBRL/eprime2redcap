@@ -15,6 +15,15 @@ TASK_PARSER = {'NF':{'MI': NFRO1.MI,
                      'SWR': NFRO1.SWR,
                      'PIC': NFRO1.PIC,
                       'REP': NFRO1.REP}}
+TASK_PARSER = {'NF': {'MI': NFRO1.MI,
+                      'SWR': NFRO1.SWR,
+                      'PIC': NFRO1.PIC,
+                      'REP': NFRO1.REP},
+               'NFB': {'MR': NFB.MR,
+                       'FIG': NFB.FIG,
+                       'MI': NFB.MI,
+                       'OLSON': NFB.OLSON,
+                       'SENT': NFB.SENT}}
 #  This maps grants/tasks to the correct redcap prefix
 GRANT_TASKS = {'NF': {'MI': 'mi1',
                       'SWR': 'swr1',
