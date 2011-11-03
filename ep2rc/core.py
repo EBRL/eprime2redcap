@@ -104,9 +104,3 @@ def parse_file(fname, fobj):
         to_redcap[upload_key(info)] = 'yes'
     return to_redcap
 
-# def upload(data):
-#     success = rc.upload(data)
-#     if not success:
-#         from pprint import pprint
-#         print("Failed to upload to redcap. See below for data for manual entry.")
-#         pprint(data)
