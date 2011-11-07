@@ -6,19 +6,17 @@ __license__ = 'BSD 3-Clause'
 
 import os
 
+from pdb import set_trace
 #  import other grants here
-import NFRO1
+import NF
+import NFB
 
 
 #  This maps grants/tasks to the correct parser
-TASK_PARSER = {'NF':{'MI': NFRO1.MI,
-                     'SWR': NFRO1.SWR,
-                     'PIC': NFRO1.PIC,
-                      'REP': NFRO1.REP}}
-TASK_PARSER = {'NF': {'MI': NFRO1.MI,
-                      'SWR': NFRO1.SWR,
-                      'PIC': NFRO1.PIC,
-                      'REP': NFRO1.REP},
+TASK_PARSER = {'NF': {'MI': NF.MI,
+                      'SWR': NF.SWR,
+                      'PIC': NF.PIC,
+                      'REP': NF.REP},
                'NFB': {'MR': NFB.MR,
                        'FIG': NFB.FIG,
                        'MI': NFB.MI,
