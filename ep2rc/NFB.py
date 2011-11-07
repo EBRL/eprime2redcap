@@ -34,7 +34,7 @@ def MR(fobj, new_fname):
     #  Correct
     results['mrtXltc'] = D_FMT % len(corr)
     #  Correct pct
-    results['mrtXltcp'] = F_FMT % (float(len(corr)) / len(dl)) * 100
+    results['mrtXltcp'] = F_FMT % ((float(len(corr)) / len(dl)) * 100)
     
     #  RT
     all_rt = np.array([float(x['stim.RT']) for x in dl])
@@ -57,12 +57,12 @@ def MI(fobj, new_fname):
     corr = filter(lambda x: x['Correct'] == x['stim.RESP'], trials)
     results['mitXtc'] = D_FMT % len(corr)
     #  correct pct
-    results['mitXtcp'] = F_FMT % (float(len(corr)) / len(trials)) * 100
+    results['mitXtcp'] = F_FMT % ((float(len(corr)) / len(trials)) * 100)
     
     #  RT
     all_rt = np.array([float(x['stim.RT']) for x in trials])
     results['mitXmrt'] = F_FMT % np.mean(all_rt)
-    results['mitXsdrt'] = FZ_FMT % np.sd(all_rt)
+    results['mitXsdrt'] = FZ_FMT % np.std(all_rt)
     
     return results
 
@@ -79,7 +79,7 @@ def OLSON(fobj, new_fname):
     #  Correct
     corr = filter(corrf, trials)
     results['otXtc'] = D_FMT % len(corr)
-    results['otXtcp'] = F_FMT % (float(len(corr)) / len(trials)) * 100
+    results['otXtcp'] = F_FMT % ((float(len(corr)) / len(trials)) * 100)
     
     corr_rt = np.array([float(x['stim.RT']) for x in corr])
     #  Correct mean RT
@@ -105,7 +105,7 @@ def FIG(fobj, new_fname):
     corr = filter(lambda x: x['stim.RESP'] == x['Correct'], dl)
     #  Correct
     results['mrtXbtc'] = D_FMT % len(corr)
-    results['mrtXbtcp'] = F_FMT % (float(len(corr)) / len(trials)) * 100
+    results['mrtXbtcp'] = F_FMT % ((float(len(corr)) / len(dl)) * 100)
     
     all_rt = np.array([float(x['stim.RT']) for x in dl])
     results['mrtXbmrt'] = F_FMT % np.mean(all_rt)
