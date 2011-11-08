@@ -51,7 +51,7 @@ def MI(fobj, new_fname):
     results = {}
 
     #  This is static
-    results['mitXtt'] = 'new'
+    results['mitXtt'] = '2'
     
     #  correct
     corr = filter(lambda x: x['Correct'] == x['stim.RESP'], trials)
@@ -66,7 +66,6 @@ def MI(fobj, new_fname):
     
     return results
 
-
 def OLSON(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
     
@@ -79,7 +78,8 @@ def OLSON(fobj, new_fname):
     #  Correct
     corr = filter(corrf, trials)
     results['otXtc'] = D_FMT % len(corr)
-    results['otXtcp'] = F_FMT % ((float(len(corr)) / len(trials)) * 100)
+    #  Don't need total percentage
+    #  results['otXtcp'] = F_FMT % ((float(len(corr)) / len(trials)) * 100)
     
     corr_rt = np.array([float(x['stim.RT']) for x in corr])
     #  Correct mean RT
@@ -96,7 +96,6 @@ def OLSON(fobj, new_fname):
     
     return results
 
-
 def FIG(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
     
@@ -112,12 +111,82 @@ def FIG(fobj, new_fname):
     results['mrtXbsdrt'] = FZ_FMT % np.std(all_rt)
     
     return results
-    
-    
+
+def adjust(mean, sd, rt, thresh=2.5):
+    upper = mean + sd * thresh
+    lower = mean - sd * thresh
+    if rt > upper:
+        return upper
+    elif rt < lower:
+        return lower
+    else:
+        return rt
+
 def SENT(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
     
+    trials = filter(lambda x: x['Running'] == 'Task', dl)
+    all_responses = filter(lambda x: x['DecisionScreen'] == '1', trials)
+    ss_responses = filter(lambda x: x['Type'] == 'SubjectSubject', all_responses)
+    so_responses = filter(lambda x: x['Type'] == 'SubjectObject', all_responses)
+
     results = {}
     
+    #  Do SS responses first
+    ss_cor = 0
+    corr_f = lambda x: (x['CorrectAnswer'] == '5' and x['Response.RESP'] == 'f') or (x['CorrectAnswer'] == '1' and x['Response.RESP'] == 't')
+    curr_f = lambda x: x['Response.RTTime'] == prev['Response.RTTime'] and x['DecisionScreen'] != '1'
+    for i, resp_trial in enumerate(ss_responses):
+        #  Find the previous trial
+        prev = trials[trials.index(resp_trial)-1]
+        #  The current trials are trials that match prev's Response.RTTime and resp_trial
+        curr_trials = filter(curr_f, trials) + [resp_trial]
+        curr_rt = np.array([float(x['Target.RT']) for x in curr_trials])
+        mrt = np.mean(curr_rt)
+        rtsd = np.std(curr_rt, ddof=1)
+        #  Adjust
+        adj_rt = np.array([adjust(mrt, rtsd, x) for x in curr_rt])
+        adj_mean = np.mean(adj_rt)
+        adj_sd = np.std(adj_rt, ddof=1)
+        if adj_mean != mrt:
+            rt = adj_mean
+            sd = adj_sd
+        else:
+            rt = mrt
+            sd = rtsd
+        results['sctss%02dmrt' % (i+1)] = F_FMT % rt
+        results['sctss%02dsd' % (i+1)] = F_FMT % sd
+        if corr_f(resp_trial):
+            ss_cor += 1
+    results['sctsstc'] = D_FMT % ss_cor
     
+    # Now do SO responses
+    so_cor = 0
+    for i, resp_trial in enumerate(so_responses):
+        #  Find the previous trial
+        prev = trials[trials.index(resp_trial)-1]
+        #  The current trials are trials that match prev's Response.RTTime and resp_trial
+        curr_trials = filter(curr_f, trials) + [resp_trial]
+        curr_rt = np.array([float(x['Target.RT']) for x in curr_trials])
+        mrt = np.mean(curr_rt)
+        rtsd = np.std(curr_rt, ddof=1)
+        #  Adjust
+        adj_rt = np.array([adjust(mrt, rtsd, x) for x in curr_rt])
+        adj_mean = np.mean(adj_rt)
+        adj_sd = np.std(adj_rt, ddof=1)
+        if adj_mean != mrt:
+            rt = adj_mean
+            sd = adj_sd
+        else:
+            rt = mrt
+            sd = rtsd
+        results['sctso%dmean' % (i+1)] = F_FMT % rt
+        results['sctso%dsd' % (i+1)] = F_FMT % sd
+        if corr_f(resp_trial):
+            so_cor += 1
+    results['sctsotc'] = D_FMT % so_cor
+    
+    # overall
+    results['sctoc'] = D_FMT % (so_cor + ss_cor)
+            
     return results
