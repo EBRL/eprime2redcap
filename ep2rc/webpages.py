@@ -50,7 +50,10 @@ class Upload:
     def GET(self):
         global info
         key = core.upload_key(info)
-        info['previous'] = rc.previous_upload(info['id'], key, info['database'])
+        if key:
+            info['previous'] = rc.previous_upload(info['id'], key, info['database'])
+        else:
+            info['previous'] = False
         return render.upload(info)
         
     def POST(self):
