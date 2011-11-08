@@ -65,7 +65,6 @@ def parse_fname(grant, fname):
 
 def rc_prefix(info):
     pre = ''
-    set_trace()
     if info['grant'] == 'NF':
         t = info['task']
         rc_task = GRANT_TASKS['NF'][t]
