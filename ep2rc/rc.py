@@ -30,6 +30,7 @@ def upload(to_upload, pname='in-magnet'):
         False on failure
     """
     data = [to_upload]
+    pname = pname.lower()
     num_uploaded = projects[pname].import_records(data)
     if num_uploaded != len(data):
         print("Upload failed")
