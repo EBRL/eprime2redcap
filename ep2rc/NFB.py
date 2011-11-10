@@ -90,9 +90,9 @@ def OLSON(fobj, new_fname):
     incorr = filter(incorrf, trials)
     incorr_rt = np.array([float(x['stim.RT']) for x in incorr])
     #  Incorrect mean RT
-    results['otXimrt'] = F_FMT % np.mean(corr_rt)
+    results['otXimrt'] = F_FMT % np.mean(incorr_rt)
     #  Incorrect mean RT SD
-    results['otXisdrt'] = FZ_FMT % np.std(corr_rt)
+    results['otXisdrt'] = FZ_FMT % np.std(incorr_rt)
     
     return results
 
