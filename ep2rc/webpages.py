@@ -24,8 +24,6 @@ render = web.template.render(temp_dir)
 
 available_rc = [p[0] for p in pname_keys]
 
-user = ''
-
 grants = ['']
 grants.extend(core.GRANTS)
 tasks = ['']
@@ -34,7 +32,7 @@ visits = ['']
 visits.extend(['Pre', 'Post'])
 
 subject_form = web.form.Form(
-    web.form.Textbox('user', description="Your name", value=user),
+    web.form.Textbox('user', description="Your name"),
     web.form.Textbox('id', description="Unique subject ID"),
     web.form.Dropdown(name='grant', args=grants, value=''),
     web.form.Dropdown(name='task', args=tasks, value=''),

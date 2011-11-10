@@ -19,8 +19,6 @@ urls = (
     '/upload/(.*)', 'Upload'
 )
 
-app = web.application(urls, globals())
-
-
 if (not is_test()) and __name__=='__main__':
+    app = web.application(urls, globals())
     app.run()
