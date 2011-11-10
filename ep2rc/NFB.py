@@ -39,7 +39,7 @@ def MR(fobj, new_fname):
     #  RT
     all_rt = np.array([float(x['stim.RT']) for x in dl])
     results['mrtXlmrt'] = F_FMT % np.mean(all_rt)
-    results['mrtXlsdrt'] = FZ_FMT % np.std(all_rt)
+    results['mrtXlsdrt'] = FZ_FMT % np.std(all_rt, ddof=1)
     
     return results
     
@@ -62,7 +62,7 @@ def MI(fobj, new_fname):
     #  RT
     all_rt = np.array([float(x['stim.RT']) for x in trials])
     results['mitXmrt'] = F_FMT % np.mean(all_rt)
-    results['mitXsdrt'] = FZ_FMT % np.std(all_rt)
+    results['mitXsdrt'] = FZ_FMT % np.std(all_rt, ddof=1)
     
     return results
 
@@ -74,7 +74,7 @@ def OLSON(fobj, new_fname):
     trials = filter(lambda x: x['runList'] == 'Olsen', dl)
     
     corrf = lambda x: (x['stim.RESP'] == 'a' and x['correct'] == '1') or (x['stim.RESP'] == 'l' and x['correct'] == '2')
-    incorrf = lambda x: (x['stim.RESP'] == 'a' and x['correct'] != '1') or (x['stim.RESP'] == 'l' and x['correct'] != '2')
+    incorrf = lambda x: (x['stim.RESP'] == 'a' and x['correct'] != '1') or (x['stim.RESP'] == 'l' and x['correct'] != '2') or (x['stim.RESP'] not in ('l', 'a'))
     #  Correct
     corr = filter(corrf, trials)
     results['otXtc'] = D_FMT % len(corr)
@@ -85,14 +85,14 @@ def OLSON(fobj, new_fname):
     #  Correct mean RT
     results['otXcmrt'] = F_FMT % np.mean(corr_rt)
     #  Correct mean RT SD
-    results['otXcsdrt'] = FZ_FMT % np.std(corr_rt)
+    results['otXcsdrt'] = FZ_FMT % np.std(corr_rt, ddof=1)
     
     incorr = filter(incorrf, trials)
     incorr_rt = np.array([float(x['stim.RT']) for x in incorr])
     #  Incorrect mean RT
     results['otXimrt'] = F_FMT % np.mean(incorr_rt)
     #  Incorrect mean RT SD
-    results['otXisdrt'] = FZ_FMT % np.std(incorr_rt)
+    results['otXisdrt'] = FZ_FMT % np.std(incorr_rt, ddof=1)
     
     return results
 
@@ -108,7 +108,7 @@ def FIG(fobj, new_fname):
     
     all_rt = np.array([float(x['stim.RT']) for x in dl])
     results['mrtXbmrt'] = F_FMT % np.mean(all_rt)
-    results['mrtXbsdrt'] = FZ_FMT % np.std(all_rt)
+    results['mrtXbsdrt'] = FZ_FMT % np.std(all_rt, ddof=1)
     
     return results
 
