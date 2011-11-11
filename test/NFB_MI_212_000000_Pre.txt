@@ -1,0 +1,69 @@
+ExperimentName	Subject	Session	Display.RefreshRate	Group	RandomSeed	SessionDate	SessionTime	Block	Cnt	List1	List1.Cycle	List1.Sample	List2	List2.Cycle	List2.Sample	MasterList	MasterList.Cycle	MasterList.Sample	Procedure[Block]	runList	Running[Block]	Trial	Blocks	Blocks.Cycle	Blocks.Sample	Correct	Imagery	Prac1	Prac2	Procedure[Trial]	Running[Trial]	stim.RESP	stim.RT	text1	text2
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	1	1	2	1	1	.	1	.	disp	Blocks	1	2936	1x.bmp	1.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	2	1	3	2	1	.	2	.	disp	Blocks	2	3225	6x.bmp	4.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	3	1	4	3	2	.	3	.	disp	Blocks	2	3225	4x.bmp	1.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	4	1	5	4	1	.	4	.	disp	Blocks		0	1x.bmp	4.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	5	1	6	5	1	.	5	.	disp	Blocks	2	3349	9x.bmp	1.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	6	1	7	6	2	.	6	.	disp	Blocks	2	2537	2x.bmp	4.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	7	1	8	7	2	.	7	.	disp	Blocks		0	3x.bmp	1.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	1	8	1	1	1	.	.	.	.	.	.	master	Prac1	List1	8	1	9	8	2	.	8	.	disp	Blocks	2	3237	7x.bmp	4.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	1	1	11	9	1	.	.	1	disp	Blocks	1	2201	1x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	2	1	12	10	2	.	.	2	disp	Blocks	2	1337	2x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	3	1	13	11	1	.	.	3	disp	Blocks	1	2713	7x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	4	1	14	12	2	.	.	4	disp	Blocks	2	3177	6x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	5	1	15	13	1	.	.	5	disp	Blocks	1	3033	8x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	6	1	16	14	2	.	.	6	disp	Blocks	2	1801	4x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	7	1	17	15	1	.	.	7	disp	Blocks	1	2217	4x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	8	1	18	16	2	.	.	8	disp	Blocks		0	8x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	9	1	19	17	1	.	.	9	disp	Blocks	1	1820	3x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	2	10	.	.	.	1	1	1	.	.	.	master	Prac2	List2	10	1	20	18	2	.	.	10	disp	Blocks	2	2025	5x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	1	1	22	19	1	1	.	.	disp	Blocks	1	2185	1x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	2	1	23	20	2	2	.	.	disp	Blocks	2	1961	2x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	3	1	24	21	1	3	.	.	disp	Blocks	1	2441	5x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	4	1	25	22	2	4	.	.	disp	Blocks	2	1449	4x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	5	1	26	23	1	5	.	.	disp	Blocks	1	1865	1x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	6	1	27	24	2	6	.	.	disp	Blocks	2	1785	3x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	7	1	28	25	1	7	.	.	disp	Blocks	1	1801	9x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	8	1	29	26	2	8	.	.	disp	Blocks	2	3065	2x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	9	1	30	27	1	9	.	.	disp	Blocks	1	2200	5x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	10	1	31	28	1	10	.	.	disp	Blocks	1	1673	1x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	11	1	32	29	1	11	.	.	disp	Blocks	1	1753	2x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	12	1	33	30	1	12	.	.	disp	Blocks		0	4x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	13	1	34	31	2	13	.	.	disp	Blocks	1	2205	2x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	14	1	35	32	1	14	.	.	disp	Blocks	1	1737	7x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	15	1	36	33	2	15	.	.	disp	Blocks	2	1625	4x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	16	1	37	34	1	16	.	.	disp	Blocks	1	1577	1x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	17	1	38	35	1	17	.	.	disp	Blocks	1	841	7x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	18	1	39	36	1	18	.	.	disp	Blocks	1	1833	2x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	19	1	40	37	2	19	.	.	disp	Blocks	2	1881	6x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	20	1	41	38	2	20	.	.	disp	Blocks	2	2168	8x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	21	1	42	39	1	21	.	.	disp	Blocks	1	1816	4x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	22	1	43	40	2	22	.	.	disp	Blocks	2	1080	5x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	23	1	44	41	1	23	.	.	disp	Blocks	1	3049	8x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	24	1	45	42	2	24	.	.	disp	Blocks	2	2617	2x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	25	1	46	43	2	25	.	.	disp	Blocks	2	1193	6x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	26	1	47	44	1	26	.	.	disp	Blocks	2	1417	3x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	27	1	48	45	1	27	.	.	disp	Blocks	1	2409	8x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	28	1	49	46	2	28	.	.	disp	Blocks	2	1401	6x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	29	1	50	47	1	29	.	.	disp	Blocks		0	3x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	30	1	51	48	1	30	.	.	disp	Blocks	1	3261	7x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	31	1	52	49	2	31	.	.	disp	Blocks	2	889	6x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	32	1	53	50	1	32	.	.	disp	Blocks	1	3336	3x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	33	1	54	51	2	33	.	.	disp	Blocks	2	1160	7x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	34	1	55	52	1	34	.	.	disp	Blocks		0	5x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	35	1	56	53	1	35	.	.	disp	Blocks	1	1668	7x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	36	1	57	54	1	36	.	.	disp	Blocks	2	2057	6x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	37	1	58	55	1	37	.	.	disp	Blocks	1	2729	6x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	38	1	59	56	2	38	.	.	disp	Blocks	2	1305	5x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	39	1	60	57	2	39	.	.	disp	Blocks	2	2825	4x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	40	1	61	58	1	40	.	.	disp	Blocks	2	2137	3x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	41	1	62	59	2	41	.	.	disp	Blocks	2	1385	9x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	42	1	63	60	1	42	.	.	disp	Blocks	1	2297	8x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	43	1	64	61	1	43	.	.	disp	Blocks		0	7x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	44	1	65	62	2	44	.	.	disp	Blocks	1	1540	5x.bmp	NewL.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	45	1	66	63	2	45	.	.	disp	Blocks	2	1128	2x.bmp	U.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	46	1	67	64	1	46	.	.	disp	Blocks	1	1353	2x.bmp	T.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	47	1	68	65	1	47	.	.	disp	Blocks	2	1353	9x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	48	1	69	66	1	48	.	.	disp	Blocks	1	1641	8x.bmp	I.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	49	1	70	67	2	49	.	.	disp	Blocks		0	8x.bmp	NewH.bmp@
+Mental Imagery Task Revised	212	1	0.000	1	270432623	10-28-2011	12:51:21	3	50	.	.	.	.	.	.	1	1	1	master	Imagery	MasterList	50	1	71	68	1	50	.	.	disp	Blocks	1	1989	9x.bmp	NewL.bmp@

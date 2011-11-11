@@ -1,0 +1,21 @@
+ExperimentName	Subject	Session	Display.RefreshRate	Group	RandomSeed	SessionDate	SessionTime	Block	Cnt	MasterList	MasterList.Cycle	MasterList.Sample	Procedure[Block]	runList	Running[Block]	Trial	Blocks	Blocks.Cycle	Blocks.Sample	Correct	Procedure[Trial]	Rotation	Running[Trial]	stim.RESP	stim.RT	text1
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	1	1	2	1	1	disp	1	Blocks	2	2491	slide12.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	2	1	3	2	2	disp	2	Blocks	2	3386	slide13.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	3	1	4	3	3	disp	3	Blocks		0	slide14.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	4	1	5	4	3	disp	4	Blocks	1	5792	slide15.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	5	1	6	5	2	disp	5	Blocks	3	3361	slide16.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	6	1	7	6	1	disp	6	Blocks	2	2271	slide17.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	7	1	8	7	3	disp	7	Blocks	1	3392	slide18.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	8	1	9	8	2	disp	8	Blocks	1	5183	slide19.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	9	1	10	9	2	disp	9	Blocks	2	5104	slide20.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	10	1	11	10	1	disp	10	Blocks	1	5455	slide21.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	11	1	12	11	2	disp	11	Blocks	2	6450	slide22.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	12	1	13	12	1	disp	12	Blocks	3	6315	slide23.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	13	1	14	13	2	disp	13	Blocks	3	4330	slide24.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	14	1	15	14	2	disp	14	Blocks	2	720	slide25.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	15	1	16	15	3	disp	15	Blocks	1	4748	slide26.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	16	1	17	16	3	disp	16	Blocks	2	6612	slide27.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	17	1	18	17	2	disp	17	Blocks	2	5787	slide28.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	18	1	19	18	3	disp	18	Blocks	1	2947	slide29.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	19	1	20	19	1	disp	19	Blocks	1	7880	slide30.bmp@
+Figure Rotation Task	212	2	0.000	1	669513877	11-02-2011	10:50:59	1	20	1	1	1	master	Rotation	MasterList	20	1	21	20	3	disp	20	Blocks	1	8554	slide31.bmp@

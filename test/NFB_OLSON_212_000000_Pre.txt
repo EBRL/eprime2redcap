@@ -1,0 +1,89 @@
+ExperimentName	Subject	Session	Display.RefreshRate	Group	RandomSeed	SessionDate	SessionTime	Block	Cnt	font	MasterList	MasterList.Cycle	MasterList.Sample	Procedure[Block]	runList	Running[Block]	Trial	Blocks	Blocks.Cycle	Blocks.Sample	correct	Olsen	OlsenPrac	Procedure[Trial]	Running[Trial]	SRBox	stim.OnsetTime	stim.RESP	stim.RT	stim.RTTime	text1	text2
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	1	1	2	1	2	.	1	disp	Blocks	7	36865		0	0	rume	room@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	2	1	3	2	2	.	2	disp	Blocks	6	41862	l	120	41982	boal	bowl@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	3	1	4	3	1	.	3	disp	Blocks	6	41986	a	1116	43102	young	yung@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	4	1	5	4	1	.	4	disp	Blocks	7	43105	l	4733	47838	clown	cloun@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	5	1	6	5	2	.	5	disp	Blocks	7	47842	a	716	48558	tertle	turtle@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	6	1	7	6	1	.	6	disp	Blocks	6	48561		0	0	circus	sircus@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	7	1	8	7	2	.	7	disp	Blocks	7	53557		0	0	snoe	snow@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	1	8	32	1	1	1	master	OlsenPrac	MasterList	8	1	9	8	2	.	8	disp	Blocks	6	58557		0	0	wroat	wrote@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	1	1	11	9	1	1	.	disp	Blocks	.	63713		0	0	take	taik@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	2	1	12	10	2	2	.	disp	Blocks	.	68709		0	0	wurd	word@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	3	1	13	11	2	3	.	disp	Blocks	.	73709		0	0	gote	goat@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	4	1	14	12	1	4	.	disp	Blocks	.	78709	l	4185	82894	coat	cote@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	5	1	15	13	2	5	.	disp	Blocks	.	82897	a	45	82942	pleese	please@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	6	1	16	14	1	6	.	disp	Blocks	.	82945	l	3757	86702	rain	rane@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	7	1	17	15	2	7	.	disp	Blocks	.	86705	l	2734	89439	sleap	sleep@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	8	1	18	16	1	8	.	disp	Blocks	.	89442	l	4028	93470	store	stoar@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	9	1	19	17	2	9	.	disp	Blocks	.	93473	a	1612	95085	streat	street@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	10	1	20	18	1	10	.	disp	Blocks	.	95089	l	492	95581	wagon	wagun@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	11	1	21	19	2	11	.	disp	Blocks	.	95585	a	2492	98077	anser	answer@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	12	1	22	20	1	12	.	disp	Blocks	.	98081	a	1244	99325	believe	beleave@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	13	1	23	21	1	13	.	disp	Blocks	.	99329	l	4188	103517	between	betwean@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	14	1	24	22	1	14	.	disp	Blocks	.	103520	a	77	103597	choose	chooze@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	15	1	25	23	2	15	.	disp	Blocks	.	103600		0	0	deap	deep@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	16	1	26	24	2	16	.	disp	Blocks	.	108596	l	2697	111293	dreem	dream@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	17	1	27	25	1	17	.	disp	Blocks	.	111296	a	29	111325	easy	eazy@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	18	1	28	26	2	18	.	disp	Blocks	.	111328		0	0	evry	every@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	19	1	29	27	1	19	.	disp	Blocks	.	116324	l	2521	118845	face	fase@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	20	1	30	28	2	20	.	disp	Blocks	.	118848	a	381	119229	fue	few@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	21	1	31	29	2	21	.	disp	Blocks	.	119232		0	0	hevvy	heavy@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	22	1	32	30	2	22	.	disp	Blocks	.	124228		0	0	hoal	hole@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	23	1	33	31	2	23	.	disp	Blocks	.	129228	l	1697	130925	hert	hurt@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	24	1	34	32	1	24	.	disp	Blocks	.	130928	a	525	131453	keep	keap@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	25	1	35	33	1	25	.	disp	Blocks	.	131456		0	0	lake	laik@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	26	1	36	34	2	26	.	disp	Blocks	.	136452		0	0	lurn	learn@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	27	1	37	35	1	27	.	disp	Blocks	.	141452		0	0	need	nead@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	28	1	38	36	1	28	.	disp	Blocks	.	146452	l	3737	150189	nice	nise@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	29	1	39	37	1	29	.	disp	Blocks	.	150191		0	0	roar	rore@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	30	1	40	38	1	30	.	disp	Blocks	.	155188		0	0	scare	scair@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	31	1	41	39	1	31	.	disp	Blocks	.	160188		0	0	sheep	sheap@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	32	1	42	40	2	32	.	disp	Blocks	.	165188		0	0	skait	skate@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	33	1	43	41	1	33	.	disp	Blocks	.	170188		0	0	smoke	smoak@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	34	1	44	42	2	34	.	disp	Blocks	.	175188	l	4008	179196	streem	stream@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	35	1	45	43	2	35	.	disp	Blocks	.	179199		0	0	taip	tape@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	36	1	46	44	2	36	.	disp	Blocks	.	184195		0	0	thum	thumb@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	37	1	47	45	1	37	.	disp	Blocks	.	189195		0	0	toward	toard@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	38	1	48	46	1	38	.	disp	Blocks	.	194195	l	4025	198220	true	trew@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	39	1	49	47	1	39	.	disp	Blocks	.	198223	a	317	198540	wait	wate@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	40	1	50	48	2	40	.	disp	Blocks	.	198543		0	0	wize	wise@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	41	1	51	49	2	41	.	disp	Blocks	.	203539		0	0	sammon	salmon@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	42	1	52	50	2	42	.	disp	Blocks	.	208539		0	0	nostrels	nostrils@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	43	1	53	51	1	43	.	disp	Blocks	.	213539	l	4376	217915	fought	faught@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	44	1	54	52	1	44	.	disp	Blocks	.	217918	a	189	218107	ghost	goast@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	45	1	55	53	2	45	.	disp	Blocks	.	218110		0	0	grone	grown@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	46	1	56	54	1	46	.	disp	Blocks	.	223106	l	57	223163	perched	purched@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	47	1	57	55	2	47	.	disp	Blocks	.	223166		0	0	wheet	wheat@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	48	1	58	56	2	48	.	disp	Blocks	.	228162	a	4281	232443	mussle	muscle@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	49	1	59	57	1	49	.	disp	Blocks	.	232446	l	45	232491	trousers	trowsers@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	50	1	60	58	2	50	.	disp	Blocks	.	232494		0	0	alternitive	alternative@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	51	1	61	59	2	51	.	disp	Blocks	.	237490		0	0	condence	condense@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	52	1	62	60	1	52	.	disp	Blocks	.	242490	l	2177	244667	compliment	complimant@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	53	1	63	61	2	53	.	disp	Blocks	.	244670	a	637	245307	dignaty	dignity@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	54	1	64	62	1	54	.	disp	Blocks	.	245311	l	4620	249931	pavement	pavemant@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	55	1	65	63	2	55	.	disp	Blocks	.	249934	l	4397	254331	nusance	nuisance@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	56	1	66	64	1	56	.	disp	Blocks	.	254334	a	701	255035	resource	resourse@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	57	1	67	65	2	57	.	disp	Blocks	.	255038	l	2637	257675	travle	travel@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	58	1	68	66	1	58	.	disp	Blocks	.	257678	a	461	258139	study	studdy@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	59	1	69	67	2	59	.	disp	Blocks	.	258142		0	0	baisment	basement@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	60	1	70	68	1	60	.	disp	Blocks	.	263138	l	3337	266475	assure	ashure@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	61	1	71	69	1	61	.	disp	Blocks	.	266478		0	0	captain	captin@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	62	1	72	70	1	62	.	disp	Blocks	.	271474		0	0	engine	enjine@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	63	1	73	71	2	63	.	disp	Blocks	.	276474	l	17	276491	mysterey	mystery@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	64	1	74	72	2	64	.	disp	Blocks	.	276494		0	0	exsample	example@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	65	1	75	73	1	65	.	disp	Blocks	.	281490		0	0	several	sevral@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	66	1	76	74	2	66	.	disp	Blocks	.	286490		0	0	distence	distance@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	67	1	77	75	1	67	.	disp	Blocks	.	291490		0	0	sudden	suddin@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	68	1	78	76	2	68	.	disp	Blocks	.	296490	l	2240	298730	importent	important@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	69	1	79	77	2	69	.	disp	Blocks	.	298733	l	3565	302298	backwords	backwards@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	70	1	80	78	2	70	.	disp	Blocks	.	302301	a	1053	303354	explane	explain@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	71	1	81	79	2	71	.	disp	Blocks	.	303357		0	0	senaters	senators@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	72	1	82	80	1	72	.	disp	Blocks	.	308353		0	0	interesting	intresting@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	73	1	83	81	1	73	.	disp	Blocks	.	313353		0	0	demon	deamon@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	74	1	84	82	2	74	.	disp	Blocks	.	318353	l	3529	321882	harth	hearth@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	75	1	85	83	1	75	.	disp	Blocks	.	321885	a	2413	324298	wreath	reath@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	76	1	86	84	1	76	.	disp	Blocks	.	324301		0	0	applause	aplause@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	77	1	87	85	1	77	.	disp	Blocks	.	329297	l	4121	333418	salad	sallad@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	78	1	88	86	1	78	.	disp	Blocks	.	333421	a	1996	335417	sensitive	sensative@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	79	1	89	87	1	79	.	disp	Blocks	.	335421		0	0	liberty	libberty@
+Olson	212	1	0.000	1	1577707987	10-28-2011	12:37:34	2	80	32	2	1	2	master	Olsen	MasterList	80	1	90	88	2	80	.	disp	Blocks	.	340417		0	0	culpret	culprit@
