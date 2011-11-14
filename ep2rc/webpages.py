@@ -11,18 +11,15 @@ import re
 import base64
 
 
-import core
-import rc
-from config import user_pws
-from config import pname_keys
-
-from pdb import set_trace
-
+from . import core
+from . import rc
+from . import config
+from . import config
 
 temp_dir = os.path.join(os.path.split(__file__)[0], 'templates')
 render = web.template.render(temp_dir)
 
-available_rc = [p[0] for p in pname_keys]
+available_rc = [p[0] for p in config.pname_keys]
 
 grants = ['']
 grants.extend(core.GRANTS)
@@ -43,24 +40,29 @@ subject_form = web.form.Form(
 )
 fields = ('user', 'id', 'grant', 'task', 'visit', 'list', 'database')
 
+db = None
+
 class Upload:
     def GET(self, *args):
         data = web.input()
+        global db
+        db = data.database
         info = {}
         for f in fields:
             info[f] = getattr(data, f)
         key = core.upload_key(info)
         if key:
-            info['previous'] = rc.previous_upload(info['id'], key, info['database'])
+            info['previous'] = rc.previous_upload(data.id, key, data.database)
         else:
             info['previous'] = False
         return render.upload(info)
         
-    def POST(self):
+    def POST(self, *args):
         x = web.input(myfile={})
+        global db
         #  Parse
         to_redcap = core.parse_file(x['myfile'].filename, x['myfile'].file)
-        success = rc.upload(to_redcap, info['database'])
+        success = rc.upload(to_redcap, db)
         res = 0
         if success:
             res = 1
@@ -95,7 +97,7 @@ class Login:
         else:
             auth = re.sub('^Basic ','',auth)
             username,password = base64.decodestring(auth).split(':')
-            if (username,password) in user_pws:
+            if (username,password) in config.user_pws:
                 user = username
                 raise web.seeother('/')
             else:

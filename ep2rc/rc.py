@@ -16,7 +16,7 @@ for pname, key in pname_keys:
 
 
 def upload(to_upload, pname='in-magnet'):
-    """ Upload a dictionary to the In-Magnet database 
+    """ Upload a dictionary to a Redcap database
     
     Parameters
     ----------

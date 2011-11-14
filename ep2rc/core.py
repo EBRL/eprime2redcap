@@ -7,39 +7,22 @@ __license__ = 'BSD 3-Clause'
 import os
 
 from pdb import set_trace
-#  import other grants here
-import NF
-import NFB
 import projects
 
 #  This maps grants/tasks to the correct parser
-TASK_PARSER = {'NF': {'MI': NF.MI,
-                      'SWR': NF.SWR,
-                      'PIC': NF.PIC,
-                      'REP': NF.REP},
-               'NFB': {'MR': NFB.MR,
-                       'FIG': NFB.FIG,
-                       'MI': NFB.MI,
-                       'OLSON': NFB.OLSON,
-                       'SENT': NFB.SENT}}
+TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT')
 PROJECT_CLASS = {'NF': projects.NF, 'NFB': projects.NFB}
 
-#  This maps grants/tasks to the correct redcap prefix
-GRANT_TASKS = {'NF': {'MI': 'mi1',
-                      'SWR': 'swr1',
-                      'PIC': 'pic1',
-                      'REP': 'rep1'}}
-
-RC_UNKEY = {'in-magnet': 'id',
-            'NF': 'studyid'}
-#  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS
+#  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS PROJECT_CLASS
 GRANTS = ('NF', 'NFB')
 
 
-all_tasks = []
-for _, tasks in TASK_PARSER.items():
-    all_tasks.extend(tasks.keys())
-TASKS = set(all_tasks)
+def upload_key(info):
+    fields = ('grant', 'task', 'id', 'visit', 'list')
+    good_fields = [f for f in fields if f in info]
+    fname = '_'.join([info.get(f) for f in good_fields]) + '.txt'
+    proj = class_from_projstr(info['grant'])(fname, None, database=info['database'])
+    return proj.upload_key()
 
 def class_from_projstr(proj_str):
     return PROJECT_CLASS[proj_str]
