@@ -41,13 +41,16 @@ for _, tasks in TASK_PARSER.items():
     all_tasks.extend(tasks.keys())
 TASKS = set(all_tasks)
 
-    
+def class_from_projstr(proj_str):
+    return PROJECT_CLASS[proj_str]
+
 def parse_file(fname, fobj):
     bname = os.path.basename(fname)
     name, ext = os.path.splitext(bname)
     #  PROJECT_BLAHBLAHBLAH
     project = name.split('_')[0]
-    parser_object = PROJECT_CLASS[project](fname, fobj)
+    proj_class = class_from_projstr(project)
+    parser_object = proj_class(fname, fobj)
 
     #  Parse the file and write out a copy
     to_redcap = parser_object.parse()
