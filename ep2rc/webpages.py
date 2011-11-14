@@ -24,9 +24,6 @@ render = web.template.render(temp_dir)
 
 available_rc = [p[0] for p in pname_keys]
 
-user = ''
-info = {}
-
 grants = ['']
 grants.extend(core.GRANTS)
 tasks = ['']
@@ -35,7 +32,7 @@ visits = ['']
 visits.extend(['Pre', 'Post'])
 
 subject_form = web.form.Form(
-    web.form.Textbox('user', description="Your name", value=user),
+    web.form.Textbox('user', description="Your name"),
     web.form.Textbox('id', description="Unique subject ID"),
     web.form.Dropdown(name='grant', args=grants, value=''),
     web.form.Dropdown(name='task', args=tasks, value=''),
@@ -47,8 +44,11 @@ subject_form = web.form.Form(
 fields = ('user', 'id', 'grant', 'task', 'visit', 'list', 'database')
 
 class Upload:
-    def GET(self):
-        global info
+    def GET(self, *args):
+        data = web.input()
+        info = {}
+        for f in fields:
+            info[f] = getattr(data, f)
         key = core.upload_key(info)
         if key:
             info['previous'] = rc.previous_upload(info['id'], key, info['database'])
@@ -58,14 +58,12 @@ class Upload:
         
     def POST(self):
         x = web.input(myfile={})
-        global info
         #  Parse
         to_redcap = core.parse_file(x['myfile'].filename, x['myfile'].file)
         success = rc.upload(to_redcap, info['database'])
         res = 0
         if success:
             res = 1
-            info = {}
         return render.results(res, to_redcap)
 
 
@@ -79,14 +77,14 @@ class Index:
     
     def POST(self):
         f = subject_form()
-        global info
         if not f.validates():
             pass    
         else:
+            info = {}
             for k in fields:
                 info[k] = f[k].get_value()
-            print info
-            raise web.seeother('/upload')
+            url = '&'.join(['%s=%s' % (k,v) for k,v in info.items()])
+            raise web.seeother('/upload/?%s' % url)
 
 class Login:
     def GET(self):

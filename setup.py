@@ -30,7 +30,7 @@ if __name__ == '__main__':
         long_description=long_desc,
         packages=['ep2rc'],
         package_data={'ep2rc': ['templates/*.html']},
-        requires=['web.py'],
+        requires=['web.py', 'pycap'],
         platforms='any',
         classifiers=(
                 'Development Status :: 4 - Beta',
