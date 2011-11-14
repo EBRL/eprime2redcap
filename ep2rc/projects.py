@@ -481,6 +481,10 @@ class BaseProject(object):
         """ Parse the file and return redcap-able results """
         raise NotImplementedError
 
+    def upload_key(self):
+        """ Returns a key for the in-magnet database that can be used to check 
+        for previous uploads """
+        return None
         
 class NF(BaseProject):
     
@@ -539,6 +543,15 @@ class NF(BaseProject):
             os.makedirs(new_dir)
         return os.path.join(new_dir, self.bname+'.txt')
      
+    def upload_key(self):
+        key = None
+        if self.database == 'in-magnet':
+            if self.task in ('SWR', 'PIC', 'MI'):
+                key = '%s_%s_upload' % (self.rcmap[self.task], self.visit.lower())
+            elif self.task == 'REP':
+                key = '%s_upload' % self.rcmap[self.task]
+        return key
+        
 class NFB(BaseProject):
     
     def copy_fname(self):
