@@ -7,14 +7,14 @@ __license__ = 'BSD 3-Clause'
 import os
 
 from pdb import set_trace
-import projects
+from . import projects
 
 #  This maps grants/tasks to the correct parser
 TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT')
-PROJECT_CLASS = {'NF': projects.NF, 'NFB': projects.NFB}
+PROJECT_CLASS = {'NF': projects.NF, 'NFB': projects.NFB, 'RCVB': projects.RCVB}
 
 #  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS PROJECT_CLASS
-GRANTS = ('NF', 'NFB')
+GRANTS = ('NF', 'NFB', 'RCVB')
 
 
 def upload_key(info):
@@ -27,13 +27,13 @@ def upload_key(info):
 def class_from_projstr(proj_str):
     return PROJECT_CLASS[proj_str]
 
-def parse_file(fname, fobj):
+def parse_file(fname, fobj, database='in-magnet'):
     bname = os.path.basename(fname)
     name, ext = os.path.splitext(bname)
     #  PROJECT_BLAHBLAHBLAH
     project = name.split('_')[0]
     proj_class = class_from_projstr(project)
-    parser_object = proj_class(fname, fobj)
+    parser_object = proj_class(fname, fobj, database)
 
     #  Parse the file and write out a copy
     to_redcap = parser_object.parse()
