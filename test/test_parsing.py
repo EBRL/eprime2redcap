@@ -373,3 +373,63 @@ class NFBTests(unittest.TestCase):
                     'studyid': '157'}
         data = parse(f)
         self.assertEqual(data, correct, "Failed parsing NFB SENT")
+
+class RCVBTests(unittest.TestCase):
+    """ RCVB Testing """
+    
+    def test_SENT(self):
+        f = os.path.join(wd, 'RCVB_SENT_021_105552.txt')
+        correct = {'sctss12mrt': '763.087',
+					'sctss08mrt': '867.583',
+					'sctso7sd': '144.206',
+					'sctso12mean': '954.833',
+					'sctso2mean': '864.691',
+					'sctsstc': '5',
+					'sctss02sd': '75.730',
+					'sctso9mean': '936.051',
+					'sctss11mrt': '771.500',
+					'sctss05mrt': '1112.523',
+					'sctss12sd': '219.800',
+					'sctso11sd': '99.600',
+					'sctss03sd': '167.872',
+					'sctso5sd': '295.316',
+					'sctso8mean': '1010.371',
+					'sctss07mrt': '854.250',
+					'sctso4mean': '1046.833',
+					'sctss08sd': '76.540',
+					'sctso3sd': '85.448',
+					'participant_id': u'021_105552',
+					'sctss10mrt': '970.167',
+					'sctso3mean': '981.917',
+					'sctso6sd': '127.523',
+					'sctso4sd': '140.900',
+					'sctss09mrt': '857.083',
+					'sctso7mean': '886.209',
+					'sctss01mrt': '882.500',
+					'sctss07sd': '191.414',
+					'sctso5mean': '926.484',
+					'sctso8sd': '312.801',
+					'sctso10sd': '96.175',
+					'sctso9sd': '180.440',
+					'sctss11sd': '158.785',
+					'sctsotc': '6',
+					'sctss09sd': '121.870',
+					'sctss02mrt': '883.833',
+					'sctso11mean': '834.154',
+					'sctss01sd': '141.130',
+					'sctss10sd': '386.423',
+					'sctss04mrt': '964.966',
+					'sctso1sd': '366.493',
+					'sctss06mrt': '1116.521',
+					'sctso1mean': '999.193',
+					'sctso6mean': '1014.000',
+					'sctso12sd': '254.278',
+					'sctoc': '11',
+					'sctss03mrt': '891.925',
+					'sctss06sd': '468.530',
+					'sctso10mean': '866.070',
+					'sctss04sd': '216.950',
+					'sctso2sd': '172.522',
+					'sctss05sd': '254.004'}
+        data = parse(f)
+        self.assertEqual(data, correct, "Failed parsing RCVB SENT")
