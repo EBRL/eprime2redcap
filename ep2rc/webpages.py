@@ -14,7 +14,6 @@ import base64
 from . import core
 from . import rc
 from . import config
-from . import config
 
 temp_dir = os.path.join(os.path.split(__file__)[0], 'templates')
 render = web.template.render(temp_dir)
@@ -22,7 +21,7 @@ render = web.template.render(temp_dir)
 available_rc = [p[0] for p in config.pname_keys]
 
 grants = ['']
-grants.extend(core.GRANTS)
+grants.extend(core.PROJECTS)
 tasks = ['']
 tasks.extend(core.TASKS)
 visits = ['']
