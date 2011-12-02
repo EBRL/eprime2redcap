@@ -428,3 +428,62 @@ def NFB_SENT(fobj, new_fname):
     results['sctoc'] = D_FMT % (so_cor + ss_cor)
             
     return results
+
+def LDRC_NBACK(fobj, new_fname):
+    dl = io.split_dict(fobj, new_fname)
+    
+    results = {}
+    
+    try:
+        m1_trials = [x for x in dl if int(x['List3.Sample']) < 57]
+        m2_trials = [x for x in dl if 56 < int(x['List3.Sample']) < 113]
+        m3_trials = [x for x in dl if 112 < int(x['List3.Sample']) < 169]
+        m4_trials = [x for x in dl if int(x['List3.Sample']) > 168]
+    except KeyError:
+        raise errors.BadDataError()
+    m_trials = (m1_trials, m2_trials, m3_trials, m4_trials)
+    m_text = ('m1', 'm2', 'm3', 'm4')
+    total_trials = 0
+    total_correct = 0
+    for m_data, m in zip(m_trials, m_text):
+        # loop through trained, untrained, high, low and 
+        # correct responses are equal to 1
+        mission_trials = 0
+        mission_correct = 0
+        for trial_type in ('high', 'low', 'untrained', 'trained'):
+            trials = [x for x in m_data if x['type'] == trial_type]
+            mission_trials += len(trials)
+            total_trials += len(trials)
+            corr = [x for x in trials if x['stim.RESP'] == '1']
+            mission_correct += len(corr)
+            total_correct += len(corr)
+            acc = float(len(corr)) / len(trials) * 100
+            results['%s_%s_acc' % (m, trial_type)] = F_FMT % acc
+        
+        # Do repeats
+        repeat_trials = [x for x in m_data if x['type'] == 'repeat']
+        total_trials += len(repeat_trials)
+        repeat_corr = 0
+        for tr in repeat_trials:
+            current_ind = int(tr['List3.Sample'])
+            try:
+                next_repeat = [x for x in repeat_trials 
+                        if int(x['List3.Sample']) == (current_ind+1)][0]
+                if tr['stim.RESP'] == '1': repeat_corr += 1
+            except IndexError:
+                #  Correct response here is 2
+                if tr['stim.RESP'] == '2': repeat_corr += 1
+        total_correct += repeat_corr
+        repeat_acc = float(repeat_corr) / len(repeat_trials) * 100
+        results['%s_repeat_acc' % m] = F_FMT % repeat_acc
+
+        #  Do mission level total accuracy
+        mission_correct += repeat_corr 
+        mission_trials += len(repeat_trials)
+        mission_acc = float(mission_correct) / mission_trials * 100
+        results['%s_acc' % m] = F_FMT % mission_acc
+
+    total_acc = float(total_correct) / total_trials * 100
+    results['all_acc'] = F_FMT % total_acc
+
+    return results
