@@ -429,7 +429,7 @@ def NFB_SENT(fobj, new_fname):
             
     return results
 
-def LDRC_NBACK(fobj, new_fname):
+def LDRC1_NBACK(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
     
     results = {}

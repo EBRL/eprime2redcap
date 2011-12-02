@@ -200,3 +200,41 @@ class LERDB(BaseProject):
                 'otXisdrt': 'olson_incorrect_sd'}
         return lambda x: mapper[x]
 
+class LDRC1(BaseProject):
+    def __init__(self, fname, fobj, database='in-magnet'):
+        super(LDRC1, self).__init__(fname, fobj, database)
+        self.parsers = {'NBACK': pf.LDRC1_NBACK}
+        self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'LDRC1',
+                            'In_Behavioral', self.behavid)
+    def split_fname(self):
+        """ This needs a fancy split_fname because there's no scanid """
+        bname = os.path.basename(self.fname)
+        self.bname = bname
+        name, ext = os.path.splitext(bname)
+        parts = name.split('_')
+        try:
+            self.project = parts[0]
+            self.task = parts[1]
+            self.behavid = parts[2]
+        except IndexError:
+            raise ValueError("Poorly named file :(")
+        return parts
+                   
+    def parse_fname(self):
+        self.split_fname()
+        
+    def project_additions(self):
+        to_add = {'id': self.behavid, 'grant': 'LDRC1' }
+        task = self.task.lower()
+        if task == 'nback':
+            task = 'nback1'
+        elif task == 'sent':
+            task = 'sent1'
+        to_add['%s_upload' % task] = 'yes'
+        return to_add
+        
+    def key_map(self):
+        if self.task == 'NBACK':
+            f = lambda x: 'nback1_%s' % x
+        else: f = lambda x: x
+        return f

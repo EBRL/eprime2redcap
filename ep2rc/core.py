@@ -9,12 +9,12 @@ import os
 from pdb import set_trace
 from . import projects
 
-TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT')
+TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT', 'NBACK')
 PROJECT_CLASS = {'NF': projects.NF, 'NFB': projects.NFB, 'RCVB': projects.RCVB,
-                'LERDB': projects.LERDB}
+                'LERDB': projects.LERDB, 'LDRC1': projects.LDRC1}
 
 #  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS PROJECT_CLASS
-PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB')
+PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1')
 
 
 def upload_key(info):
