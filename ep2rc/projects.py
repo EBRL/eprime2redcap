@@ -64,6 +64,8 @@ class BaseProject(object):
         
     def copy_fname(self):
         """ Return the path to where the copy should go """
+        if not os.path.isdir(self.copy_dir):
+            os.makedirs(self.copy_dir)
         return os.path.join(self.copy_dir, self.bname+'.txt')
         
     def parse(self):
