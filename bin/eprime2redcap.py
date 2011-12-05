@@ -46,9 +46,10 @@ if __name__ == '__main__':
         if not os.path.isdir(args.dir):
             raise ValueError("This directory doesn't exist")
         all_txt = glob(os.path.join(args.dir, '*.txt'))
+        print("Found %d txt files..." % len(all_txt))
         for txt in all_txt:
             bname = os.path.basename(txt)
-            pattern = '(.*_){3,5}'
+            pattern = '(.*_){2,5}'
             if re.match(pattern, bname):
                 try:
                     data, success = parse_and_upload(txt, args.database, args.upload)
@@ -56,7 +57,7 @@ if __name__ == '__main__':
                         msg = "Success with %s"
                     else:
                         msg = "Failed with %s"
-                except ep2rc.BadDataError:
-                    msg = "(BadDataError) Failed with %s"
+                except ep2rc.BadDataError as e:
+                    msg = "(%s)" % e + " Failed with %s"
                 print msg % txt
 
