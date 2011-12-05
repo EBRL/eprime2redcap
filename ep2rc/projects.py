@@ -203,7 +203,7 @@ class LERDB(BaseProject):
 class LDRC1(BaseProject):
     def __init__(self, fname, fobj, database='in-magnet'):
         super(LDRC1, self).__init__(fname, fobj, database)
-        self.parsers = {'NBACK': pf.LDRC1_NBACK}
+        self.parsers = {'NBACK': pf.LDRC1_NBACK, 'SENT': pf.LDRC1_SENT}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'LDRC1',
                             'In_Behavioral', self.behavid)
     def split_fname(self):
@@ -236,5 +236,6 @@ class LDRC1(BaseProject):
     def key_map(self):
         if self.task == 'NBACK':
             f = lambda x: 'nback1_%s' % x
-        else: f = lambda x: x
+        elif self.task == 'SENT': 
+            f = lambda x: 'sent1_%s' % x
         return f
