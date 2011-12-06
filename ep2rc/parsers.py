@@ -439,8 +439,6 @@ def LDRC1_NBACK(fobj, new_fname):
         m2_trials = [x for x in dl if 56 < int(x['List3.Sample']) < 113]
         m3_trials = [x for x in dl if 112 < int(x['List3.Sample']) < 169]
         m4_trials = [x for x in dl if int(x['List3.Sample']) > 168]
-    except (KeyError, ValueError) :
-        raise errors.BadDataError("Couldn't seperate missions")
     except KeyError:
         raise errors.BadDataError("Key error")
     except ValueError:
@@ -499,8 +497,7 @@ def LDRC1_NBACK(fobj, new_fname):
     total_acc = float(total_correct) / total_trials * 100
     results['all_acc'] = F_FMT % total_acc
     return results
-    
-    
+      
 def LDRC1_SENT(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
     
@@ -524,70 +521,132 @@ def LDRC1_SENT(fobj, new_fname):
         response_trials = [x for x in m_data if x['decideScreen'] == '1']
         m_results = {'tot': 0, 'rt':[], 'corr':0, 'omit': 0, 'comit': 0}
         #  Loop in the response trials for types
-        for rtype in ('semantic', 'trueSent', 'pseudo', 'syntatic', 'realWord'):
-            rlow = rtype.lower()
-            if not rlow in total:
+        for rtype in ('semantic', 'truesent', 'pseudo', 'syntatic', 'realword'):
+            #  Redcap needs lowered keys
+            if not rtype in total:
                 #  Init the rtype in total
-                total[rlow] = {'tot': 0, 'rt':[], 'corr': 0, 'omit': 0, 'comit': 0}
+                total[rtype] = {'tot': 0, 'rt':[], 'corr': 0, 'omit': 0, 'comit': 0}
+            
+            responses = [x for x in response_trials if x['type'].lower() == rtype]
+            if len(responses) > 0:
+                r_tot =  len(responses)
 
-            responses = [x for x in response_trials if x['type'] == rtype]
-            results['%s_%s_tot' % (m, rlow)] = D_FMT % len(responses)
-            m_results['tot'] += len(responses)
-            total[rlow]['tot'] += len(responses)
-            corr = [x for x in responses if x['correct'] == x['DecideScreen.RESP']]
-            m_results['corr'] += len(corr)
-            total[rlow]['corr'] += len(corr)
-            incorr = [x for  x in responses if x['correct'] != x['DecideScreen.RESP']]
+                corr = [x for x in responses if x['correct'] == x['DecideScreen.RESP']]
+                r_corr = len(corr)
+                r_acc = float(r_corr) / r_tot * 100
+                
+                if r_corr > 0:
+                    #  RT for correct
+                    r_rt = [float(x['DecideScreen.RT']) for x in corr]
+                    r_rtavg = np.mean(np.array(r_rt))
+                    #  Can't do sd on a one array vector...
+                    if len(corr) > 1:
+                        r_rtsd = np.std(np.array(r_rt), ddof=1)
+                    else:
+                        r_rtsd = 0
+                else:
+                    r_rt = []
+                    r_rtavg = -1
+                    r_rtsd = 0
+                    
+                #  Now do incorr
+                incorr = [x for  x in responses if x['correct'] != x['DecideScreen.RESP']]
+                #  Omit is no response
+                omit = [x for x in incorr if x['DecideScreen.RESP'] == '']
+                r_omit = len(omit)
 
-            try:
-                acc = float(len(corr)) / len(responses) * 100
-                results['%s_%s_acc' % (m, rlow)] = F_FMT % acc
-            except ZeroDivisionError:
-                raise errors.BadDataError('Divide by zero in %s (%s)' % (rlow, m))
-            #  RT for correct
-            corr_rt = [float(x['DecideScreen.RT']) for x in corr]
-            m_results['rt'].extend(corr_rt)
-            total[rlow]['rt'].extend(corr_rt)
-            results['%s_%s_corr_rtavg' % (m, rlow)] = F_FMT % np.mean(np.array(corr_rt))
-            results['%s_%s_corr_rtsd' % (m, rlow)] = FZ_FMT % np.std(np.array(corr_rt), ddof=1)
+                #  Comit is wrong response
+                comit = [x for x in incorr if x['DecideScreen.RESP'] != '']
+                r_comit = len(comit)
+            else:
+                r_tot = 0
+                r_corr = 0
+                r_acc = 0.000
+                r_rt = []
+                r_rtavg = 0
+                r_rtsd = 0
+                r_omit = 0
+                r_comit = 0
 
-            #  Now do incorr
-            #  Omit is no response
-            omit = [x for x in incorr if x['DecideScreen.RESP'] == '']
-            results['%s_%s_omit' % (m, rlow)] = D_FMT % len(omit)
-            m_results['omit'] += len(omit)
-            total[rlow]['omit'] += len(omit)
-            #  Comit is wrong response
-            comit = [x for x in incorr if x['DecideScreen.RESP'] != '']
-            results['%s_%s_comit' % (m, rlow)] = D_FMT % len(comit)
-            m_results['comit'] += len(comit)
-            total[rlow]['comit'] += len(comit)
+            #  Now fill in everything
+            #  Total responses
+            results['%s_%s_tot' % (m, rtype)] = D_FMT % r_tot
+            m_results['tot'] += r_tot
+            total[rtype]['tot'] += r_tot
+
+            #  Accuracy
+            results['%s_%s_acc' % (m, rtype)] = F_FMT % r_acc
+
+            #  correct responses
+            #  Not going in mission/type 
+            m_results['corr'] += r_corr
+            total[rtype]['corr'] += r_corr
+
+            #  Add to Reaction time lists
+            m_results['rt'].extend(r_rt)
+            total[rtype]['rt'].extend(r_rt)
+
+            #  RT Mean and SD
+            results['%s_%s_corr_rtavg' % (m, rtype)] = F_FMT % r_rtavg
+            results['%s_%s_corr_rtsd' % (m, rtype)] = FZ_FMT % r_rtsd
+
+            #  Omit
+            results['%s_%s_omit' % (m, rtype)] = D_FMT % r_omit
+            m_results['omit'] += r_omit
+            total[rtype]['omit'] += r_omit
+
+            #  Comit
+            results['%s_%s_comit' % (m, rtype)] = D_FMT % r_comit
+            m_results['comit'] += r_comit
+            total[rtype]['comit'] += r_comit
 
         #  Do per mission results
-        results['%s_all_tot' % m] = D_FMT % m_results['tot']
-        results['%s_all_acc' % m] = F_FMT % (float(m_results['corr']) / m_results['tot'] * 100)
-        results['%s_all_corr_rtavg' % m] = F_FMT % np.mean(np.array(m_results['rt']))
-        results['%s_all_corr_rtsd' % m] = FZ_FMT % np.std(np.array(m_results['rt']), ddof=1)
-        results['%s_all_omit' % m] = D_FMT % m_results['omit']
-        results['%s_all_comit' % m] = D_FMT % m_results['comit']
+        if m_results['tot'] > 0:
+            m_tot = m_results['tot']
+            m_acc = float(m_results['corr']) / m_results['tot'] * 100
+            m_rtavg = np.mean(np.array(m_results['rt']))
+            if len(m_results['rt']) > 1:
+                m_rtsd = np.std(np.array(m_results['rt']), ddof=1)
+            else:
+                m_rtsd = 0
+            m_omit = m_results['omit']
+            m_comit = m_results['comit']            
+        else:
+            m_tot = 0
+            m_acc = 0
+            m_rtavg = 0.000
+            m_rtsd = 0
+            m_omit = 0
+            m_comit = 0
+            
+        results['%s_all_tot' % m] = D_FMT % m_tot
+        results['%s_all_acc' % m] = F_FMT % m_acc
+        results['%s_all_corr_rtavg' % m] = F_FMT % m_rtavg
+        results['%s_all_corr_rtsd' % m] = FZ_FMT % m_rtsd
+        results['%s_all_omit' % m] = D_FMT % m_omit
+        results['%s_all_comit' % m] = D_FMT % m_comit
 
     all_results = {'tot': 0, 'corr': 0, 'rt':[], 'comit':0, 'omit':0}
     #  Do per type results
+    
     for rtype, rdata in total.items():
-        #  All response type
-        results['all_%s_tot' % rtype] = D_FMT % rdata['tot']
-        results['all_%s_acc' % rtype] = F_FMT % (float(rdata['corr']) / rdata['tot'] * 100)
-        results['all_%s_corr_rtavg' % rtype] = F_FMT % np.mean(np.array(rdata['rt']))
-        results['all_%s_corr_rtsd' % rtype] = FZ_FMT % np.std(np.array(rdata['rt']), ddof=1)
-        results['all_%s_omit' % rtype] = D_FMT % rdata['omit']
-        results['all_%s_comit' % rtype] = D_FMT % rdata['comit']
-
-        #  Combine for all missions/all types
-        all_results['tot'] += rdata['tot']
-        all_results['corr'] += rdata['corr']
-        all_results['rt'].extend(rdata['rt'])
-        all_results['comit'] += rdata['comit']
-        all_results['omit'] += rdata['omit']
+        try:
+            #  All response type
+            results['all_%s_tot' % rtype] = D_FMT % rdata['tot']
+            results['all_%s_acc' % rtype] = F_FMT % (float(rdata['corr']) / rdata['tot'] * 100)
+            results['all_%s_corr_rtavg' % rtype] = F_FMT % np.mean(np.array(rdata['rt']))
+            results['all_%s_corr_rtsd' % rtype] = FZ_FMT % np.std(np.array(rdata['rt']), ddof=1)
+            results['all_%s_omit' % rtype] = D_FMT % rdata['omit']
+            results['all_%s_comit' % rtype] = D_FMT % rdata['comit']
+    
+            #  Combine for all missions/all types
+            all_results['tot'] += rdata['tot']
+            all_results['corr'] += rdata['corr']
+            all_results['rt'].extend(rdata['rt'])
+            all_results['comit'] += rdata['comit']
+            all_results['omit'] += rdata['omit']
+        except ZeroDivisionError:
+            raise errors.BadDataError('No response rows for %s' % rtype)
 
     #  Do all missions/all types
     results['all_all_tot'] = D_FMT % all_results['tot']
