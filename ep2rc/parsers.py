@@ -441,6 +441,11 @@ def LDRC1_NBACK(fobj, new_fname):
         m4_trials = [x for x in dl if int(x['List3.Sample']) > 168]
     except (KeyError, ValueError) :
         raise errors.BadDataError("Couldn't seperate missions")
+    except KeyError:
+        raise errors.BadDataError("Key error")
+    except ValueError:
+        raise errors.BadDataError("Bad value in List3.Sample column")
+
     m_trials = (m1_trials, m2_trials, m3_trials, m4_trials)
     m_text = ('m1', 'm2', 'm3', 'm4')
     total_trials = 0
