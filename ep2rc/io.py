@@ -3,6 +3,8 @@
 __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 
+from . import errors
+
 """ This module should be used by grant files for reading/writing """
 
 def split_dict(fobj, new_fname=None):
@@ -28,7 +30,9 @@ def split_dict(fobj, new_fname=None):
             try:
                 trial_d[key] = trial[i].replace('@', '')
             except IndexError:
-                print("Skipping %s for trial #%d" % (key, good.index(trial)))
-                pass
+                trial_d[key] = ''
         dict_list.append(trial_d)
+
+    if len(dict_list) == 0:
+        raise errors.BadDataError('Empty map list, encoding error?')
     return dict_list 
