@@ -435,10 +435,10 @@ def LDRC1_NBACK(fobj, new_fname):
     results = {}
     
     try:
-        m1_trials = [x for x in dl if int(x['List3.Sample']) < 57]
-        m2_trials = [x for x in dl if 56 < int(x['List3.Sample']) < 113]
-        m3_trials = [x for x in dl if 112 < int(x['List3.Sample']) < 169]
-        m4_trials = [x for x in dl if int(x['List3.Sample']) > 168]
+        m1_trials = [x for x in dl if x['runList'] == 'M1' and x['M1'] != '.']
+        m2_trials = [x for x in dl if x['runList'] == 'M2' and x['M2'] != '.']
+        m3_trials = [x for x in dl if x['runList'] == 'M3' and x['M3'] != '.']
+        m4_trials = [x for x in dl if x['runList'] == 'M4' and x['M4'] != '.']
     except KeyError:
         raise errors.BadDataError("Key error")
     except ValueError:
