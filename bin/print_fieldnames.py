@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" This serves to document all the fieldnames for each task 
+""" This serves to document all the fieldnames for each task
 mi1: Mental imagery from NFRO1
 swr1: Single Word Reading from NFRO1
 rep1: repitition task from NFRO1
@@ -227,8 +227,50 @@ data = {'mi1': {'per_mission': [('imag_rtavg', 'Imaginary Mean RT'),
                                 ('all_truesent_corr_rtsd', 'All Mission True Sentences RT SD'),
                                 ('all_truesent_omit', 'All Mission True Sentences Omit'),
                                 ('all_truesent_tot', 'All Mission True Sentences Total')],
-                        'form': 'SentenceTask1'}}
-                
+                        'form': 'SentenceTask1'},
+        'rep2':{'per_mission':[('word_acc','Words Accuracy'),
+                              ('word_mrt','Words Mean Reaction Time (correct)'),
+                              ('word_rtsd','Word MRT STD'),
+                              ('word_omit','Word Omit'),
+                              ('word_comit','Word Comit'),
+                              ('nonword_acc','Nonwords Accuracy'),
+                              ('nonword_mrt','Nonwords Mean Reaction Time (correct)'),
+                              ('nonword_rtsd','Nonwords MRT STD'),
+                              ('nonword_omit','Nonwords Omit'),
+                              ('nonword_comit','Nonwords Comit')],
+               'visit':[('', '')],
+               'mission':[('m1', 'Mission1'),
+                          ('m2', 'Mission2'),
+                          ('m3', 'Mission3'),
+                          ('m4', 'Mission4')],
+                'per_visit': [('m1_acc','Mission1 Total Accuracy'),
+                              ('m2_acc','Mission2 Total Accuracy'),
+                              ('m3_acc','Mission3 Total Accuracy'),
+                              ('m4_acc','Mission4 Total Accuracy'),
+                              ('m1_mrt','Mission1 Total Mean Reaction Time'),
+                              ('m2_mrt','Mission2 Total Mean Reaction Time'),
+                              ('m3_mrt','Mission3 Total Mean Reaction Time'),
+                              ('m4_mrt','Mission4 Total Mean Reaction Time'),
+                              ('m1_rtsd','Mission1 Total MRT STD'),
+                              ('m2_rtsd','Mission2 Total MRT STD'),
+                              ('m3_rtsd','Mission3 Total MRT STD'),
+                              ('m4_rtsd','Mission4 Total MRT STD'),
+                              ('m1_omit','Mission1 Total Omit'),
+                              ('m2_omit','Mission2 Total Omit'),
+                              ('m3_omit','Mission3 Total Omit'),
+                              ('m4_omit','Mission4 Total Omit'),
+                              ('m1_comit','Mission1 Total Comit'),
+                              ('m2_comit','Mission2 Total Comit'),
+                              ('m3_comit','Mission3 Total Comit'),
+                              ('m4_comit','Mission4 Total Comit'),
+                              ('all_acc', 'All Missions Accuracy'),
+                              ('all_mrt', 'All Missions Mean Reaction Time'),
+                              ('all_rtsd', 'All Missions MRT STD'),
+                              ('all_omit', 'All Missions Omit'),
+                              ('all_comit', 'All Missions Comit'),
+                              ('upload', 'Upload Complete')],
+                'form': 'RepetitionTask2'}}
+
 for task, d in data.items():
     for visit, visit_text in d['visit']:
         for m, m_text in d['mission']:
@@ -239,7 +281,7 @@ for task, d in data.items():
                 if m:
                     task_print.append(m)
                 task_print.append(res)
-                
+
                 print('\t'.join(['_'.join(task_print), d['form'], '', 'text', ' '.join([d['form'], visit_text, m_text, res_text])]))
                 # print '_'.join(task_print)
         for res,res_text in d['per_visit']:

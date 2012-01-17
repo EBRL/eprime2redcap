@@ -11,10 +11,10 @@ from . import projects
 
 TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT', 'NBACK')
 PROJECT_CLASS = {'NF': projects.NF, 'NFB': projects.NFB, 'RCVB': projects.RCVB,
-                'LERDB': projects.LERDB, 'LDRC1': projects.LDRC1}
+                'LERDB': projects.LERDB, 'LDRC1': projects.LDRC1, 'ARN': projects.ARN}
 
 #  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS PROJECT_CLASS
-PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1')
+PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1', 'ARN')
 
 
 def upload_key(info):

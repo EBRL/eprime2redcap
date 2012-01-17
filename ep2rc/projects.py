@@ -17,7 +17,7 @@ And it should get a unit test
 """
 class BaseProject(object):
     """ Base class from which all Projects should inherit"""
-    
+
     def __init__(self, fname, fobj, database='in-magnet'):
         """ Constructor """
         #  Required info
@@ -39,7 +39,7 @@ class BaseProject(object):
         else:
             prefix = os.path.join(os.path.expanduser('~'), 'Code', 'eprime2redcap')
         return prefix
-            
+
     def split_fname(self):
         bname = os.path.basename(self.fname)
         self.bname = bname
@@ -53,7 +53,7 @@ class BaseProject(object):
         except IndexError:
             raise ValueError("Poorly named file :(")
         return parts
-        
+
     def parse_fname(self):
         """ Populate information from file name """
         self.split_fname()
@@ -61,13 +61,13 @@ class BaseProject(object):
     def key_map(self):
         """ Return a function transforming raw keys to RC fields """
         raise NotImplementedError
-        
+
     def copy_fname(self):
         """ Return the path to where the copy should go """
         if not os.path.isdir(self.copy_dir):
             os.makedirs(self.copy_dir)
         return os.path.join(self.copy_dir, self.bname+'.txt')
-        
+
     def parse(self):
         """ Parse the file and return redcap-able results """
         func = self.parsers[self.task]
@@ -81,10 +81,10 @@ class BaseProject(object):
         return to_redcap
 
     def upload_key(self):
-        """ Returns a key for the in-magnet database that can be used to check 
+        """ Returns a key for the in-magnet database that can be used to check
         for previous uploads """
         return None
-        
+
     def project_additions(self):
         """ Return a new dictionary with key/values not inserted by any particular
         parser but that need to be in data for redcap """
@@ -92,9 +92,9 @@ class BaseProject(object):
 
 
 class NF(BaseProject):
-    
+
     def __init__(self, fname, fobj, database='in-magnet'):
-        super(NF, self).__init__(fname, fobj, database)    
+        super(NF, self).__init__(fname, fobj, database)
         self.rcmap = {'SWR': 'swr1', 'MI': 'mi1', 'REP': 'rep1', 'PIC': 'pic1'}
         self.parsers = {'SWR': pf.NF_SWR, 'MI': pf.NF_MI, 'REP': pf.NF_REP, 'PIC': pf.NF_PIC}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'NF',
@@ -129,9 +129,9 @@ class NF(BaseProject):
             f = lambda x: '%s_%s_%s' % (self.rcmap[self.task], self.visit.lower(), x)
         return f
 
-        
+
 class NFB(BaseProject):
-    
+
     def __init__(self, fname, fobj, database='nf'):
         super(NFB, self).__init__(fname, fobj, database)
         self.parsers = {'OLSON': pf.NFB_OLSON, 'MI': pf.NFB_MI, 'MR': pf.NFB_MR,
@@ -157,7 +157,7 @@ class NFB(BaseProject):
         else:
             key_map = lambda x: x
         return key_map
-        
+
     def project_additions(self):
         return {'studyid': self.behavid}
 
@@ -195,10 +195,12 @@ class LERDB(BaseProject):
         return {'participant_id': '_'.join([self.behavid, self.scanid])}
 
     def key_map(self):
-        mapper = {'otXtc': 'olson_total_correct', 'otXcmrt': 'olson_correct_mean',
-                'otXcsdrt': 'olson_correct_sd', 'otXimrt': 'olson_incorrect_mean',
-                'otXisdrt': 'olson_incorrect_sd'}
-        return lambda x: mapper[x]
+#         mapper = {'otXtc': 'olson_total_correct', 'otXcmrt': 'olson_correct_mean',
+#                 'otXcsdrt': 'olson_correct_sd', 'otXimrt': 'olson_incorrect_mean',
+#                 'otXisdrt': 'olson_incorrect_sd'}
+#         return lambda x: mapper[x]
+        #  LERD database changed?
+        return lambda x: x.replace('X', '1')
 
 class LDRC1(BaseProject):
     def __init__(self, fname, fobj, database='in-magnet'):
@@ -219,10 +221,10 @@ class LDRC1(BaseProject):
         except IndexError:
             raise ValueError("Poorly named file :(")
         return parts
-                   
+
     def parse_fname(self):
         self.split_fname()
-        
+
     def project_additions(self):
         to_add = {'id': self.behavid, 'grant': 'LDRC1' }
         task = self.task.lower()
@@ -232,10 +234,29 @@ class LDRC1(BaseProject):
             task = 'sent1'
         to_add['%s_upload' % task] = 'yes'
         return to_add
-        
+
     def key_map(self):
         if self.task == 'NBACK':
             f = lambda x: 'nback1_%s' % x
-        elif self.task == 'SENT': 
+        elif self.task == 'SENT':
             f = lambda x: 'sent1_%s' % x
         return f
+
+
+class ARN(BaseProject):
+    def __init__(self, fname, fobj, database='in-magnet'):
+        super(ARN, self).__init__(fname, fobj, database)
+        self.parsers = {'Rep': pf.ARN_REP}
+        self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'ARN',
+                            'In_Behavioral', self.behavid)
+
+    def parse_fname(self):
+        self.split_fname()
+
+    def project_additions(self):
+        to_add = {'id': '_'.join([self.behavid, self.scanid]), 'grant': 'ARN', 'rep2_upload': 'yes'}
+        return to_add
+
+    def key_map(self):
+        return lambda x: 'rep2_%s' % x
+
