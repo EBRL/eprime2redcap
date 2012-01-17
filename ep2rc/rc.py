@@ -17,7 +17,7 @@ for pname, key in pname_keys:
 
 def upload(to_upload, pname='in-magnet'):
     """ Upload a dictionary to a Redcap database
-    
+
     Parameters
     ----------
     to_upload: dict
@@ -32,13 +32,13 @@ def upload(to_upload, pname='in-magnet'):
     data = [to_upload]
     pname = pname.lower()
     num_uploaded = projects[pname].import_records(data)
-    if num_uploaded != len(data):
+    if num_uploaded['count'] != len(data):
         print("Upload failed")
         success = False
     else:
         success = True
     return success
-    
+
 def previous_upload(id, key, pname='in-magnet'):
     d = projects[pname].export_records(records=[id], fields=[key])
     if len(d) > 1:
