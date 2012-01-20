@@ -75,6 +75,11 @@ def NF_REP(fobj, new_fname=None):
             for cat, good, bad, catt in loop_data:
                 try:
                     trials = filter(lambda x: REP_DICT[x['text1']] == cat, m_data)
+                    n_omit = len(filter(lambda x: x['stim.RESP'] not in good+bad, trials))
+                    results['%s_%s_omit' % (m, catt)] = D_FMT % n_omit
+                    #  We need to remove omitted trials from trials we peform stats on
+                    trials[:] = filter(lambda x: REP_DICT[x['text1']] == cat and x['stim.RESP'] in good+bad, trials)
+                    # Now we can proceed
                     corr = filter(lambda x: x['stim.RESP'] in good, trials)
                     #  Accuracy = # of correct / # of trials * 100
                     acc = (float(len(corr)) / len(trials)) * 100
@@ -93,9 +98,7 @@ def NF_REP(fobj, new_fname=None):
                     rtsd = np.std(corr_rt)
                     results['%s_%s_rtsd' % (m, catt)] = FZ_FMT % rtsd
 
-                    #  N omit, comit
-                    n_omit = len(filter(lambda x: x['stim.RESP'] not in good+bad, trials))
-                    results['%s_%s_omit' % (m, catt)] = D_FMT % n_omit
+                    #  comit
                     n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
                     results['%s_%s_comit' % (m, catt)] = D_FMT % n_comit
                 except ZeroDivisionError:
@@ -136,22 +139,23 @@ def NF_MI(fobj, new_fname=None):
             omitf = lambda x: x['Target.RESP'] not in ('5', '6', '1', '2')
             for tdata, ttext in zip((real_trials, cont_trials),('imag', 'cont')):
                 try:
-                    #  Use the correct function
-                    corr = [x for x in tdata if corrf(x)]
-                    #  Use the false positive function
-                    fp = [x for x in tdata if fpf(x)]
-                    results['%s_%s_fp' % (m, ttext)] = D_FMT % len(fp)
-                    #  Use the false negative function
-                    fn = [x for x in tdata if fnf(x)]
-                    results['%s_%s_fn' % (m, ttext)] = D_FMT % len(fn)
                     #  Use omit function
                     omit = [x for x in tdata if omitf(x)]
                     results['%s_%s_omit' % (m, ttext)] = D_FMT % len(omit)
+                    tdata_noomit = filter(lambda x: not omitf(x), tdata)
+                    #  Use the correct function
+                    corr = [x for x in tdata_noomit if corrf(x)]
+                    #  Use the false positive function
+                    fp = [x for x in tdata_noomit if fpf(x)]
+                    results['%s_%s_fp' % (m, ttext)] = D_FMT % len(fp)
+                    #  Use the false negative function
+                    fn = [x for x in tdata_noomit if fnf(x)]
+                    results['%s_%s_fn' % (m, ttext)] = D_FMT % len(fn)
 
                     acc = (float(len(corr)) / len(tdata)) * 100
                     results['%s_%s_acc' % (m, ttext)] = F_FMT % acc
                     #  Generate a binary vector
-                    resp = (1,) * len(corr) + (0,) * (len(tdata) - len(corr))
+                    resp = (1,) * len(corr) + (0,) * (len(tdata_noomit) - len(corr))
                     accsd = np.std(np.array(resp))
                     results['%s_%s_accsd' % (m, ttext)] = FZ_FMT % accsd
 
@@ -187,6 +191,10 @@ def NF_SWR(fobj, new_fname=None):
             for cat, cat_key, good, bad in loop_data:
                 try:
                     trials = filter(lambda x: x[cat_key] == cat, m_data)
+                    n_omit = len(filter(lambda x: x['stim.RESP'] not in good+bad, trials))
+                    res['%s_%s_omit' % (m, cat.lower())] = D_FMT % n_omit
+                    #  Remove omits from trials
+                    trials[:] = filter(lambda x: x['stim.RESP'] in good+bad, trials)
                     corr = filter(lambda x: x['stim.RESP'] in good, trials)
                     #  Accuracy = # of correct / # of trials * 100
                     acc = (float(len(corr)) / len(trials)) * 100
@@ -205,9 +213,7 @@ def NF_SWR(fobj, new_fname=None):
                     rt_std = np.std(all_rt)
                     res['%s_%s_rtsd' % (m, cat.lower())] =  FZ_FMT % rt_std
 
-                    #  N omit/comit
-                    n_omit = len(filter(lambda x: x['stim.RESP'] not in good+bad, trials))
-                    res['%s_%s_omit' % (m, cat.lower())] = D_FMT % n_omit
+                    #  comit
                     n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
                     res['%s_%s_comit' % (m, cat.lower())] = D_FMT % n_comit
                 except ZeroDivisionError:
@@ -234,6 +240,10 @@ def NF_PIC(fobj, new_fname=None):
             for typ, good, bad in loop_data:
                 try:
                     trials = filter(lambda x: x['type'] == typ, m_data)
+                    n_omit = len(filter(lambda x: x['stim.RESP'] not in good + bad, trials))
+                    res['%s_%s_omit' % (m, typ)] = D_FMT % n_omit
+                    #  Remove omits from trials
+                    trials[:] = filter(lambda x: x['stim.RESP'] in good + bad, trials)
                     correct = filter(lambda x: x['stim.RESP'] in good, trials)
                     #  Accuracy = # of correct / # trials * 100
                     acc = (float(len(correct)) / len(trials)) * 100
@@ -254,9 +264,7 @@ def NF_PIC(fobj, new_fname=None):
                     rt_std = np.std(all_rt)
                     res['%s_%s_rtsd' % (m, typ)] = FZ_FMT % rt_std
 
-                    #  N omit/comit
-                    n_omit = len(filter(lambda x: x['stim.RESP'] not in good + bad, trials))
-                    res['%s_%s_omit' % (m, typ)] = D_FMT % n_omit
+                    #  comit
                     n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
                     res['%s_%s_comit' % (m, typ)] = D_FMT % n_comit
                 except ZeroDivisionError:
@@ -528,6 +536,10 @@ def LDRC1_SENT(fobj, new_fname):
                 total[rtype] = {'tot': 0, 'rt':[], 'corr': 0, 'omit': 0, 'comit': 0}
 
             responses = [x for x in response_trials if x['type'].lower() == rtype]
+            #  Omit is no response
+            omit = [x for x in responses if x['DecideScreen.RESP'] == '']
+            r_omit = len(omit)
+            responses[:] = filter(lambda x: x['DecideScreen.RESP'] != '', responses)
             if len(responses) > 0:
                 r_tot =  len(responses)
 
@@ -551,9 +563,6 @@ def LDRC1_SENT(fobj, new_fname):
 
                 #  Now do incorr
                 incorr = [x for  x in responses if x['correct'] != x['DecideScreen.RESP']]
-                #  Omit is no response
-                omit = [x for x in incorr if x['DecideScreen.RESP'] == '']
-                r_omit = len(omit)
 
                 #  Comit is wrong response
                 comit = [x for x in incorr if x['DecideScreen.RESP'] != '']
@@ -686,6 +695,11 @@ def ARN_REP(fobj, new_fname):
         mission_comit = 0
         for stype, corr_resp, incorr_resp in loop_data:
             trials = filter(lambda x: x['type'] == stype, m_data)
+            #  N omit
+            omit = filter(lambda x: x['stim.RESP'] not in (corr_resp, incorr_resp), trials)
+            mission_omit += len(omit)
+            # Remove omits fro mtrials
+            trials[:] = filter(lambda x: x['stim.RESP'] in (corr_resp, incorr_resp), trials)
             correct = filter(lambda x: x['stim.RESP'] == corr_resp, trials)
             mission_correct.extend(correct)
 
@@ -700,9 +714,6 @@ def ARN_REP(fobj, new_fname):
             rtsd = np.std(correct_rt, ddof=1)
             results['%s_%s_rtsd' % (m, stype)] = FZ_FMT % rtsd
 
-            #  N omit
-            omit = filter(lambda x: x['stim.RESP'] not in (corr_resp, incorr_resp), trials)
-            mission_omit += len(omit)
             # N comit
             comit = filter(lambda x: x['stim.RESP'] == incorr_resp, trials)
             mission_comit += len(comit)
