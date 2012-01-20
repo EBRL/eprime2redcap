@@ -12,10 +12,10 @@ import ep2rc
 def arguments():
     import argparse
     ap = argparse.ArgumentParser()
-    
+
     #  Arguments
-    ap.add_argument('-f', dest='file',
-        help='Parse and upload data from a (properly named) file')
+    ap.add_argument('-f', dest='files', nargs='*',
+        help='Parse and upload data from one (many) (properly named) file(s)')
     ap.add_argument('-d', dest='dir',
         help="Parse and upload all files from the given directory")
     ap.add_argument('--database', dest='database', default='in-magnet',
@@ -36,12 +36,18 @@ def parse_and_upload(fname, database, do_upload=True):
 if __name__ == '__main__':
     args = arguments()
 
-    if args.file:
-        if not os.path.isfile(args.file):
+    for fname in args.files:
+        if not os.path.isfile(fname):
             raise ValueError("This file doesn't exist")
-        data, success = parse_and_upload(args.file, args.database, args.upload)
+        data, success = parse_and_upload(fname, args.database, args.upload)
+        if success:
+            msg = "Success: "
+        else:
+            msg = "Error: "
+        print msg + fname
         if not args.upload:
             print data
+
     if args.dir:
         if not os.path.isdir(args.dir):
             raise ValueError("This directory doesn't exist")
@@ -60,4 +66,4 @@ if __name__ == '__main__':
                 except ep2rc.BadDataError as e:
                     msg = "(%s)" % e + " Failed with %s"
                 print msg % txt
-
+#
