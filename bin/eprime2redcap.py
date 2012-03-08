@@ -25,28 +25,31 @@ def arguments():
     return ap.parse_args()
 
 def parse_and_upload(fname, database, do_upload=True):
-    to_redcap = {}
-    with open(fname) as f:
-        to_redcap = ep2rc.parse_file(fname, f)
+    try:
+        to_redcap = {}
+        with open(fname) as f:
+            to_redcap = ep2rc.parse_file(fname, f)
+    except ep2rc.BadDataError as e:
+        msg = "(%s)" % e + " Failed with %s" % fname
     suc = False
     if to_redcap and do_upload:
         suc = ep2rc.upload(to_redcap, database)
+    if suc:
+        msg = "Success with %s" % fname
+    print msg
     return to_redcap, suc
+
 
 if __name__ == '__main__':
     args = arguments()
 
-    for fname in args.files:
-        if not os.path.isfile(fname):
-            raise ValueError("This file doesn't exist")
-        data, success = parse_and_upload(fname, args.database, args.upload)
-        if success:
-            msg = "Success: "
-        else:
-            msg = "Error: "
-        print msg + fname
-        if not args.upload:
-            print data
+    if args.files:
+        for fname in args.files:
+            if not os.path.isfile(fname):
+                raise ValueError("This file doesn't exist")
+            data, success = parse_and_upload(fname, args.database, args.upload)
+            if not args.upload:
+                print data
 
     if args.dir:
         if not os.path.isdir(args.dir):
@@ -57,13 +60,4 @@ if __name__ == '__main__':
             bname = os.path.basename(txt)
             pattern = '(.*_){2,5}'
             if re.match(pattern, bname):
-                try:
-                    data, success = parse_and_upload(txt, args.database, args.upload)
-                    if success:
-                        msg = "Success with %s"
-                    else:
-                        msg = "Failed with %s"
-                except ep2rc.BadDataError as e:
-                    msg = "(%s)" % e + " Failed with %s"
-                print msg % txt
-#
+                data, success = parse_and_upload(txt, args.database, args.upload)

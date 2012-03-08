@@ -173,7 +173,7 @@ def NF_SWR(fobj, new_fname=None):
     dl = io.split_dict(fobj, new_fname)
 
     #  Remove the practice trial
-    dl[:] = [x for x in dl if x['List3.Sample'] != '.']
+    dl[:] = [x for x in dl if x['List3.Sample'] not in ('.', '')]
 
     try:
         m1_trials = [x for x in dl if int(x['List3.Sample']) < 51]
@@ -182,6 +182,10 @@ def NF_SWR(fobj, new_fname=None):
         raise errors.BadDataError()
 
     res = {}
+    TP = 0  # True positives are Word correct
+    TN = 0  # True negatives are Nonword correct
+    FP = 0  # False positives are Word incorrect
+    FN = 0  # False negatives are Nonword incorrect
     for m_data, m in zip((m1_trials, m2_trials), ('m1', 'm2')):
         if m_data:
             loop_data = zip(('HAI', 'HAR', 'HCI', 'HCR', 'word', 'nonword'),
@@ -196,6 +200,12 @@ def NF_SWR(fobj, new_fname=None):
                     #  Remove omits from trials
                     trials[:] = filter(lambda x: x['stim.RESP'] in good+bad, trials)
                     corr = filter(lambda x: x['stim.RESP'] in good, trials)
+                    if cat == 'word':
+                        #  Add to TP
+                        TP += len(corr)
+                    elif cat == 'nonword':
+                        #  Add to TN
+                        TN += len(corr)
                     #  Accuracy = # of correct / # of trials * 100
                     acc = (float(len(corr)) / len(trials)) * 100
                     res['%s_%s_acc' % (m, cat.lower())] = F_FMT % acc
@@ -215,9 +225,15 @@ def NF_SWR(fobj, new_fname=None):
 
                     #  comit
                     n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
+                    if cat == 'word':
+                        #  Add to FP
+                        FP += n_comit
+                    elif cat == 'nonword':
+                        FN += n_comit
                     res['%s_%s_comit' % (m, cat.lower())] = D_FMT % n_comit
                 except ZeroDivisionError:
                     pass
+    res['aprime'] = FZ_FMT % aprime(TP, TN, FP, FN)
     return res
 
 def NF_PIC(fobj, new_fname=None):
@@ -231,7 +247,10 @@ def NF_PIC(fobj, new_fname=None):
         raise errors.BadDataError()
 
     res = {}
-
+    TP = 0 # True positive Match Correct
+    TN = 0 # True negative Nonmatch correct
+    FP = 0 # False positive Match incorrect
+    FN = 0 # False negative Nonmatch incorrect
     for m_data, m in zip((m1_trials, m2_trials), ('m1', 'm2')):
         if m_data:
             loop_data = zip(('psw', 'con', 'wrd', 'match'),
@@ -245,6 +264,12 @@ def NF_PIC(fobj, new_fname=None):
                     #  Remove omits from trials
                     trials[:] = filter(lambda x: x['stim.RESP'] in good + bad, trials)
                     correct = filter(lambda x: x['stim.RESP'] in good, trials)
+                    if typ == 'match':
+                        #  Add to TP
+                        TP += len(correct)
+                    else:
+                        #  Add to TN
+                        TN += len(correct)
                     #  Accuracy = # of correct / # trials * 100
                     acc = (float(len(correct)) / len(trials)) * 100
                     res['%s_%s_acc' % (m, typ)] = F_FMT % acc
@@ -266,9 +291,15 @@ def NF_PIC(fobj, new_fname=None):
 
                     #  comit
                     n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
+                    if type == 'match':
+                        #  Add to FP
+                        FP += n_comit
+                    else:
+                        FP += n_comit
                     res['%s_%s_comit' % (m, typ)] = D_FMT % n_comit
                 except ZeroDivisionError:
                     pass
+    res['aprime'] = FZ_FMT % aprime(TP, TN, FP, FN)
     return res
 
 def NFB_MR(fobj, new_fname):
@@ -336,9 +367,9 @@ def NFB_OLSON(fobj, new_fname):
     incorr = filter(incorrf, trials)
     incorr_rt = np.array([float(x['stim.RT']) for x in incorr])
     #  Incorrect mean RT
-    results['otXimrt'] = F_FMT % np.mean(corr_rt)
+    results['otXimrt'] = F_FMT % np.mean(incorr_rt)
     #  Incorrect mean RT SD
-    results['otXisdrt'] = FZ_FMT % np.std(corr_rt)
+    results['otXisdrt'] = FZ_FMT % np.std(incorr_rt)
 
     return results
 
@@ -749,3 +780,25 @@ def ARN_REP(fobj, new_fname):
     results['all_omit'] = D_FMT % total_omit
     results['all_comit'] = D_FMT % total_comit
     return results
+
+
+def aprime(tp, tn, fp, fn):
+    """
+    ---------------
+    |      |      |
+    |  TP  |  FP  |
+    |      |      |
+    ---------------
+    |      |      |
+    |  FN  |  TN  |
+    |      |      |
+    ---------------
+    """
+    aprime = 0.0
+    try:
+        hr = tp / float(tp + fn)
+        fa = fp / float(fp + tn)
+        aprime = .5 + ((hr - fa) * (1.0 + hr - fa)) / (4.0 * hr * (1.0 - fa))
+    except ZeroDivisionError:
+        pass
+    return aprime
