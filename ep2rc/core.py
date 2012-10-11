@@ -6,7 +6,6 @@ __license__ = 'BSD 3-Clause'
 
 import os
 
-from pdb import set_trace
 from . import projects
 
 TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT', 'NBACK')
@@ -24,8 +23,10 @@ def upload_key(info):
     proj = class_from_projstr(info['grant'])(fname, None, database=info['database'])
     return proj.upload_key()
 
+
 def class_from_projstr(proj_str):
     return PROJECT_CLASS[proj_str]
+
 
 def parse_file(fname, fobj, database='in-magnet'):
     bname = os.path.basename(fname)
@@ -42,4 +43,3 @@ def parse_file(fname, fobj, database='in-magnet'):
     to_redcap = parser_object.parse()
 
     return to_redcap
-
