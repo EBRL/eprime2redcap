@@ -9,11 +9,11 @@ import os
 from . import projects
 
 TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT', 'NBACK')
-PROJECT_CLASS = {'NF': projects.NF, 'NFB': projects.NFB, 'RCVB': projects.RCVB,
+PROJECT_CLASS = {'RCK': projects.RCK, 'NF': projects.NF, 'NFB': projects.NFB, 'RCVB': projects.RCVB,
                 'LERDB': projects.LERDB, 'LDRC1': projects.LDRC1, 'ARN': projects.ARN}
 
 #  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS PROJECT_CLASS
-PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1', 'ARN')
+PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1', 'ARN', 'RCK')
 
 
 def upload_key(info):
@@ -40,6 +40,4 @@ def parse_file(fname, fobj, database='in-magnet'):
     parser_object = proj_class(fname, fobj, database)
 
     #  Parse the file and write out a copy
-    to_redcap = parser_object.parse()
-
-    return to_redcap
+    return parser_object.parse()

@@ -236,6 +236,78 @@ def NF_SWR(fobj, new_fname=None):
     res['aprime'] = FZ_FMT % aprime(TP, TN, FP, FN)
     return res
 
+def RCK_SWR(fobj, new_fname=None):
+    """ This parses RCK SWR e-prime files"""
+    dl = io.split_dict(fobj, new_fname)
+
+    #  Remove the practice trial
+    dl[:] = [x for x in dl if x['List3.Sample'] not in ('.', '')]
+
+    try:
+        m1_trials = [x for x in dl if int(x['List3.Sample']) < 51]
+        m2_trials = [x for x in dl if 101 > int(x['List3.Sample']) > 50]
+        m3_trials = [x for x in dl if 151 > int(x['List3.Sample']) > 100]
+        m4_trials = [x for x in dl if int(x['List3.Sample']) > 150]
+    except KeyError:
+        raise errors.BadDataError()
+
+    res = {}
+    TP = 0  # True positives are Word correct
+    TN = 0  # True negatives are Nonword correct
+    FP = 0  # False positives are Word incorrect
+    FN = 0  # False negatives are Nonword incorrect
+    for m_data, m in zip((m1_trials, m2_trials, m3_trials, m4_trials), ('m1', 'm2', 'm3', 'm4')):
+        if m_data:
+            loop_data = zip(('HAI', 'HAR', 'HCI', 'HCR', 'LAI', 'LAR', 'LCI', 'LCR', 'word', 'nonword'),
+                            ('category',) * 8 + ('type',) * 2,
+                            (('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('5','2')),
+                            (('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('6','1')))
+            for cat, cat_key, good, bad in loop_data:
+                try:
+                    trials = filter(lambda x: x[cat_key] == cat, m_data)
+                    if len(trials) == 0:
+                        continue
+                    n_omit = len(filter(lambda x: x['stim.RESP'] not in good+bad, trials))
+                    res['%s_%s_omit' % (m, cat.lower())] = D_FMT % n_omit
+                    #  Remove omits from trials
+                    trials[:] = filter(lambda x: x['stim.RESP'] in good+bad, trials)
+                    corr = filter(lambda x: x['stim.RESP'] in good, trials)
+                    if cat == 'word':
+                        #  Add to TP
+                        TP += len(corr)
+                    elif cat == 'nonword':
+                        #  Add to TN
+                        TN += len(corr)
+                    #  Accuracy = # of correct / # of trials * 100
+                    acc = (float(len(corr)) / len(trials)) * 100
+                    res['%s_%s_acc' % (m, cat.lower())] = F_FMT % acc
+                    #  make a binary vector to compute std deviation
+                    resp = (1,) * len(corr) + (0,) * (len(trials) - len(corr))
+                    acc_std = np.std(np.array(resp))
+                    res['%s_%s_accsd' % (m, cat.lower())] = FZ_FMT % acc_std
+
+                    #  Grab all correct reaction times
+                    all_rt = np.array([float(t['stim.RT']) for t in corr])
+                    #  Mean of reaction time
+                    rt_avg = np.mean(all_rt)
+                    res['%s_%s_rtavg' % (m, cat.lower())] = F_FMT % rt_avg
+                    #  STD of reaction time
+                    rt_std = np.std(all_rt)
+                    res['%s_%s_rtsd' % (m, cat.lower())] =  FZ_FMT % rt_std
+
+                    #  comit
+                    n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
+                    if cat == 'word':
+                        #  Add to FP
+                        FP += n_comit
+                    elif cat == 'nonword':
+                        FN += n_comit
+                    res['%s_%s_comit' % (m, cat.lower())] = D_FMT % n_comit
+                except ZeroDivisionError:
+                    pass
+    res['aprime'] = FZ_FMT % aprime(TP, TN, FP, FN)
+    return res
+
 def NF_PIC(fobj, new_fname=None):
     """ This parses NFRO1 PIC e-prime files"""
     dl = io.split_dict(fobj, new_fname)

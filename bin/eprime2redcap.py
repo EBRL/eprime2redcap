@@ -25,6 +25,7 @@ def arguments():
     return ap.parse_args()
 
 def parse_and_upload(fname, database, do_upload=True):
+    msg = ''
     try:
         to_redcap = {}
         with open(fname) as f:

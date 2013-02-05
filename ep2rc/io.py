@@ -35,4 +35,4 @@ def split_dict(fobj, new_fname=None):
 
     if len(dict_list) == 0:
         raise errors.BadDataError('Empty map list, encoding error?')
-    return dict_list 
+    return dict_list

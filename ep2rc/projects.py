@@ -15,6 +15,8 @@ def project_additions(self): that returns at least {}
 
 And it should get a unit test
 """
+
+
 class BaseProject(object):
     """ Base class from which all Projects should inherit"""
 
@@ -128,6 +130,35 @@ class NF(BaseProject):
         else:
             f = lambda x: '%s_%s_%s' % (self.rcmap[self.task], self.visit.lower(), x)
         return f
+
+
+class RCK(BaseProject):
+    def __init__(self, fname, fobj, database='in-magnet'):
+        super(RCK, self).__init__(fname, fobj, database)
+        self.rcmap = {'SWR': 'swr2'}
+        self.parsers = {'SWR': pf.RCK_SWR}
+        self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RCK', 'In_Behavioral', '_'.join([self.behavid, self.scanid]))
+        self.parse_fname()
+
+    def project_additions(self):
+        return {'id': '_'.join([self.behavid, self.scanid]), 'grant': 'RCK'}
+
+    def split_fname(self):
+        bname = os.path.basename(self.fname)
+        self.bname = bname
+        name, ext = os.path.splitext(bname)
+        parts = name.split('_')
+        try:
+            self.project = parts[0]
+            self.task = parts[1]
+            self.behavid = parts[2]
+            self.scanid = parts[3]
+        except IndexError:
+            raise ValueError("Poorly named file :(")
+        return parts
+
+    def key_map(self):
+        return lambda x: '%s_%s_%s' % (self.rcmap[self.task], 'pre', x)
 
 
 class NFB(BaseProject):
