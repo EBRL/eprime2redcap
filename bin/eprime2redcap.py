@@ -9,6 +9,7 @@ from glob import glob
 
 import ep2rc
 
+
 def arguments():
     import argparse
     ap = argparse.ArgumentParser()
@@ -24,22 +25,6 @@ def arguments():
         help='Do NOT upload information to redcap')
     return ap.parse_args()
 
-def parse_and_upload(fname, database, do_upload=True):
-    msg = ''
-    try:
-        to_redcap = {}
-        with open(fname) as f:
-            to_redcap = ep2rc.parse_file(fname, f)
-    except ep2rc.BadDataError as e:
-        msg = "(%s)" % e + " Failed with %s" % fname
-    suc = False
-    if to_redcap and do_upload:
-        suc = ep2rc.upload(to_redcap, database)
-    if suc:
-        msg = "Success with %s" % fname
-    print msg
-    return to_redcap, suc
-
 
 if __name__ == '__main__':
     args = arguments()
@@ -48,7 +33,7 @@ if __name__ == '__main__':
         for fname in args.files:
             if not os.path.isfile(fname):
                 raise ValueError("This file doesn't exist")
-            data, success = parse_and_upload(fname, args.database, args.upload)
+            data, success = ep2rc.parse_and_upload(fname, args.database, args.upload)
             if not args.upload:
                 print data
 
@@ -61,4 +46,4 @@ if __name__ == '__main__':
             bname = os.path.basename(txt)
             pattern = '(.*_){2,5}'
             if re.match(pattern, bname):
-                data, success = parse_and_upload(txt, args.database, args.upload)
+                data, success = ep2rc.parse_and_upload(txt, args.database, args.upload)
