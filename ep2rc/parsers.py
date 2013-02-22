@@ -28,7 +28,7 @@ def NF_REP(fobj, new_fname=None):
                 'floor': 'C', 'foot': 'C', 'wait': 'A', 'trat': 'Non', 'kwpt': 'CS',
                 'mdp': 'CS', 'green': 'C', 'horse': 'C', 'hot': 'C', 'late': 'A',
                 'rest': 'A', 'stay': 'A', 'skib': 'Non', 'smy': 'Non', 'tey': 'Non',
-                'bhx': 'CS','hdrsp': 'CS','rzst': 'CS','line': 'C','moon': 'C','rain': 'C',
+                'bhx': 'CS', 'hdrsp': 'CS', 'rzst': 'CS', 'line': 'C', 'moon': 'C', 'rain': 'C',
                 'stnm': 'CS','sthnr': 'CS','hct': 'CS','wish': 'A','red': 'C','road': 'C',
                 'gorn': 'Non','heen': 'Non','hoad': 'Non','svnt': 'CS','mlxth': 'CS','rock': 'C',
                 'ship': 'C','sit': 'C','buy': 'A','care': 'A','feel': 'A','brong': 'Non',
@@ -853,6 +853,36 @@ def ARN_REP(fobj, new_fname):
     results['all_comit'] = D_FMT % total_comit
     return results
 
+
+def RCV_PASSAGES(fobj, new_fname=None):
+    dl = io.split_dict(fobj, new_fname)
+
+    try:
+        m1_trials = filter(lambda x: x['Block'] == '1', dl)
+        m2_trials = filter(lambda x: x['Block'] == '2', dl)
+        m3_trials = filter(lambda x: x['Block'] == '3', dl)
+        m4_trials = filter(lambda x: x['Block'] == '4', dl)
+    except KeyError:
+        raise errors.BadDataError("Couldn't split missions")
+
+    def rep_pct(trials):
+        resp = ('5', '6')
+        rep_trials = filter(lambda x: x['Repeat'] == '1', trials)
+        corr_reps = filter(lambda x: x['Stim.RESP'] in resp or x['Ch.RESP'] in resp, rep_trials)
+        return (float(len(corr_reps)) / len(rep_trials)) * 100
+
+    def pic_pct(trials):
+        dt = filter(lambda x: x['decideScreen'] == '1', trials)[0]
+        num_correct = float(sum(map(int, [dt['Picts2.ACC'], dt['Picts1.ACC']])))
+        return (num_correct / 2) * 100
+
+    data = {}
+    loop = zip((m1_trials, m2_trials, m3_trials, m4_trials),
+               ('m1', 'm2', 'm3', 'm4'))
+    for trials, mis in loop:
+        data['%s_pic_pct' % mis] = FZ_FMT % pic_pct(trials)
+        data['%s_rep_pct' % mis] = FZ_FMT % rep_pct(trials)
+    return data
 
 def aprime(tp, tn, fp, fn):
     """

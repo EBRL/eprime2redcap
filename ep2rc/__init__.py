@@ -4,7 +4,6 @@ __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 __version__ = '0.5.2'
 
-import os
 from os import path
 
 from core import parse_file
@@ -35,19 +34,12 @@ def switchboard_fxn(**kwargs):
     from redcap import Project
     from secret import TOKENS, URL
     project = Project(URL, TOKENS['RC'])
+    pidform2field = {(8070, 'eprime'): 'sentcomp_file',
+                     (8070, 'imaging'): 'passages_eprime_file'}
+    field = pidform2field.get((kwargs['pid'], kwargs['form']))
     record = kwargs['record']
-    behav_id = record.split('_', 1)[0]
-    dir_to_write = path.join('/',
-                        'fs0',
-                        'New_Server',
-                        'RCV',
-                        'Out_Behavioral',
-                        'RC_%s' % behav_id,
-                        'RC_%s_E-Prime' % behav_id)
-    if not path.isdir(dir_to_write):
-        os.makedirs(dir_to_write, mode=0770)
-    content, headers = project.export_file(record=record, field='sentcomp_file')
-    fullfile = path.join(dir_to_write, headers['name'])
+    content, headers = project.export_file(record=record, field=field)
+    fullfile = path.join('/home/burnsss1/temp/', headers['name'])
     with open(fullfile, 'w') as f:
         f.write(content)
     print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile

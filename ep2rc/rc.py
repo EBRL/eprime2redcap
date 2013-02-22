@@ -4,8 +4,6 @@ __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 
 
-import os
-
 from redcap import Project
 
 from config import pname_keys
@@ -38,6 +36,7 @@ def upload(to_upload, pname='in-magnet'):
     else:
         success = True
     return success
+
 
 def previous_upload(id, key, pname='in-magnet'):
     d = projects[pname].export_records(records=[id], fields=[key])

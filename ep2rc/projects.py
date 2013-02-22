@@ -68,7 +68,7 @@ class BaseProject(object):
         """ Return the path to where the copy should go """
         if not os.path.isdir(self.copy_dir):
             os.makedirs(self.copy_dir)
-        return os.path.join(self.copy_dir, self.bname+'.txt')
+        return os.path.join(self.copy_dir, self.bname + '.txt')
 
     def parse(self):
         """ Parse the file and return redcap-able results """
@@ -193,13 +193,33 @@ class NFB(BaseProject):
         return {'studyid': self.behavid}
 
 
+class RCV(BaseProject):
+    def __init__(self, fname, fobj, database='in-magnet'):
+        super(RCV, self).__init__(fname, fobj, database)
+        self.parsers = {'PASSAGES': pf.RCV_PASSAGES}
+        self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RCV',
+            'In_Behavioral', '_'.join([self.behavid, self.scanid]))
+
+    def parse_fname(self):
+        self.split_fname()
+
+    def key_map(self):
+        if self.task == 'PASSAGES':
+            return lambda x: 'passagesv2_%s' % x
+        else:
+            return lambda x: x
+
+    def project_additions(self):
+        return {'id': '_'.join([self.behavid, self.scanid])}
+
+
 class RCVB(BaseProject):
 
     def __init__(self, fname, fobj, database='rc'):
         super(RCVB, self).__init__(fname, fobj, database)
         self.parsers = {'SENT': pf.NFB_SENT}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RCV',
-                            'Out_Behavioral', '_'.join([self.behavid, self.scanid]))
+                            'Out_Behavioral', 'RC_%s' % self.behavid, 'RC_%s_E-Prime' % self.behavid))
 
     def parse_fname(self):
         self.split_fname()
@@ -233,12 +253,14 @@ class LERDB(BaseProject):
         #  LERD database changed?
         return lambda x: x.replace('X', '1')
 
+
 class LDRC1(BaseProject):
     def __init__(self, fname, fobj, database='in-magnet'):
         super(LDRC1, self).__init__(fname, fobj, database)
         self.parsers = {'NBACK': pf.LDRC1_NBACK, 'SENT': pf.LDRC1_SENT}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'LDRC1',
                             'In_Behavioral', self.behavid)
+
     def split_fname(self):
         """ This needs a fancy split_fname because there's no scanid """
         bname = os.path.basename(self.fname)
@@ -257,7 +279,7 @@ class LDRC1(BaseProject):
         self.split_fname()
 
     def project_additions(self):
-        to_add = {'id': self.behavid, 'grant': 'LDRC1' }
+        to_add = {'id': self.behavid, 'grant': 'LDRC1'}
         task = self.task.lower()
         if task == 'nback':
             task = 'nback1'
@@ -290,4 +312,3 @@ class ARN(BaseProject):
 
     def key_map(self):
         return lambda x: 'rep2_%s' % x
-
