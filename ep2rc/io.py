@@ -15,8 +15,11 @@ def split_dict(fobj, new_fname=None):
     raw_sp[:] = filter(lambda x: x != '', raw_sp)
 
     if new_fname:
-        with open(new_fname, 'w') as f:
-            f.write('\n'.join(raw_sp))
+        try:
+            with open(new_fname, 'w') as f:
+                f.write('\n'.join(raw_sp))
+        except IOError:
+            print "Couldn't write out file, skipping"
 
     good = []
     good = [r.split('\t') for r in raw_sp]
