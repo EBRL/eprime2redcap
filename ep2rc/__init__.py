@@ -41,7 +41,7 @@ def switchboard_fxn(**kwargs):
                         'fs0',
                         'New_Server',
                         'RCV',
-                        'In_Behavioral',
+                        'Out_Behavioral',
                         'RC_%s' % behav_id,
                         'RC_%s_E-Prime' % behav_id)
     if not path.isdir(dir_to_write):
