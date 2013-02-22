@@ -219,7 +219,7 @@ class RCVB(BaseProject):
         super(RCVB, self).__init__(fname, fobj, database)
         self.parsers = {'SENT': pf.NFB_SENT}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RCV',
-                            'Out_Behavioral', 'RC_%s' % self.behavid, 'RC_%s_E-Prime' % self.behavid))
+                            'Out_Behavioral', 'RC_%s' % self.behavid, 'RC_%s_E-Prime' % self.behavid)
 
     def parse_fname(self):
         self.split_fname()
