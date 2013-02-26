@@ -29,20 +29,21 @@ def parse_and_upload(fname, database, do_upload=True):
 
 
 def switchboard_fxn(**kwargs):
-    """For the time being, this is going to pull the file from
-    "sentcomp_file" in the RCV redcap and upload it back there"""
-    from redcap import Project
+    from redcap import Project, RedcapError
     from secret import TOKENS, URL
     project = Project(URL, TOKENS['RC'])
     pidform2field = {(8070, 'eprime'): 'sentcomp_file',
                      (8070, 'imaging'): 'passages_eprime_file'}
     field = pidform2field.get((kwargs['pid'], kwargs['form']))
     record = kwargs['record']
-    content, headers = project.export_file(record=record, field=field)
-    fullfile = path.join('/home/burnsss1/temp/', headers['name'])
-    with open(fullfile, 'w') as f:
-        f.write(content)
-    print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
-    to_redcap, success = parse_and_upload(fullfile, 'rc')
-    if not success:
-        print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
+    try:
+        content, headers = project.export_file(record=record, field=field)
+        fullfile = path.join('/home/burnsss1/temp/', headers['name'])
+        with open(fullfile, 'w') as f:
+            f.write(content)
+        print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
+        to_redcap, success = parse_and_upload(fullfile, 'rc')
+        if not success:
+            print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
+    except RedcapError:
+        print "ep2rc.switchboard_fxn: Could not download file for %s" % record
