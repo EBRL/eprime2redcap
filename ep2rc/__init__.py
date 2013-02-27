@@ -4,6 +4,8 @@ __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 __version__ = '0.5.2'
 
+from stathat import StatHat
+_stats = StatHat('scott.s.burns@gmail.com')
 from os import path
 
 from core import parse_file
@@ -43,7 +45,10 @@ def switchboard_fxn(**kwargs):
             f.write(content)
         print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
         to_redcap, success = parse_and_upload(fullfile, 'rc')
+        _stats.count('ep2rc', 1)
         if not success:
             print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
+            _stats.count('ep2rc error')
     except RedcapError:
         print "ep2rc.switchboard_fxn: Could not download file for %s" % record
+        _stats.count('ep2rc error')
