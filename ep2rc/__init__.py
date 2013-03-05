@@ -34,9 +34,9 @@ def switchboard_fxn(**kwargs):
     from redcap import Project, RedcapError
     from secret import TOKENS, URL
     project = Project(URL, TOKENS['RC'])
-    pidform2field = {(8070, 'eprime'): 'sentcomp_file',
-                     (8070, 'imaging'): 'passages_eprime_file'}
-    field = pidform2field.get((kwargs['pid'], kwargs['form']))
+    pidform2field = {(8070, 'eprime'): ('sentcomp_file', 'rc'),
+                     (8070, 'imaging'): ('passages_eprime_file', 'in-magnet')}
+    field, db = pidform2field.get((kwargs['pid'], kwargs['form']))
     record = kwargs['record']
     try:
         content, headers = project.export_file(record=record, field=field)
@@ -44,7 +44,7 @@ def switchboard_fxn(**kwargs):
         with open(fullfile, 'w') as f:
             f.write(content)
         print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
-        to_redcap, success = parse_and_upload(fullfile, 'rc')
+        to_redcap, success = parse_and_upload(fullfile, db)
         _stats.count('ep2rc', 1)
         if not success:
             print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
