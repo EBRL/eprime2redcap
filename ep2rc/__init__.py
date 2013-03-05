@@ -48,7 +48,7 @@ def switchboard_fxn(**kwargs):
         _stats.count('ep2rc', 1)
         if not success:
             print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
-            _stats.count('ep2rc error')
+            _stats.count('ep2rc error', 1)
     except RedcapError:
         print "ep2rc.switchboard_fxn: Could not download file for %s" % record
-        _stats.count('ep2rc error')
+        _stats.count('ep2rc error', 1)
