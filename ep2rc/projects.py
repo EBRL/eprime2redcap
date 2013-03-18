@@ -93,6 +93,42 @@ class BaseProject(object):
         raise NotImplementedError
 
 
+class LERDP2(BaseProject):
+    """Behavioral files"""
+
+    def __init__(self, fname, fobj, database='lerdp2'):
+        super(LERDP2, self).__init__(fname, fobj, database)
+        self.parsers = {"DLPICENC": pf.LERDP2B_DLPICENC, "DLPICREC": pf.LERDP2B_DLPICREC}
+        self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'LERD_Aim2',
+            'Out_Behavioral', 'Longitudinal', 'Behavioral Participant Folders',
+            '_'.join(['LERD_P2', self.behavid, 'E-Prime']))
+
+    def split_fname(self):
+        """Fancy split_fname"""
+        bname = os.path.basename(self.fname)
+        self.bname = bname
+        name, ext = os.path.splitext(bname)
+        parts = name.split('_')
+        try:
+            self.project = parts[0]
+            self.task = parts[1]
+            self.behavid = parts[2]
+            self.visit = parts[3]
+        except IndexError:
+            raise ValueError("Poorly named file :(")
+        return parts
+
+    def project_additions(self):
+        to_add = {'participant_id': self.behavid}
+        return to_add
+
+    def key_map(self):
+        if self.task in ("DLPICENC", "DLPICREC"):
+            f = lambda x: '%s_%s' % (self.visit.lower(), x)
+        else:
+            f = lambda x: x
+        return f
+
 class NF(BaseProject):
 
     def __init__(self, fname, fobj, database='in-magnet'):

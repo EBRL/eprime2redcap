@@ -854,6 +854,130 @@ def ARN_REP(fobj, new_fname):
     return results
 
 
+def declearn_get_rt(trial):
+    responses = ('1', '5')
+    if trial['Stimulus.RESP'] in responses:
+        return int(trial['Stimulus.RT'])
+    elif trial['WaitForResponse.RESP'] in responses:
+        return int(trial['WaitForResponse.RTTime']) - int(trial['Stimulus.OnsetTime'])
+    else:
+        return 0
+
+
+def declearn_is_correct(trial, corr):
+    sk = 'Stimulus.RESP'
+    wk = 'WaitForResponse.RESP'
+    if trial[sk] in ('1', '5'):
+        return trial[sk] == corr
+    else:
+        return trial[wk] == corr
+
+
+DECLEARN_NONREAL_SUBSTRINGS = ['potter', 'Plank', 'Laine', 'kirk', 'Eals']
+
+
+def declearn_is_nonreal(trial):
+    return any(map(lambda x: x in trial['Item'], DECLEARN_NONREAL_SUBSTRINGS))
+
+
+def declearn_is_real(trial):
+    return all(map(lambda x: x not in trial['Item'], DECLEARN_NONREAL_SUBSTRINGS))
+
+
+def declearn_dprime(real_trials, nonreal_trials):
+    # dprime
+    hit = float(len(filter(lambda x: declearn_is_correct(x, '1'), real_trials)))
+    miss = float(len(filter(lambda x: not declearn_is_correct(x, '1'), real_trials)))
+    fa = float(len(filter(lambda x: not declearn_is_correct(x, '5'), nonreal_trials)))
+    cr = float(len(filter(lambda x: declearn_is_correct(x, '5'), nonreal_trials)))
+
+    HR = hit / (hit + miss)
+    FAR = fa / (fa + cr)
+    from scipy.stats import norm
+    zhr = norm.ppf(HR)
+    zfar = norm.ppf(FAR)
+
+    dprime = zhr - zfar
+    return dprime
+
+
+def LERDP2B_DLPICENC(fobj, new_fname=None):
+    dl = io.split_dict(fobj, new_fname)
+
+    exp_trials = filter(lambda x: x['Running[Trial]'] == 'EncodingItems', dl)
+
+    nonreal_trials = filter(declearn_is_nonreal, exp_trials)
+    assert len(nonreal_trials) == 32
+    real_trials = filter(declearn_is_real, exp_trials)
+    assert len(real_trials) == 32
+
+    loop = zip([real_trials, nonreal_trials], ['1', '5'], ['real', 'nonreal'])
+    data = {}
+    for trials, correct_response, key in loop:
+        correct_trials = filter(lambda x: declearn_is_correct(x, correct_response), trials)
+        incorrect_trials = filter(lambda x: not declearn_is_correct(x, correct_response), trials)
+        data['dlpicenc_%s_acc' % key] = '%0.3f' % (float(len(correct_trials)) / len(trials) * 100)
+        correct_rts = np.array(filter(None, map(declearn_get_rt, correct_trials)))
+        incorrect_rts = np.array(filter(None, map(declearn_get_rt, incorrect_trials)))
+
+        # correct
+        data['dlpicenc_%s_corr_rtavg' % key] = '%0.3f' % np.mean(correct_rts)
+        data['dlpicenc_%s_corr_rtsd' % key] = '%0.3f' % np.std(correct_rts, ddof=1)
+        # incorrect
+        data['dlpicenc_%s_incorr_rtavg' % key] = '%0.3f' % np.mean(incorrect_rts)
+        data['dlpicenc_%s_incorr_rtsd' % key] = '%0.3f' % np.std(incorrect_rts, ddof=1)
+
+    data['dlpicenc_dprime'] = '%0.3f' % declearn_dprime(real_trials, nonreal_trials)
+    return data
+
+
+def is_old(trial):
+    seen_objects = set(['legos', 'tape', 'hippopotamus', 'Plank13', 'Plank4', 'watering-can',
+                        'Plank17', 'matches', 'Laine-RIITMOTT', 'camcorder', 'saturn', 'Plank3',
+                        'kirk1', 'barbell', 'Laine-JYRSIN', 'chimney', 'Plank50', 'hamster',
+                        'Eals10', 'vacuum', 'Plank49', 'platypus', 'ruler', 'strainer', 'Laine-kosseli',
+                        'tepee', 'Eals22', 'potter26', 'Eals23', 'teapot', 'Laine-ROVE', 'potter9',
+                        'crab', 'hose', 'potter17', 'battleship', 'dolphin', 'floss', 'potter7',
+                        'headphones', 'Laine-PALIN', 'stoplight', 'Plank5', 'Laine-naskain', 'potter22',
+                        'sloth', 'potter12', 'yo-yo', 'Laine-KALKKU', 'ladybug', 'lighthouse', 'potter8',
+                        'Laine-karttu', 'Laine-pynna', 'plant', 'trombone', 'Eals08', 'potter15', 'Laine-NORHA',
+                        'llama', 'shark', 'Laine-MAALITSA', 'Eals29', 'needle'])
+    return trial['Item'] in seen_objects
+
+
+def recog_is_correct(trial):
+    corr_response = '1' if is_old(trial) else '5'
+    return declearn_is_correct(trial, corr_response)
+
+
+def LERDP2B_DLPICREC(fobj, new_fname=None):
+    dl = io.split_dict(fobj, new_fname)
+
+    exp_trials = filter(lambda x: x['Running[Trial]'] == 'RetrievalItems', dl)
+    old_trials = filter(is_old, exp_trials)
+    assert len(old_trials) == 64
+    novel_trials = filter(lambda x: not is_old(x), exp_trials)
+    assert len(novel_trials) == 64
+
+    loop = zip([old_trials, novel_trials], ['1', '5'], ['old', 'novel'])
+    data = {}
+    for trials, correct_response, key in loop:
+        correct_trials = filter(recog_is_correct, trials)
+        incorrect_trials = filter(lambda x: not recog_is_correct(x), trials)
+        data['dlpicrec_%s_acc' % key] = '%0.3f' % (float(len(correct_trials)) / len(trials) * 100)
+        correct_rts = np.array(filter(None, map(declearn_get_rt, correct_trials)))
+        incorrect_rts = np.array(filter(None, map(declearn_get_rt, incorrect_trials)))
+
+        # correct
+        data['dlpicrec_%s_corr_rtavg' % key] = '%0.3f' % np.mean(correct_rts)
+        data['dlpicrec_%s_corr_rtsd' % key] = '%0.3f' % np.std(correct_rts, ddof=1)
+        # incorrect
+        data['dlpicrec_%s_incorr_rtavg' % key] = '%0.3f' % np.mean(incorrect_rts)
+        data['dlpicrec_%s_incorr_rtsd' % key] = '%0.3f' % np.std(incorrect_rts, ddof=1)
+    data['dlpicrec_dprime'] = '%0.3f' % declearn_dprime(old_trials, novel_trials)
+    return data
+
+
 def RCV_PASSAGES(fobj, new_fname=None):
     dl = io.split_dict(fobj, new_fname)
 

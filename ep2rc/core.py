@@ -8,7 +8,9 @@ import os
 
 from . import projects
 
-TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT', 'NBACK', 'PASSAGES')
+TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT', 'NBACK', 'PASSAGES',
+         'DLPICENC', 'DLPICREC')
+
 PROJECT_CLASS = {'RCK': projects.RCK,
                  'NF': projects.NF,
                  'NFB': projects.NFB,
@@ -16,10 +18,11 @@ PROJECT_CLASS = {'RCK': projects.RCK,
                  'LERDB': projects.LERDB,
                  'LDRC1': projects.LDRC1,
                  'ARN': projects.ARN,
-                 'RCV': projects.RCV}
+                 'RCV': projects.RCV,
+                 'LERDP2': projects.LERDP2}
 
 #  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS PROJECT_CLASS
-PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1', 'ARN', 'RCK', 'RCV')
+PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1', 'ARN', 'RCK', 'RCV', 'LERDP2')
 
 
 def upload_key(info):
