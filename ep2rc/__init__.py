@@ -33,11 +33,11 @@ def parse_and_upload(fname, database, do_upload=True):
 def switchboard_fxn(**kwargs):
     from redcap import Project, RedcapError
     from secret import TOKENS, URL
-    project = Project(URL, TOKENS['RC'])
-    pidform2field = {(8070, 'eprime'): (['sentcomp_file'], 'rc'),
-                     (8070, 'imaging'): (['passages_eprime_file'], 'in-magnet'),
-                     (14707, 'visit_1_behavioral'): (['v1_dlpic_enc_file', 'v1_dlpic_rec_file'], 'lerdp2')}
-    fields, db = pidform2field.get((kwargs['pid'], kwargs['form']))
+    pidform2field = {(8070, 'eprime'): (['sentcomp_file'], 'rc', 'RC'),
+                     (8070, 'imaging'): (['passages_eprime_file'], 'in-magnet', 'RC'),
+                     (14707, 'visit_1_behavioral'): (['v1_dlpic_enc_file', 'v1_dlpic_rec_file'], 'lerdp2', 'LERDP2')}
+    fields, db, project_token_key = pidform2field.get((kwargs['pid'], kwargs['form']))
+    project = Project(URL, TOKENS[project_token_key])
     record = kwargs['record']
     for field in fields:
         try:
