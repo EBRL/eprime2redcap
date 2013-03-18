@@ -34,21 +34,23 @@ def switchboard_fxn(**kwargs):
     from redcap import Project, RedcapError
     from secret import TOKENS, URL
     project = Project(URL, TOKENS['RC'])
-    pidform2field = {(8070, 'eprime'): ('sentcomp_file', 'rc'),
-                     (8070, 'imaging'): ('passages_eprime_file', 'in-magnet')}
-    field, db = pidform2field.get((kwargs['pid'], kwargs['form']))
+    pidform2field = {(8070, 'eprime'): (['sentcomp_file'], 'rc'),
+                     (8070, 'imaging'): (['passages_eprime_file'], 'in-magnet'),
+                     (14707, 'visit_1_behavioral'): (['v1_dlpic_enc_file', 'v1_dlpic_rec_file'], 'lerdp2')}
+    fields, db = pidform2field.get((kwargs['pid'], kwargs['form']))
     record = kwargs['record']
-    try:
-        content, headers = project.export_file(record=record, field=field)
-        fullfile = path.join('/home/burnsss1/temp/', headers['name'])
-        with open(fullfile, 'w') as f:
-            f.write(content)
-        print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
-        to_redcap, success = parse_and_upload(fullfile, db)
-        _stats.count('ep2rc', 1)
-        if not success:
-            print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
+    for field in fields:
+        try:
+            content, headers = project.export_file(record=record, field=field)
+            fullfile = path.join('/home/burnsss1/temp/', headers['name'])
+            with open(fullfile, 'w') as f:
+                f.write(content)
+            print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
+            to_redcap, success = parse_and_upload(fullfile, db)
+            _stats.count('ep2rc', 1)
+            if not success:
+                print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
+                _stats.count('ep2rc error', 1)
+        except RedcapError:
+            print "ep2rc.switchboard_fxn: Could not download file for %s" % record
             _stats.count('ep2rc error', 1)
-    except RedcapError:
-        print "ep2rc.switchboard_fxn: Could not download file for %s" % record
-        _stats.count('ep2rc error', 1)
