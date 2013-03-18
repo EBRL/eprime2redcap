@@ -943,7 +943,7 @@ def LERDP2B_DLPICENC(fobj, new_fname=None):
         data['dlpicenc_%s_incorr_rtavg' % key] = '%0.3f' % np.mean(incorrect_rts)
         data['dlpicenc_%s_incorr_rtsd' % key] = '%0.3f' % np.std(incorrect_rts, ddof=1)
 
-    data['dlpicenc_dprime'] = '%0.3f' % declearn_dprime(real_trials, nonreal_trials)
+    # data['dlpicenc_dprime'] = '%0.3f' % declearn_dprime(real_trials, nonreal_trials)
     return data
 
 
@@ -990,7 +990,7 @@ def LERDP2B_DLPICREC(fobj, new_fname=None):
         # incorrect
         data['dlpicrec_%s_incorr_rtavg' % key] = '%0.3f' % np.mean(incorrect_rts)
         data['dlpicrec_%s_incorr_rtsd' % key] = '%0.3f' % np.std(incorrect_rts, ddof=1)
-    data['dlpicrec_dprime'] = '%0.3f' % declearn_dprime(old_trials, novel_trials)
+    # data['dlpicrec_dprime'] = '%0.3f' % declearn_dprime(old_trials, novel_trials)
     return data
 
 
