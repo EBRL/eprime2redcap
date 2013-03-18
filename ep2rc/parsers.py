@@ -15,6 +15,7 @@ D_FMT = '%d'
 
 """ TASK PARSING FUNCTIONS """
 
+
 def NF_REP(fobj, new_fname=None):
     """ This parses NFRO1 REP e-prime files """
     REP_DICT = {'fine': 'A', 'hope': 'A', 'kept': 'A', 'jeet': 'Non', 'libe': 'Non',
@@ -29,31 +30,31 @@ def NF_REP(fobj, new_fname=None):
                 'mdp': 'CS', 'green': 'C', 'horse': 'C', 'hot': 'C', 'late': 'A',
                 'rest': 'A', 'stay': 'A', 'skib': 'Non', 'smy': 'Non', 'tey': 'Non',
                 'bhx': 'CS', 'hdrsp': 'CS', 'rzst': 'CS', 'line': 'C', 'moon': 'C', 'rain': 'C',
-                'stnm': 'CS','sthnr': 'CS','hct': 'CS','wish': 'A','red': 'C','road': 'C',
-                'gorn': 'Non','heen': 'Non','hoad': 'Non','svnt': 'CS','mlxth': 'CS','rock': 'C',
-                'ship': 'C','sit': 'C','buy': 'A','care': 'A','feel': 'A','brong': 'Non',
-                'doil': 'Non','fomp': 'Non','dwql': 'CS','chdncp': 'CS','flhhr': 'CS','stop': 'A',
-                'try': 'A','turn': 'A','sound': 'C','wife': 'C','wood': 'C','write': 'C',
-                'preet': 'Non','reat': 'Non','saip': 'Non','yad': 'Non','spt': 'CS','rcd': 'CS',
-                'zood': 'Non','wrong': 'A','floor': 'C','foot': 'C','wait': 'A','trat': 'Non',
-                'kwpt': 'CS','mdp': 'CS','box': 'C','dark': 'C','eat': 'C','farm': 'C',
-                'line': 'C','moon': 'C','rain': 'C','stnm': 'CS','sthnr': 'CS','hct': 'CS',
-                'wish': 'A','red': 'C','road': 'C','skib': 'Non','smy': 'Non','tey': 'Non',
-                'bhx': 'CS','hdrsp': 'CS','rzst': 'CS','jeet': 'Non','libe': 'Non','pait': 'Non',
-                'pdgp': 'CS','wlr': 'CS','fxct': 'CS','fine': 'A','hope': 'A','kept': 'A',
-                'green': 'C','horse': 'C','hot': 'C','gorn': 'Non','heen': 'Non','hoad': 'Non',
-                'svnt': 'CS','mlxth': 'CS','late': 'A','rest': 'A','stay': 'A','brong': 'Non','doil': 'Non',
-                'fomp': 'Non','dwql': 'CS','chdncp': 'CS','flhhr': 'CS','wrong': 'A','floor': 'C',
-                'foot': 'C','wait': 'A','trat': 'Non','kwpt': 'CS','mdp': 'CS','box': 'C',
-                'dark': 'C','eat': 'C','preet': 'Non','reat': 'Non','saip': 'Non','stop': 'A',
-                'try': 'A','turn': 'A','sound': 'C','wife': 'C','wood': 'C','write': 'C',
-                'yad': 'Non','spt': 'CS','rcd': 'CS','zood': 'Non','rock': 'C','ship': 'C',
-                'sit': 'C','buy': 'A','care': 'A','feel': 'A','stnm': 'CS','sthnr': 'CS',
-                'hct': 'CS','wish': 'A','red': 'C','road': 'C','pait': 'Non','pdgp': 'CS','wlr': 'CS',
-                'fxct': 'CS','fine': 'A','hope': 'A','kept': 'A','green': 'C','horse': 'C','hot': 'C',
-                'gorn': 'Non','heen': 'Non','hoad': 'Non','svnt': 'CS','mlxth': 'CS','late': 'A','rest': 'A',
-                'stay': 'A','hdrsp': 'CS','rzst': 'CS','jeet': 'Non','libe': 'Non','farm': 'C',
-                'line': 'C','moon': 'C','rain': 'C','skib': 'Non','smy': 'Non','tey': 'Non','bhx': 'CS'}
+                'stnm': 'CS', 'sthnr': 'CS', 'hct': 'CS', 'wish': 'A', 'red': 'C', 'road': 'C',
+                'gorn': 'Non', 'heen': 'Non', 'hoad': 'Non', 'svnt': 'CS', 'mlxth': 'CS', 'rock': 'C',
+                'ship': 'C', 'sit': 'C', 'buy': 'A', 'care': 'A', 'feel': 'A', 'brong': 'Non',
+                'doil': 'Non', 'fomp': 'Non', 'dwql': 'CS', 'chdncp': 'CS', 'flhhr': 'CS', 'stop': 'A',
+                'try': 'A', 'turn': 'A', 'sound': 'C', 'wife': 'C', 'wood': 'C', 'write': 'C',
+                'preet': 'Non', 'reat': 'Non', 'saip': 'Non', 'yad': 'Non', 'spt': 'CS', 'rcd': 'CS',
+                'zood': 'Non', 'wrong': 'A', 'floor': 'C', 'foot': 'C', 'wait': 'A', 'trat': 'Non',
+                'kwpt': 'CS', 'mdp': 'CS', 'box': 'C', 'dark': 'C', 'eat': 'C', 'farm': 'C',
+                'line': 'C', 'moon': 'C', 'rain': 'C', 'stnm': 'CS', 'sthnr': 'CS', 'hct': 'CS',
+                'wish': 'A', 'red': 'C', 'road': 'C', 'skib': 'Non', 'smy': 'Non', 'tey': 'Non',
+                'bhx': 'CS', 'hdrsp': 'CS', 'rzst': 'CS', 'jeet': 'Non', 'libe': 'Non', 'pait': 'Non',
+                'pdgp': 'CS', 'wlr': 'CS', 'fxct': 'CS', 'fine': 'A', 'hope': 'A', 'kept': 'A',
+                'green': 'C', 'horse': 'C', 'hot': 'C', 'gorn': 'Non', 'heen': 'Non', 'hoad': 'Non',
+                'svnt': 'CS', 'mlxth': 'CS', 'late': 'A', 'rest': 'A', 'stay': 'A', 'brong': 'Non', 'doil': 'Non',
+                'fomp': 'Non', 'dwql': 'CS', 'chdncp': 'CS', 'flhhr': 'CS', 'wrong': 'A', 'floor': 'C',
+                'foot': 'C', 'wait': 'A', 'trat': 'Non', 'kwpt': 'CS', 'mdp': 'CS', 'box': 'C',
+                'dark': 'C', 'eat': 'C', 'preet': 'Non', 'reat': 'Non', 'saip': 'Non', 'stop': 'A',
+                'try': 'A', 'turn': 'A', 'sound': 'C', 'wife': 'C', 'wood': 'C', 'write': 'C',
+                'yad': 'Non', 'spt': 'CS', 'rcd': 'CS', 'zood': 'Non', 'rock': 'C', 'ship': 'C',
+                'sit': 'C', 'buy': 'A', 'care': 'A', 'feel': 'A', 'stnm': 'CS', 'sthnr': 'CS',
+                'hct': 'CS', 'wish': 'A', 'red': 'C', 'road': 'C', 'pait': 'Non', 'pdgp': 'CS', 'wlr': 'CS',
+                'fxct': 'CS', 'fine': 'A', 'hope': 'A', 'kept': 'A', 'green': 'C', 'horse': 'C', 'hot': 'C',
+                'gorn': 'Non', 'heen': 'Non', 'hoad': 'Non', 'svnt': 'CS', 'mlxth': 'CS', 'late': 'A', 'rest': 'A',
+                'stay': 'A', 'hdrsp': 'CS', 'rzst': 'CS', 'jeet': 'Non', 'libe': 'Non', 'farm': 'C',
+                'line': 'C', 'moon': 'C', 'rain': 'C', 'skib': 'Non', 'smy': 'Non', 'tey': 'Non', 'bhx': 'CS'}
     dl = io.split_dict(fobj, new_fname)
 
     try:
@@ -69,8 +70,8 @@ def NF_REP(fobj, new_fname=None):
             #  text1 contains strings.  REP_DICT matches these strings to their
             #  category.
             loop_data = zip(('A', 'C', 'Non', 'CS'),
-                            (('6','1'), ('6','1'), ('5','2'), ('5','2')),
-                            (('5','2'), ('5','2'), ('6','1'), ('6','1')),
+                            (('6', '1'), ('6', '1'), ('5', '2'), ('5', '2')),
+                            (('5', '2'), ('5', '2'), ('6', '1'), ('6', '1')),
                             ('abs', 'conc', 'non', 'cons'))
             for cat, good, bad, catt in loop_data:
                 try:
@@ -106,6 +107,7 @@ def NF_REP(fobj, new_fname=None):
 
     return results
 
+
 def NF_MI(fobj, new_fname=None):
     """ This parses NFRO1 MI e prime files"""
     dl = io.split_dict(fobj, new_fname)
@@ -131,13 +133,13 @@ def NF_MI(fobj, new_fname=None):
 
             #  Responses are correct if the x was in the letter (a '1' the correct column) and the response was '6'
             #  OR the x wasn't in the letter ('2' in the correct) and the response was '5'
-            corrf = lambda x: ((x['correct'] == '1' and x['Target.RESP'] in ('6','1')) or (x['correct'] == '2' and x['Target.RESP'] == '5'))
+            corrf = lambda x: ((x['correct'] == '1' and x['Target.RESP'] in ('6', '1')) or (x['correct'] == '2' and x['Target.RESP'] == '5'))
             #  A false positive is a positive response when the x wasn't in the letter
-            fpf = lambda x: x['correct'] == '2' and x['Target.RESP'] in ('6','1')
+            fpf = lambda x: x['correct'] == '2' and x['Target.RESP'] in ('6', '1')
             #  A false negative is a negative response when the x was in the letter
-            fnf = lambda x: x['correct'] == '1' and x['Target.RESP'] in ('5','2')
+            fnf = lambda x: x['correct'] == '1' and x['Target.RESP'] in ('5', '2')
             omitf = lambda x: x['Target.RESP'] not in ('5', '6', '1', '2')
-            for tdata, ttext in zip((real_trials, cont_trials),('imag', 'cont')):
+            for tdata, ttext in zip((real_trials, cont_trials), ('imag', 'cont')):
                 try:
                     #  Use omit function
                     omit = [x for x in tdata if omitf(x)]
@@ -168,6 +170,7 @@ def NF_MI(fobj, new_fname=None):
                     pass
     return results
 
+
 def NF_SWR(fobj, new_fname=None):
     """ This parses NFRO1 SWR e-prime files"""
     dl = io.split_dict(fobj, new_fname)
@@ -190,8 +193,8 @@ def NF_SWR(fobj, new_fname=None):
         if m_data:
             loop_data = zip(('HAI', 'HAR', 'HCI', 'HCR', 'word', 'nonword'),
                             ('category',) * 4 + ('type',) * 2,
-                            (('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('5','2')),
-                            (('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('6','1')))
+                            (('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('5', '2')),
+                            (('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('6', '1')))
             for cat, cat_key, good, bad in loop_data:
                 try:
                     trials = filter(lambda x: x[cat_key] == cat, m_data)
@@ -221,7 +224,7 @@ def NF_SWR(fobj, new_fname=None):
                     res['%s_%s_rtavg' % (m, cat.lower())] = F_FMT % rt_avg
                     #  STD of reaction time
                     rt_std = np.std(all_rt)
-                    res['%s_%s_rtsd' % (m, cat.lower())] =  FZ_FMT % rt_std
+                    res['%s_%s_rtsd' % (m, cat.lower())] = FZ_FMT % rt_std
 
                     #  comit
                     n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
@@ -235,6 +238,7 @@ def NF_SWR(fobj, new_fname=None):
                     pass
     res['aprime'] = FZ_FMT % aprime(TP, TN, FP, FN)
     return res
+
 
 def RCK_SWR(fobj, new_fname=None):
     """ This parses RCK SWR e-prime files"""
@@ -260,8 +264,8 @@ def RCK_SWR(fobj, new_fname=None):
         if m_data:
             loop_data = zip(('HAI', 'HAR', 'HCI', 'HCR', 'LAI', 'LAR', 'LCI', 'LCR', 'word', 'nonword'),
                             ('category',) * 8 + ('type',) * 2,
-                            (('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('6','1'), ('5','2')),
-                            (('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('5','2'), ('6','1')))
+                            (('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('5', '2')),
+                            (('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('6', '1')))
             for cat, cat_key, good, bad in loop_data:
                 try:
                     trials = filter(lambda x: x[cat_key] == cat, m_data)
@@ -293,7 +297,7 @@ def RCK_SWR(fobj, new_fname=None):
                     res['%s_%s_rtavg' % (m, cat.lower())] = F_FMT % rt_avg
                     #  STD of reaction time
                     rt_std = np.std(all_rt)
-                    res['%s_%s_rtsd' % (m, cat.lower())] =  FZ_FMT % rt_std
+                    res['%s_%s_rtsd' % (m, cat.lower())] = FZ_FMT % rt_std
 
                     #  comit
                     n_comit = len(filter(lambda x: x['stim.RESP'] in bad, trials))
@@ -308,6 +312,7 @@ def RCK_SWR(fobj, new_fname=None):
     res['aprime'] = FZ_FMT % aprime(TP, TN, FP, FN)
     return res
 
+
 def NF_PIC(fobj, new_fname=None):
     """ This parses NFRO1 PIC e-prime files"""
     dl = io.split_dict(fobj, new_fname)
@@ -319,15 +324,15 @@ def NF_PIC(fobj, new_fname=None):
         raise errors.BadDataError()
 
     res = {}
-    TP = 0 # True positive Match Correct
-    TN = 0 # True negative Nonmatch correct
-    FP = 0 # False positive Match incorrect
-    FN = 0 # False negative Nonmatch incorrect
+    TP = 0  # True positive Match Correct
+    TN = 0  # True negative Nonmatch correct
+    FP = 0  # False positive Match incorrect
+    FN = 0  # False negative Nonmatch incorrect
     for m_data, m in zip((m1_trials, m2_trials), ('m1', 'm2')):
         if m_data:
             loop_data = zip(('psw', 'con', 'wrd', 'match'),
-                            (('5','2'), ('5','2'), ('5','2'), ('6','1')),
-                            (('6','1'), ('6','1'), ('6','1'), ('5','2')))
+                            (('5', '2'), ('5', '2'), ('5', '2'), ('6', '1')),
+                            (('6', '1'), ('6', '1'), ('6', '1'), ('5', '2')))
             for typ, good, bad in loop_data:
                 try:
                     trials = filter(lambda x: x['type'] == typ, m_data)
@@ -374,6 +379,7 @@ def NF_PIC(fobj, new_fname=None):
     res['aprime'] = FZ_FMT % aprime(TP, TN, FP, FN)
     return res
 
+
 def NFB_MR(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
 
@@ -391,6 +397,7 @@ def NFB_MR(fobj, new_fname):
     results['mrtXlsdrt'] = FZ_FMT % np.std(all_rt)
 
     return results
+
 
 def NFB_MI(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
@@ -414,6 +421,7 @@ def NFB_MI(fobj, new_fname):
     results['mitXsdrt'] = FZ_FMT % np.std(all_rt)
 
     return results
+
 
 def NFB_OLSON(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
@@ -445,6 +453,7 @@ def NFB_OLSON(fobj, new_fname):
 
     return results
 
+
 def NFB_FIG(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
 
@@ -461,6 +470,7 @@ def NFB_FIG(fobj, new_fname):
 
     return results
 
+
 def adjust(mean, sd, rt, thresh=2.5):
     upper = mean + sd * thresh
     lower = mean - sd * thresh
@@ -470,6 +480,7 @@ def adjust(mean, sd, rt, thresh=2.5):
         return lower
     else:
         return rt
+
 
 def NFB_SENT(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
@@ -540,6 +551,7 @@ def NFB_SENT(fobj, new_fname):
 
     return results
 
+
 def LDRC1_NBACK(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
 
@@ -585,11 +597,13 @@ def LDRC1_NBACK(fobj, new_fname):
             current_ind = int(tr['List3.Sample'])
             try:
                 next_repeat = [x for x in repeat_trials
-                        if int(x['List3.Sample']) == (current_ind+1)][0]
-                if tr['stim.RESP'] == '1': repeat_corr += 1
+                               if int(x['List3.Sample']) == (current_ind+1)][0]
+                if tr['stim.RESP'] == '1':
+                    repeat_corr += 1
             except IndexError:
                 #  Correct response here is 2
-                if tr['stim.RESP'] == '2': repeat_corr += 1
+                if tr['stim.RESP'] == '2':
+                    repeat_corr += 1
         total_correct += repeat_corr
         try:
             repeat_acc = float(repeat_corr) / len(repeat_trials) * 100
@@ -609,6 +623,7 @@ def LDRC1_NBACK(fobj, new_fname):
     results['all_acc'] = F_FMT % total_acc
     return results
 
+
 def LDRC1_SENT(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
 
@@ -625,18 +640,18 @@ def LDRC1_SENT(fobj, new_fname):
         raise errors.BadDataError("Couldn't seperate missions")
 
     m_loop = zip((m1_trials, m2_trials, m3_trials, m4_trials, m5_trials, m6_trials),
-                    ('m1', 'm2', 'm3', 'm4', 'm5', 'm6'))
+                 ('m1', 'm2', 'm3', 'm4', 'm5', 'm6'))
 
     total = {}
     for m_data, m in m_loop:
         response_trials = [x for x in m_data if x['decideScreen'] == '1']
-        m_results = {'tot': 0, 'rt':[], 'corr':0, 'omit': 0, 'comit': 0}
+        m_results = {'tot': 0, 'rt': [], 'corr': 0, 'omit': 0, 'comit': 0}
         #  Loop in the response trials for types
         for rtype in ('semantic', 'truesent', 'pseudo', 'syntatic', 'realword'):
             #  Redcap needs lowered keys
             if not rtype in total:
                 #  Init the rtype in total
-                total[rtype] = {'tot': 0, 'rt':[], 'corr': 0, 'omit': 0, 'comit': 0}
+                total[rtype] = {'tot': 0, 'rt': [], 'corr': 0, 'omit': 0, 'comit': 0}
 
             responses = [x for x in response_trials if x['type'].lower() == rtype]
             #  Omit is no response
@@ -644,7 +659,7 @@ def LDRC1_SENT(fobj, new_fname):
             r_omit = len(omit)
             responses[:] = filter(lambda x: x['DecideScreen.RESP'] != '', responses)
             if len(responses) > 0:
-                r_tot =  len(responses)
+                r_tot = len(responses)
 
                 corr = [x for x in responses if x['correct'] == x['DecideScreen.RESP']]
                 r_corr = len(corr)
@@ -665,7 +680,7 @@ def LDRC1_SENT(fobj, new_fname):
                     r_rtsd = 0
 
                 #  Now do incorr
-                incorr = [x for  x in responses if x['correct'] != x['DecideScreen.RESP']]
+                incorr = [x for x in responses if x['correct'] != x['DecideScreen.RESP']]
 
                 #  Comit is wrong response
                 comit = [x for x in incorr if x['DecideScreen.RESP'] != '']
@@ -738,7 +753,7 @@ def LDRC1_SENT(fobj, new_fname):
         results['%s_all_omit' % m] = D_FMT % m_omit
         results['%s_all_comit' % m] = D_FMT % m_comit
 
-    all_results = {'tot': 0, 'corr': 0, 'rt':[], 'comit':0, 'omit':0}
+    all_results = {'tot': 0, 'corr': 0, 'rt': [], 'comit': 0, 'omit': 0}
     #  Do per type results
 
     for rtype, rdata in total.items():
@@ -769,6 +784,7 @@ def LDRC1_SENT(fobj, new_fname):
     results['all_all_omit'] = D_FMT % all_results['omit']
 
     return results
+
 
 def ARN_REP(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
@@ -1007,6 +1023,7 @@ def RCV_PASSAGES(fobj, new_fname=None):
         data['%s_pic_pct' % mis] = FZ_FMT % pic_pct(trials)
         data['%s_rep_pct' % mis] = FZ_FMT % rep_pct(trials)
     return data
+
 
 def aprime(tp, tn, fp, fn):
     """
