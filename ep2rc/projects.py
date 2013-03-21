@@ -253,7 +253,8 @@ class RCVB(BaseProject):
 
     def __init__(self, fname, fobj, database='rc'):
         super(RCVB, self).__init__(fname, fobj, database)
-        self.parsers = {'SENT': pf.NFB_SENT}
+        self.parsers = {'SENT': pf.NFB_SENT, 'DLPICENC': pf.LERDP2B_DLPICENC,
+                        'DLPICREC': pf.LERDP2B_DLPICREC}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RCV',
                             'Out_Behavioral', 'RC_%s' % self.behavid, 'RC_%s_E-Prime' % self.behavid)
 
