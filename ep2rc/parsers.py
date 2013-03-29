@@ -900,12 +900,12 @@ def declearn_is_real(trial):
     return all(map(lambda x: x not in trial['Item'], DECLEARN_NONREAL_SUBSTRINGS))
 
 
-def declearn_dprime(real_trials, nonreal_trials):
+def declearn_dprime(target_trials, foil_trials, target_response='1', foil_response='5'):
     # dprime
-    hit = float(len(filter(lambda x: declearn_is_correct(x, '1'), real_trials)))
-    miss = float(len(filter(lambda x: not declearn_is_correct(x, '1'), real_trials)))
-    fa = float(len(filter(lambda x: not declearn_is_correct(x, '5'), nonreal_trials)))
-    cr = float(len(filter(lambda x: declearn_is_correct(x, '5'), nonreal_trials)))
+    hit = float(len(filter(lambda x: declearn_is_correct(x, target_response), target_trials)))
+    miss = float(len(filter(lambda x: not declearn_is_correct(x, target_response), target_trials)))
+    fa = float(len(filter(lambda x: not declearn_is_correct(x, foil_response), foil_trials)))
+    cr = float(len(filter(lambda x: declearn_is_correct(x, foil_response), foil_trials)))
 
     HR = hit / (hit + miss)
     FAR = fa / (fa + cr)
@@ -975,6 +975,16 @@ def LERDP2B_DLPICREC(fobj, new_fname=None):
     novel_trials = filter(lambda x: not is_old(x), exp_trials)
     assert len(novel_trials) == 64
 
+    old_real_trials = filter(declearn_is_real, old_trials)
+    assert len(old_real_trials) == 32
+    old_nonreal_trials = filter(declearn_is_nonreal, old_trials)
+    assert len(old_nonreal_trials) == 32
+
+    novel_real_trials = filter(declearn_is_real, novel_trials)
+    assert len(novel_real_trials) == 32
+    novel_nonreal_trials = filter(declearn_is_nonreal, novel_trials)
+    assert len(novel_nonreal_trials) == 32
+
     loop = zip([old_trials, novel_trials], ['1', '5'], ['old', 'novel'])
     data = {}
     for trials, correct_response, key in loop:
@@ -991,6 +1001,8 @@ def LERDP2B_DLPICREC(fobj, new_fname=None):
         data['dlpicrec_%s_incorr_rtavg' % key] = '%0.3f' % np.mean(incorrect_rts)
         data['dlpicrec_%s_incorr_rtsd' % key] = '%0.3f' % np.std(incorrect_rts, ddof=1)
     data['dlpicrec_dprime'] = '%0.3f' % declearn_dprime(old_trials, novel_trials)
+    data['dlpicrec_real_dprime'] = '%0.3f' % declearn_dprime(old_real_trials, novel_real_trials)
+    data['dlpicrec_nonreal_dprime'] = '%0.3f' % declearn_dprime(old_nonreal_trials, novel_nonreal_trials)
     return data
 
 
