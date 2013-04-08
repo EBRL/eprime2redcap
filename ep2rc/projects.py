@@ -99,9 +99,14 @@ class LERDP2(BaseProject):
     def __init__(self, fname, fobj, database='lerdp2'):
         super(LERDP2, self).__init__(fname, fobj, database)
         self.parsers = {"DLPICENC": pf.LERDP2B_DLPICENC, "DLPICREC": pf.LERDP2B_DLPICREC}
-        self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'LERDP2',
-            'Out_Behavioral', 'Longitudinal', 'Behavioral Participant Folders',
-            '_'.join(['LERD_P2', self.behavid, 'E-Prime']))
+        self.copy_dir = os.path.join(self.prefix(),
+                                     'New_Server',
+                                     'LERDP2',
+                                     'Out_Behavioral',
+                                     'Longitudinal',
+                                     'Behavioral Participant Folders',
+                                     'LERD_P2_%s' % self.behavid,
+                                     '_'.join(['LERD_P2', self.behavid, 'E-Prime']))
 
     def split_fname(self):
         """Fancy split_fname"""
@@ -128,6 +133,7 @@ class LERDP2(BaseProject):
         else:
             f = lambda x: x
         return f
+
 
 class NF(BaseProject):
 
