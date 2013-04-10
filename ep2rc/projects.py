@@ -339,6 +339,25 @@ class LDRC1(BaseProject):
         return f
 
 
+class RCLMS(BaseProject):
+    def __init__(self, fname, fobj, database='in-magnet'):
+        super(RCLMS, self).__init__(fname, fobj, database)
+        self.parsers = {'PASSAGES': pf.RCV_PASSAGES}
+        self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RC_LMS',
+                                     'In_Behavioral', '%s_%s' % (self.behavid, self.scanid))
+
+    def key_map(self):
+        if self.task == "PASSAGES":
+            return lambda x: 'passagesv2_%s' % x
+        else:
+            return lambda x: x
+
+
+    def project_additions(self):
+        return {'id': '%s_%s' % (self.behavid, self.scanid),
+                'grant': "RC_LMS"}
+
+
 class ARN(BaseProject):
     def __init__(self, fname, fobj, database='in-magnet'):
         super(ARN, self).__init__(fname, fobj, database)

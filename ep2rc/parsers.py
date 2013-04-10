@@ -1012,16 +1012,21 @@ def RCV_PASSAGES(fobj, new_fname=None):
         return (float(len(corr_reps)) / len(rep_trials)) * 100
 
     def pic_pct(trials):
-        dt = filter(lambda x: x['decideScreen'] == '1', trials)[0]
-        num_correct = float(sum(map(int, [dt['Picts2.ACC'], dt['Picts1.ACC']])))
-        return (num_correct / 2) * 100
+        try:
+            dt = filter(lambda x: x['decideScreen'] == '1', trials)[0]
+            num_correct = float(sum(map(int, [dt['Picts2.ACC'], dt['Picts1.ACC']])))
+            return (num_correct / 2) * 100
+        except KeyError:
+            return ''
 
     data = {}
     loop = zip((m1_trials, m2_trials, m3_trials, m4_trials),
                ('m1', 'm2', 'm3', 'm4'))
     for trials, mis in loop:
-        data['%s_pic_pct' % mis] = FZ_FMT % pic_pct(trials)
-        data['%s_rep_pct' % mis] = FZ_FMT % rep_pct(trials)
+        pic_result = pic_pct(trials)
+        rep_result = rep_pct(trials)
+        data['%s_pic_pct' % mis] = FZ_FMT % pic_result if pic_result else ''
+        data['%s_rep_pct' % mis] = FZ_FMT % rep_result if rep_result else ''
     return data
 
 
