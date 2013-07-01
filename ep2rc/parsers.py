@@ -330,12 +330,14 @@ def NF_PIC(fobj, new_fname=None):
     FN = 0  # False negative Nonmatch incorrect
     for m_data, m in zip((m1_trials, m2_trials), ('m1', 'm2')):
         if m_data:
-            loop_data = zip(('psw', 'con', 'wrd', 'match'),
-                            (('5', '2'), ('5', '2'), ('5', '2'), ('6', '1')),
-                            (('6', '1'), ('6', '1'), ('6', '1'), ('5', '2')))
+            loop_data = zip(('psw', 'con', 'wrd', 'sem', 'match'),
+                            (('5', '2'), ('5', '2'), ('5', '2'), ('5', '2'), ('6', '1')),
+                            (('6', '1'), ('6', '1'), ('6', '1'), ('6', '1'), ('5', '2')))
             for typ, good, bad in loop_data:
                 try:
                     trials = filter(lambda x: x['type'] == typ, m_data)
+                    if len(trials) == 0:
+                        continue
                     n_omit = len(filter(lambda x: x['stim.RESP'] not in good + bad, trials))
                     res['%s_%s_omit' % (m, typ)] = D_FMT % n_omit
                     #  Remove omits from trials

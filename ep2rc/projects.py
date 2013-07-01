@@ -98,7 +98,7 @@ class LERDP2I(BaseProject):
 
     def __init__(self, fname, fobj, database='in-magnet'):
         super(LERDP2I, self).__init__(fname, fobj, database)
-        self.parsers = {"SRT": pf.LERD_SRT}
+        self.parsers = {"SRT": pf.LERD_SRT, 'PIC2': pf.NF_PIC}
         self.copy_dir = os.path.join(self.prefix(),
                                      'New_Server',
                                      'LERDP2',
@@ -111,6 +111,8 @@ class LERDP2I(BaseProject):
     def key_map(self):
         if self.task == 'SRT':
             return lambda x: 'srt_%s' % x
+        elif self.task == 'PIC2':
+            return lambda x: 'picturev2_%s' % x
         else:
             return lambda x: x
 
