@@ -93,6 +93,31 @@ class BaseProject(object):
         raise NotImplementedError
 
 
+class LERDP2I(BaseProject):
+    """Imaging Files"""
+
+    def __init__(self, fname, fobj, database='in-magnet'):
+        super(LERDP2I, self).__init__(fname, fobj, database)
+        self.parsers = {"SRT": pf.LERD_SRT}
+        self.copy_dir = os.path.join(self.prefix(),
+                                     'New_Server',
+                                     'LERDP2',
+                                     'In_Behavioral',
+                                     '%s_%s' % (self.behavid, self.scanid))
+
+    def parse_fname(self):
+        self.split_fname()
+
+    def key_map(self):
+        if self.task == 'SRT':
+            return lambda x: 'srt_%s' % x
+        else:
+            return lambda x: x
+
+    def project_additions(self):
+        return {'id': '%s_%s' % (self.behavid, self.scanid)}
+
+
 class LERDP2(BaseProject):
     """Behavioral files"""
 

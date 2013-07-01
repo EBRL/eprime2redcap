@@ -1030,6 +1030,76 @@ def RCV_PASSAGES(fobj, new_fname=None):
     return data
 
 
+def LERD_SRT(fobj, new_fname=None):
+    dl = io.split_dict(fobj, new_fname)
+
+    try:
+        m1 = filter(lambda x: x['Block'] == '1', dl)
+        m2 = filter(lambda x: x['Block'] == '2', dl)
+        assert len(m1) == len(m2) and len(m1) == 312
+    except (KeyError, AssertionError):
+        raise errors.BadDataError('Could not split missions')
+
+    d = {}
+
+    def compute_block(block):
+        F = '%0.3f'
+        acc, acc_rtavg, acc_rtstd = 0, 0, 0
+        try:
+            ntrials = len(block)
+            acc_trials = filter(lambda x: x['Target.ACC'] == '1', block)
+
+            acc = len(acc_trials) / float(ntrials) * 100
+            acc_rt = np.array(map(lambda x: float(x['Target.RT']), acc_trials))
+            acc_rtavg = acc_rt.mean()
+            acc_rtstd = acc_rt.std()
+        except:
+            pass
+
+        return F % acc, F % acc_rtavg, F % acc_rtstd
+
+    loop = zip([m1, m2], ['m1', 'm2'])
+    for block, mname in loop:
+        acc, rt_avg, rt_std = compute_block(block)
+        d['%s_all_acc' % mname] = acc
+        d['%s_all_rtavg' % mname] = rt_avg
+        d['%s_all_rtstd' % mname] = rt_std
+
+        imp = filter(lambda x: x['Cond'] == '2', block)
+        acc, rt_avg, rt_std = compute_block(imp)
+        d['%s_imp_acc' % mname] = acc
+        d['%s_imp_rtavg' % mname] = rt_avg
+        d['%s_imp_rtstd' % mname] = rt_std
+
+        rand = filter(lambda x: x['Cond'] == '1', block)
+        acc, rt_avg, rt_std = compute_block(rand)
+        d['%s_rand_acc' % mname] = acc
+        d['%s_rand_rtavg' % mname] = rt_avg
+        d['%s_rand_rtstd' % mname] = rt_std
+
+        # random loop
+        rloop = zip([1, 97, 193, 289], [24, 120, 216, 312], ['b1', 'b2', 'b3', 'b4'])
+        for mini, maxi, bname in rloop:
+            rblock = filter(lambda x: mini <= int(x['BlockList']) <= maxi, rand)
+            acc, rt_avg, rt_std = compute_block(rblock)
+            d['%s_rand_%s_acc' % (mname, bname)] = acc
+            d['%s_rand_%s_rtavg' % (mname, bname)] = rt_avg
+            d['%s_rand_%s_rtstd' % (mname, bname)] = rt_std
+
+        # implicit loop
+        iloop = zip([25, 49, 73, 121, 145, 169, 217, 241, 265],
+                    [48, 72, 96, 144, 168, 192, 240, 264, 288],
+                    ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9'])
+        for mini, maxi, bname in iloop:
+            rblock = filter(lambda x: mini <= int(x['BlockList']) <= maxi, imp)
+            acc, rt_avg, rt_std = compute_block(rblock)
+            d['%s_imp_%s_acc' % (mname, bname)] = acc
+            d['%s_imp_%s_rtavg' % (mname, bname)] = rt_avg
+            d['%s_imp_%s_rtstd' % (mname, bname)] = rt_std
+
+    return d
+
+
 def aprime(tp, tn, fp, fn):
     """
     ---------------
