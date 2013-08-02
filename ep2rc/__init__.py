@@ -36,7 +36,8 @@ def switchboard_fxn(**kwargs):
     pidform2field = {(8070, 'eprime'): (['sentcomp_file', 'dlpic_enc_file', 'dlpic_rec_file'], 'rc', 'RC'),
                      (8070, 'imaging'): (['passages_eprime_file'], 'in-magnet', 'RC'),
                      (14707, 'visit_1_behavioral'): (['v1_dlpic_enc_file', 'v1_dlpic_rec_file'], 'lerdp2', 'LERDP2'),
-                     (9257, 'imaging'): ([['passages_eprime_file'], 'in-magnet', 'RCLMS']),
+                     (9257, 'imaging'): (['passages_eprime_file'], 'in-magnet', 'RCLMS'),
+                     (9259, 'imaging'): (['lerdlms_srt_eprime', 'lerdlms_pic_eprime'], 'in-magnet', 'NPR'),
                      (13529, 'imaging'): (['srt_file', 'pic2_file'], 'in-magnet', 'LERDP2_IMAGING')}
     fields, db, project_token_key = pidform2field.get((kwargs['pid'], kwargs['form']))
     project = Project(URL, TOKENS[project_token_key])

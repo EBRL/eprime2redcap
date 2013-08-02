@@ -21,10 +21,11 @@ PROJECT_CLASS = {'RCK': projects.RCK,
                  'RCV': projects.RCV,
                  'LERDP2': projects.LERDP2,
                  'RCLMS': projects.RCLMS,
-                 'LERDP2I': projects.LERDP2I}
+                 'LERDP2I': projects.LERDP2I,
+                 'LERDLMS': projects.LERDLMS}
 
 #  Fully implemented grants: THESE MUST BE IN THE ABOVE TWO DICTS PROJECT_CLASS
-PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1', 'ARN', 'RCK', 'RCV', 'LERDP2', 'RCLMS')
+PROJECTS = ('NF', 'NFB', 'RCVB', 'LERDB', 'LDRC1', 'ARN', 'RCK', 'RCV', 'LERDP2', 'RCLMS', 'LERDLMS')
 
 
 def upload_key(info):
