@@ -4,7 +4,7 @@ __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 
 import numpy as np
-
+import pandas as pd
 
 from . import io
 from . import errors
@@ -1031,6 +1031,61 @@ def RCV_PASSAGES(fobj, new_fname=None):
         data['%s_rep_pct' % mis] = FZ_FMT % rep_result if rep_result else ''
     return data
 
+
+def RCVB_SRT(fobj, new_fname=None):
+    dl = io.split_dict(fobj, new_fname)
+    df = pd.DataFrame(dl)
+
+    badtrials = df['Procedure[Block]'].isin(['InstructionSet', 'pracblock'])
+    df = df[~badtrials]
+    df['TestSlide.RT'] = df['TestSlide.RT'].map(int)
+    df['TestSlide.ACC'] = df['TestSlide.ACC'].map(int)
+
+    def compute_block_stats(sub_df):
+        # select accurate
+        acc_df = sub_df[sub_df['TestSlide.ACC'] == 1]
+        n_omit = len(sub_df[sub_df['TestSlide.RESP'] == ''])
+        n_comit = len(sub_df[sub_df['TestSlide.ACC'] == 0])
+        acc_pct = float(len(acc_df)) / len(sub_df) * 100.
+        acc_col = acc_df['TestSlide.RT']
+        acc_rtavg = acc_col.mean()
+        acc_rtstd = acc_col.std()
+        return acc_pct, acc_rtavg, acc_rtstd, n_omit, n_comit, len(sub_df)
+
+    data = {}
+    loop = zip(['r1', 'b1', 'b2', 'b3', 'b4', 'r2'],
+               ['RandomA', 'Block1', 'Block2', 'Block3', 'Block4', 'RandomBlock'])
+    # run computation on blocks
+    for name, proc in loop:
+        b = df[df['Procedure[Block]'] == proc]
+        assert len(b) == 60
+        acc_pct, acc_rtavg, acc_rtstd, n_omit, n_comit, n_items = compute_block_stats(b)
+        data['%s_acc_pct' % name] = F_FMT % acc_pct
+        data['%s_acc_rtavg' % name] = F_FMT % acc_rtavg
+        data['%s_acc_rtstd' % name] = F_FMT % acc_rtstd
+        data['%s_nomit' % name] = D_FMT % n_omit
+        data['%s_ncomit' % name] = D_FMT % n_comit
+        data['%s_nitems' % name] = D_FMT % n_items
+    # run computation on implicit chunks
+    for i in map(str, range(1, 25)):
+        c = df[df['List2.Cycle'] == i]
+        assert len(c) == 10
+        acc_pct, acc_rtavg, acc_rtstd, n_omit, n_comit, n_items = compute_block_stats(c)
+        data['c%s_acc_pct' % i] = F_FMT % acc_pct
+        data['c%s_acc_rtavg' % i] = F_FMT % acc_rtavg
+        data['c%s_acc_rtstd' % i] = F_FMT % acc_rtstd
+        data['c%s_nomit' % i] = D_FMT % n_omit
+        data['c%s_ncomit' % i] = D_FMT % n_comit
+        data['c%s_nitems' % i] = D_FMT % n_items
+    # run computation on total
+    acc_pct, acc_rtavg, acc_rtstd, n_omit, n_comit, n_items = compute_block_stats(df)
+    data['total_acc_pct'] = F_FMT % acc_pct
+    data['total_acc_rtavg'] = F_FMT % acc_rtavg
+    data['total_acc_rtstd'] = F_FMT % acc_rtstd
+    data['total_nomit'] = D_FMT % n_omit
+    data['total_ncomit'] = D_FMT % n_comit
+    data['total_nitems'] = D_FMT % n_items
+    return data
 
 def LERD_SRT(fobj, new_fname=None):
     dl = io.split_dict(fobj, new_fname)

@@ -312,7 +312,7 @@ class RCVB(BaseProject):
     def __init__(self, fname, fobj, database='rc'):
         super(RCVB, self).__init__(fname, fobj, database)
         self.parsers = {'SENT': pf.NFB_SENT, 'DLPICENC': pf.LERDP2B_DLPICENC,
-                        'DLPICREC': pf.LERDP2B_DLPICREC}
+                        'DLPICREC': pf.LERDP2B_DLPICREC, 'SRT': pf.RCVB_SRT}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RCV',
                             'Out_Behavioral', 'RC_%s' % self.behavid, 'RC_%s_E-Prime' % self.behavid)
 
@@ -320,7 +320,10 @@ class RCVB(BaseProject):
         self.split_fname()
 
     def key_map(self):
-        return lambda x: x
+        if self.task == 'SRT':
+            return lambda x: 'srtb_%s' % x
+        else:
+            return lambda x: x
 
     def project_additions(self):
         return {'participant_id': '_'.join([self.behavid, self.scanid])}
