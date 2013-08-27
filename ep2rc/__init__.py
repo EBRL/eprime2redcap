@@ -43,7 +43,7 @@ def switchboard_fxn(**kwargs):
         try:
             content, headers = project.export_file(record=record, field=field)
         except RedcapError:
-            pass
+            continue
         fullfile = path.join('/home/burnsss1/temp/', headers['name'])
         with open(fullfile, 'w') as f:
             f.write(content)
@@ -52,6 +52,7 @@ def switchboard_fxn(**kwargs):
             to_redcap, success = parse_and_upload(fullfile, db)
         except:
             sentry_client.captureException()
+            continue
         else:
             if not success:
                 print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
