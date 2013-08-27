@@ -57,4 +57,5 @@ def switchboard_fxn(**kwargs):
                 print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
                 sentry_client.captureMessage('ep2rc:error')
             else:
+                print "Sending message to sentry"
                 sentry_client.captureMessage('ep2rc:success')
