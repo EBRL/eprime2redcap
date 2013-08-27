@@ -4,14 +4,11 @@ __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 __version__ = '0.5.2'
 
-from stathat import StatHat
-_stats = StatHat('scott.s.burns@gmail.com')
 from os import path
 
 from core import parse_file
 from rc import upload
 from errors import BadDataError
-
 
 def parse_and_upload(fname, database, do_upload=True):
     msg = ''
@@ -50,9 +47,10 @@ def switchboard_fxn(**kwargs):
                 f.write(content)
             print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
             to_redcap, success = parse_and_upload(fullfile, db)
-            _stats.count('ep2rc', 1)
             if not success:
                 print "ep2rc.switchboard_fxn: Failed uploading results for %s" % record
-                _stats.count('ep2rc error', 1)
+                send_sentry_message('ep2rc:error')
+            else:
+                send_sentry_message('ep2rc:success')
         except RedcapError:
             pass
