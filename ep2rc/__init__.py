@@ -26,13 +26,13 @@ def parse_and_upload(fname, database, do_upload=True):
     print msg
     return to_redcap, suc
 
-
 def switchboard_fxn(**kwargs):
     from redcap import Project, RedcapError
-    from secret import TOKENS, URL
+    from secret import TOKENS, URL, send_sentry_message
     pidform2field = {(8070, 'eprime'): (['sentcomp_file', 'dlpic_enc_file', 'dlpic_rec_file', 'srtb_file'], 'rc', 'RC'),
                      (8070, 'imaging'): (['passages_eprime_file'], 'in-magnet', 'RC'),
-                     (14707, 'visit_1_behavioral'): (['v1_dlpic_enc_file', 'v1_dlpic_rec_file'], 'lerdp2', 'LERDP2'),
+                     (14707, 'visit_1_behavioral'): (['v1_dlpic_enc_file', 'v1_dlpic_rec_file', 'v1_srt_file'], 'lerdp2', 'LERDP2'),
+                     (14707, 'visit_2_behavioral'): (['v2_srt_file', ], 'lerdp2', 'LERDP2'),
                      (9257, 'imaging'): (['passages_eprime_file'], 'in-magnet', 'RCLMS'),
                      (9259, 'imaging'): (['lerdlms_srt_eprime', 'lerdlms_pic_eprime'], 'in-magnet', 'NPR'),
                      (13529, 'imaging'): (['srt_file', 'pic2_file'], 'in-magnet', 'LERDP2_IMAGING')}
