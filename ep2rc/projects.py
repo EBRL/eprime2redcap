@@ -152,7 +152,8 @@ class LERDP2(BaseProject):
         super(LERDP2, self).__init__(fname, fobj, database)
         self.parsers = {"DLPICENC": pf.LERDP2B_DLPICENC,
                         "DLPICREC": pf.LERDP2B_DLPICREC,
-                        "SRT2": pf.RCVB_SRT}
+                        "SRT2": pf.RCVB_SRT,
+                        "SRT": pf.RCVB_SRT}
         self.copy_dir = os.path.join(self.prefix(),
                                      'New_Server',
                                      'LERDP2',
@@ -184,7 +185,7 @@ class LERDP2(BaseProject):
     def key_map(self):
         if self.task in ("DLPICENC", "DLPICREC"):
             f = lambda x: '%s_%s' % (self.visit.lower(), x)
-        if self.task == 'SRT2':
+        if self.task in ('SRT2', "SRT"):
             f = lambda x: '%s_srtb_%s' % (self.visit.lower(), x)
         else:
             f = lambda x: x
