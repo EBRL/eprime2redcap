@@ -60,4 +60,4 @@ def switchboard_fxn(**kwargs):
                 msg = 'ep2rc:error'
             else:
                 msg = 'ep2rc:success'
-            sentry_client.captureMessage(msg)
+            sentry_client.captureMessage(msg, extra=kwargs)
