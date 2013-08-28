@@ -27,8 +27,9 @@ def parse_and_upload(fname, database, do_upload=True):
     return to_redcap, suc
 
 def switchboard_fxn(**kwargs):
+    import os
     from redcap import Project, RedcapError
-    from secret import TOKENS, URL, get_sentry_client
+    from secret import TOKENS, URL, sentry_client
     pidform2field = {(8070, 'eprime'): (['sentcomp_file', 'dlpic_enc_file', 'dlpic_rec_file', 'srtb_file'], 'rc', 'RC'),
                      (8070, 'imaging'): (['passages_eprime_file'], 'in-magnet', 'RC'),
                      (14707, 'visit_1_behavioral'): (['v1_dlpic_enc_file', 'v1_dlpic_rec_file', 'v1_srt_file'], 'lerdp2', 'LERDP2'),
@@ -44,15 +45,14 @@ def switchboard_fxn(**kwargs):
             content, headers = project.export_file(record=record, field=field)
         except RedcapError:
             continue
-        fullfile = path.join('/home/burnsss1/temp/', headers['name'])
+        fullfile = path.join(os.path.expanduser('~/temp/'), headers['name'])
         with open(fullfile, 'w') as f:
             f.write(content)
         print "ep2rc.switchboard_fxn: Running parse_and_upload on %s" % fullfile
-        c = get_sentry_client()
         try:
             to_redcap, success = parse_and_upload(fullfile, db)
         except:
-            c.captureException()
+            sentry_client.captureException()
             continue
         else:
             if not success:
@@ -60,4 +60,4 @@ def switchboard_fxn(**kwargs):
                 msg = 'ep2rc:error'
             else:
                 msg = 'ep2rc:success'
-            c.captureMessage(msg)
+            sentry_client.captureMessage(msg)
