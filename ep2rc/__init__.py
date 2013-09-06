@@ -52,7 +52,9 @@ def switchboard_fxn(**kwargs):
         try:
             to_redcap, success = parse_and_upload(fullfile, db)
         except:
-            sentry_client.captureException()
+            extra = kwargs.copy()
+            extra['fname'] = fullfile
+            sentry_client.captureException(extra=extra)
             continue
         else:
             if not success:
