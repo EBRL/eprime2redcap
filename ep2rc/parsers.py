@@ -456,6 +456,38 @@ def NFB_OLSON(fobj, new_fname):
     return results
 
 
+def LERDP2_OLSON(fobj, new_fname):
+    dl = io.split_dict(fobj, new_fname)
+
+    results = {}
+
+    trials = filter(lambda x: x['runList'] == 'Olsen', dl)
+
+    corrf = lambda x: (x['stim.RESP'] == 'a' and x['correct'] == '1') or (x['stim.RESP'] == 'l' and x['correct'] == '2')
+    incorrf = lambda x: (x['stim.RESP'] == 'a' and x['correct'] != '1') or (x['stim.RESP'] == 'l' and x['correct'] != '2')
+    #  Correct
+    corr = filter(corrf, trials)
+    results['ot1tc'] = D_FMT % len(corr)
+    #  Don't need total percentage
+    #  results['ot1tcp'] = F_FMT % ((float(len(corr)) / len(trials)) * 100)
+
+    corr_rt = np.array([float(x['stim.RT']) for x in corr])
+    #  Correct mean RT
+    results['ot1cmrt'] = F_FMT % np.mean(corr_rt)
+    #  Correct mean RT SD
+    results['ot1csdrt'] = FZ_FMT % np.std(corr_rt)
+
+    incorr = filter(incorrf, trials)
+    incorr_rt = np.array([float(x['stim.RT']) for x in incorr])
+    #  Incorrect mean RT
+    results['ot1imrt'] = F_FMT % np.mean(incorr_rt)
+    #  Incorrect mean RT SD
+    results['ot1isdrt'] = FZ_FMT % np.std(incorr_rt)
+
+    return results
+
+
+
 def NFB_FIG(fobj, new_fname):
     dl = io.split_dict(fobj, new_fname)
 

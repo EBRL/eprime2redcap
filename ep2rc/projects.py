@@ -153,7 +153,8 @@ class LERDP2(BaseProject):
         self.parsers = {"DLPICENC": pf.LERDP2B_DLPICENC,
                         "DLPICREC": pf.LERDP2B_DLPICREC,
                         "SRT2": pf.RCVB_SRT,
-                        "SRT": pf.RCVB_SRT}
+                        "SRT": pf.RCVB_SRT,
+                        'OLSON': pf.LERDP2_OLSON}
         self.copy_dir = os.path.join(self.prefix(),
                                      'New_Server',
                                      'LERDP2',
@@ -183,7 +184,7 @@ class LERDP2(BaseProject):
         return to_add
 
     def key_map(self):
-        if self.task in ("DLPICENC", "DLPICREC"):
+        if self.task in ("DLPICENC", "DLPICREC", "OLSON"):
             f = lambda x: '%s_%s' % (self.visit.lower(), x)
         elif self.task in ('SRT2', "SRT"):
             f = lambda x: '%s_srtb_%s' % (self.visit.lower(), x)
