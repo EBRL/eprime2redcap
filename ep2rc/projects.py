@@ -152,6 +152,8 @@ class LERDP2(BaseProject):
         super(LERDP2, self).__init__(fname, fobj, database)
         self.parsers = {"DLPICENC": pf.LERDP2B_DLPICENC,
                         "DLPICREC": pf.LERDP2B_DLPICREC,
+                        "DLWORDENC": pf.LERDP2B_DLWORDENC,
+                        "DLWORDREC": pf.LERDP2B_DLWORDREC,
                         "SRT2": pf.RCVB_SRT,
                         "SRT": pf.RCVB_SRT,
                         'OLSON': pf.LERDP2_OLSON}
@@ -184,7 +186,8 @@ class LERDP2(BaseProject):
         return to_add
 
     def key_map(self):
-        if self.task in ("DLPICENC", "DLPICREC", "OLSON"):
+        if self.task in ("DLPICENC", "DLPICREC", "OLSON",
+                         "DLWORDENC", "DLWORDREC"):
             f = lambda x: '%s_%s' % (self.visit.lower(), x)
         elif self.task in ('SRT2', "SRT"):
             f = lambda x: '%s_srtb_%s' % (self.visit.lower(), x)

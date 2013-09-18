@@ -951,6 +951,168 @@ def declearn_dprime(real_trials, nonreal_trials):
     return dprime
 
 
+def declearn_wordenc_classify(trial):
+    """This function returns 'real' if trial['Item'] is a real word, and
+    'nonword' otherwise
+
+    This should be used for word encoding
+    """
+    nonwords = set(('feenlimer', 'gleednall', 'pogle', 'neshin',
+                'plassdoo', 'leth', 'nadvin', 'affleater',
+                'leshbin', 'ruke', 'naspucko', 'bive',
+                'reckbock', 'pasadee', 'woob', 'proyen',
+                'omvashogger', 'saffle', 'jopple', 'daiblamede',
+                'feak', 'fondie', 'skapion', 'bessfeg',
+                'plean', 'tallep', 'datsiggle', 'jastid',
+                'loppic', 'ponk', 'spashrecker', 'fombolleen', ))
+
+    return 'nonreal' if trial['Item'] in nonwords else 'real'
+
+
+def declearn_wordenc_actual_response(trial):
+    """If there's a button press caught in Stimulus, return it,
+    otherwise return the response caught in WaitForResponse"""
+    press = ('1', '5')
+    if trial['Stimulus.RESP'] in press:
+        return trial['Stimulus.RESP']
+    else:
+        return trial['WaitForResponse.RESP']
+
+def declearn_wordenc_accuracy(trial):
+    real_and_one = trial['ItemClass'] == 'real' and trial['ItemResponse'] == '1'
+    nonreal_and_five = trial['ItemClass'] == 'nonreal' and trial['ItemResponse'] == '5'
+    if real_and_one or nonreal_and_five:
+        return 'correct'
+    else:
+        return 'wrong'
+
+
+def LERDP2B_DLWORDENC(fobj, new_fname=None):
+    df = pd.DataFrame(io.split_dict(fobj))
+    # filter only real task
+    df = df[df['Running[Trial]'] == 'EncodingItems']
+    # Use declearn get rt function to compute actual RT
+    df['RealRT'] = df.apply(declearn_get_rt, axis=1)
+    # Set ItemClass using wordenc_classify ('real', 'notreal')
+    df['ItemClass'] = df.apply(declearn_wordenc_classify, axis=1)
+    # Simplify responses to a single column
+    df['ItemResponse'] = df.apply(declearn_wordenc_actual_response, axis=1)
+    # Set actual accuracy
+    df['ItemAccuracy'] = df.apply(declearn_wordenc_accuracy, axis=1)
+    sizes = df.groupby('ItemClass').size()
+    g2 = df.groupby(['ItemClass', 'ItemAccuracy'])
+    g2_size = g2.size()
+    g2_rt_mean = g2['RealRT'].mean()
+    g2_rt_std = g2['RealRT'].std()
+
+    d = {}
+    # Words
+    # Correct response to real is '1'
+    d['dlwordenc_real_corr_acc'] = F_FMT % (g2_size[('real', 'correct')] / float(sizes['real']) * 100)
+    d['dlwordenc_real_corr_rtavg'] = F_FMT % (g2_rt_mean[('real', 'correct')])
+    d['dlwordenc_real_corr_rtsd'] = F_FMT % (g2_rt_std[('real', 'correct')])
+    # Incorrect response to real is '5'
+    d['dlwordenc_real_incorr_rtavg'] = F_FMT % (g2_rt_mean[('real', 'wrong')])
+    d['dlwordenc_real_incorr_rtsd'] = F_FMT % (g2_rt_std[('real', 'wrong')])
+
+    # Nonwords
+    # Correct response to nonreal is '5'
+    d['dlwordenc_nonreal_corr_acc'] = F_FMT % (g2_size[('nonreal', 'correct')] / float(sizes['nonreal']) * 100)
+    d['dlwordenc_nonreal_corr_rtavg'] = F_FMT % (g2_rt_mean[('nonreal', 'correct')])
+    d['dlwordenc_nonreal_corr_rtsd'] = F_FMT % (g2_rt_std[('nonreal', 'correct')])
+    # Incorrect response to nonreal is '1'
+    d['dlwordenc_nonreal_incorr_rtavg'] = F_FMT % (g2_rt_mean[('nonreal', 'wrong')])
+    d['dlwordenc_nonreal_incorr_rtsd'] = F_FMT % (g2_rt_std[('nonreal', 'wrong')])
+
+    # dprime
+    from scipy.stats import norm
+    hit_rate = float(g2_size[('real', 'correct')]) / sizes['real']
+    far = float(g2_size[('nonreal', 'wrong')]) / sizes['nonreal']
+    zhr = norm.ppf(hit_rate)
+    zfar = norm.ppf(far)
+    d['dlwordenc_dprime'] = F_FMT % (zhr - zfar)
+
+    return d
+
+
+def declearn_wordrec_classify(trial):
+    """This function returns 'novel' is trial['Item'] is a novel stimuli,
+    otherwise it returns 'old'
+    """
+    old = set(('bear', 'crayon', 'feenlimer', 'gleednall',
+           'eggbeater', 'pogle', 'neshin', 'spoon',
+           'plassdoo', 'leech', 'treadmill', 'ferret',
+           'leth', 'ladle', 'nadvin', 'zipper',
+           'affleater', 'buffalo', 'skyscraper', 'leshbin',
+           'ruke', 'naspucko', 'pistol', 'lotion',
+           'bive', 'reckbock', 'pasadee', 'stadium',
+           'beetle', 'woob', 'proyen', 'omvashogger',
+           'plunger', 'mosquito', 'saffle', 'jopple',
+           'backpack', 'daiblamede', 'deer', 'bulldog',
+           'feak', 'mink', 'fondie', 'rake',
+           'skapion', 'bessfeg', 'donkey', 'plean',
+           'cave', 'tallep', 'napkin', 'lawnmower',
+           'condor', 'datsiggle', 'jastid', 'loppic',
+           'tambourine', 'submarine', 'ponk', 'popsicle',
+           'paddle', 'spashrecker', 'fombolleen', 'amphitheater',))
+    return 'old' if trial['Item'] in old else 'novel'
+
+
+def declearn_wordrec_accuracy(trial):
+    """Returns 'correct' and 'wrong'. Use only for word rec"""
+    old_and_one = trial['ItemClass'] == 'old' and trial['ItemResponse'] == '1'
+    novel_and_five = trial['ItemClass'] == 'novel' and trial['ItemResponse'] == '5'
+    if old_and_one or novel_and_five:
+        return 'correct'
+    else:
+        return 'wrong'
+
+
+def LERDP2B_DLWORDREC(fobj, new_fname):
+    df = pd.DataFrame(io.split_dict(fobj))
+    # filter only real task
+    df = df[df['Running[Trial]'] == 'RetrievalItems']
+    # Use declearn get rt function to compute actual RT
+    df['RealRT'] = df.apply(declearn_get_rt, axis=1)
+    # Classify
+    df['ItemClass'] = df.apply(declearn_wordrec_classify, axis=1)
+    # Simplify responses
+    df['ItemResponse'] = df.apply(declearn_wordenc_actual_response, axis=1)
+    # Simplify Accuracy
+    df['ItemAccuracy'] = df.apply(declearn_wordrec_accuracy, axis=1)
+
+    sizes = df.groupby('ItemClass').size()
+    g = df.groupby(('ItemClass', 'ItemAccuracy'))
+    g_size = g.size()
+    g_rtavg = g['RealRT'].mean()
+    g_rtsd = g['RealRT'].std()
+
+    d = {}
+    # Old Correct
+    d['dlwordrec_old_corr_acc'] = F_FMT % (float(g_size[('old', 'correct')]) / sizes['old'] * 100)
+    d['dlwordrec_old_corr_rtavg'] = F_FMT % g_rtavg[('old', 'correct')]
+    d['dlwordrec_old_corr_rtsd'] = F_FMT % g_rtsd[('old', 'correct')]
+    # Old Incorrect
+    d['dlwordrec_old_incorr_rtavg'] = F_FMT % g_rtavg[('old', 'wrong')]
+    d['dlwordrec_old_incorr_rtsd'] = F_FMT % g_rtsd[('old', 'wrong')]
+
+    # Novel Correct
+    d['dlwordrec_novel_corr_acc'] = F_FMT % (float(g_size[('novel', 'correct')]) / sizes['novel'] * 100)
+    d['dlwordrec_novel_corr_rtavg'] = F_FMT % g_rtavg[('novel', 'correct')]
+    d['dlwordrec_novel_corr_rtsd'] = F_FMT % g_rtsd[('novel', 'correct')]
+    # Novel Incorrect
+    d['dlwordrec_novel_incorr_rtavg'] = F_FMT % g_rtavg[('novel', 'wrong')]
+    d['dlwordrec_novel_incorr_rtsd'] = F_FMT % g_rtsd[('novel', 'wrong')]
+
+    from scipy.stats import norm
+    hr = float(g_size[('old', 'correct')]) / sizes['old']
+    far = float(g_size[('novel', 'wrong')]) / sizes['novel']
+    dprime = norm.ppf(hr) - norm.ppf(far)
+    d['dlwordrec_dprime'] = F_FMT % dprime
+
+    return d
+
+
 def LERDP2B_DLPICENC(fobj, new_fname=None):
     dl = io.split_dict(fobj, new_fname)
 
