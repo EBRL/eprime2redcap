@@ -1008,7 +1008,7 @@ def LERDP2B_DLWORDENC(fobj, new_fname=None):
     d = {}
     # Words
     # Correct response to real is '1'
-    d['dlwordenc_real_corr_acc'] = F_FMT % (g2_size[('real', 'correct')] / float(sizes['real']) * 100)
+    d['dlwordenc_real_acc'] = F_FMT % (g2_size[('real', 'correct')] / float(sizes['real']) * 100)
     d['dlwordenc_real_corr_rtavg'] = F_FMT % (g2_rt_mean[('real', 'correct')])
     d['dlwordenc_real_corr_rtsd'] = F_FMT % (g2_rt_std[('real', 'correct')])
     # Incorrect response to real is '5'
@@ -1017,7 +1017,7 @@ def LERDP2B_DLWORDENC(fobj, new_fname=None):
 
     # Nonwords
     # Correct response to nonreal is '5'
-    d['dlwordenc_nonreal_corr_acc'] = F_FMT % (g2_size[('nonreal', 'correct')] / float(sizes['nonreal']) * 100)
+    d['dlwordenc_nonreal_acc'] = F_FMT % (g2_size[('nonreal', 'correct')] / float(sizes['nonreal']) * 100)
     d['dlwordenc_nonreal_corr_rtavg'] = F_FMT % (g2_rt_mean[('nonreal', 'correct')])
     d['dlwordenc_nonreal_corr_rtsd'] = F_FMT % (g2_rt_std[('nonreal', 'correct')])
     # Incorrect response to nonreal is '1'
@@ -1089,7 +1089,7 @@ def LERDP2B_DLWORDREC(fobj, new_fname):
 
     d = {}
     # Old Correct
-    d['dlwordrec_old_corr_acc'] = F_FMT % (float(g_size[('old', 'correct')]) / sizes['old'] * 100)
+    d['dlwordrec_old_acc'] = F_FMT % (float(g_size[('old', 'correct')]) / sizes['old'] * 100)
     d['dlwordrec_old_corr_rtavg'] = F_FMT % g_rtavg[('old', 'correct')]
     d['dlwordrec_old_corr_rtsd'] = F_FMT % g_rtsd[('old', 'correct')]
     # Old Incorrect
@@ -1097,7 +1097,7 @@ def LERDP2B_DLWORDREC(fobj, new_fname):
     d['dlwordrec_old_incorr_rtsd'] = F_FMT % g_rtsd[('old', 'wrong')]
 
     # Novel Correct
-    d['dlwordrec_novel_corr_acc'] = F_FMT % (float(g_size[('novel', 'correct')]) / sizes['novel'] * 100)
+    d['dlwordrec_novel_acc'] = F_FMT % (float(g_size[('novel', 'correct')]) / sizes['novel'] * 100)
     d['dlwordrec_novel_corr_rtavg'] = F_FMT % g_rtavg[('novel', 'correct')]
     d['dlwordrec_novel_corr_rtsd'] = F_FMT % g_rtsd[('novel', 'correct')]
     # Novel Incorrect
