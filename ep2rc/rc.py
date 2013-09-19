@@ -7,10 +7,10 @@ __license__ = 'BSD 3-Clause'
 from redcap import Project
 
 from config import pname_keys
-#  Instantiate all projects that ep2rc could use
-projects = {}
-for pname, key in pname_keys:
-    projects[pname] = Project('https://redcap.vanderbilt.edu/api/', key)
+
+
+def get_project(pname, url='https://redcap.vanderbilt.edu/api/'):
+    return Project(url, pname_keys[pname])
 
 
 def upload(to_upload, pname='in-magnet'):
@@ -27,13 +27,15 @@ def upload(to_upload, pname='in-magnet'):
     success: bool
         False on failure
     """
+    project = get_project(pname.lower())
     data = [to_upload]
-    pname = pname.lower()
-    response = projects[pname].import_records(data)
+    response = project.import_records(data)
     if 'error' in response:
+        print("Upload failed: %s" % response['error'])
         return False
     if 'count' in response and response['count'] != len(data):
-        print("Upload failed")
+        print("Upload failed: len(data)=%d and response['count']=%s" %
+            (len(data), response['count']))
         success = False
     else:
         success = True
@@ -41,7 +43,8 @@ def upload(to_upload, pname='in-magnet'):
 
 
 def previous_upload(id, key, pname='in-magnet'):
-    d = projects[pname].export_records(records=[id], fields=[key])
+    project = get_project(pname.lower())
+    d = project.export_records(records=[id], fields=[key])
     if len(d) > 1:
         raise ValueError("Received results from multiple subjects")
     elif len(d) == 1:
