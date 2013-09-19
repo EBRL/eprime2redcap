@@ -1090,7 +1090,7 @@ def LERDP2B_DLWORDRET(fobj, new_fname=None):
 
     d = {}
     # Old Correct
-    d['dlwordret_old_corr_acc'] = F_FMT % (float(g_size[('old', 'correct')]) / sizes['old'] * 100)
+    d['dlwordret_old_acc'] = F_FMT % (float(g_size[('old', 'correct')]) / sizes['old'] * 100)
     d['dlwordret_old_corr_rtavg'] = F_FMT % g_rtavg[('old', 'correct')]
     d['dlwordret_old_corr_rtsd'] = F_FMT % g_rtsd[('old', 'correct')]
     # Old Incorrect
@@ -1098,7 +1098,7 @@ def LERDP2B_DLWORDRET(fobj, new_fname=None):
     d['dlwordret_old_incorr_rtsd'] = F_FMT % g_rtsd[('old', 'wrong')]
 
     # Novel Correct
-    d['dlwordret_novel_corr_acc'] = F_FMT % (float(g_size[('novel', 'correct')]) / sizes['novel'] * 100)
+    d['dlwordret_novel_acc'] = F_FMT % (float(g_size[('novel', 'correct')]) / sizes['novel'] * 100)
     d['dlwordret_novel_corr_rtavg'] = F_FMT % g_rtavg[('novel', 'correct')]
     d['dlwordret_novel_corr_rtsd'] = F_FMT % g_rtsd[('novel', 'correct')]
     # Novel Incorrect
