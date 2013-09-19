@@ -1068,7 +1068,58 @@ def declearn_wordrec_accuracy(trial):
         return 'wrong'
 
 
-def LERDP2B_DLWORDREC(fobj, new_fname):
+def LERDP2B_DLWORDRET(fobj, new_fname=None):
+
+    df = pd.DataFrame(io.split_dict(fobj))
+    # filter only real task
+    df = df[df['Running[Trial]'] == 'RetrievalItems']
+    # Use declearn get rt function to compute actual RT
+    df['RealRT'] = df.apply(declearn_get_rt, axis=1)
+    # Classify
+    df['ItemClass'] = df.apply(declearn_wordrec_classify, axis=1)
+    # Simplify responses
+    df['ItemResponse'] = df.apply(declearn_wordenc_actual_response, axis=1)
+    # Simplify Accuracy
+    df['ItemAccuracy'] = df.apply(declearn_wordrec_accuracy, axis=1)
+
+    sizes = df.groupby('ItemClass').size()
+    g = df.groupby(('ItemClass', 'ItemAccuracy'))
+    g_size = g.size()
+    g_rtavg = g['RealRT'].mean()
+    g_rtsd = g['RealRT'].std()
+
+    d = {}
+    # Old Correct
+    d['dlwordret_old_corr_acc'] = F_FMT % (float(g_size[('old', 'correct')]) / sizes['old'] * 100)
+    d['dlwordret_old_corr_rtavg'] = F_FMT % g_rtavg[('old', 'correct')]
+    d['dlwordret_old_corr_rtsd'] = F_FMT % g_rtsd[('old', 'correct')]
+    # Old Incorrect
+    d['dlwordret_old_incorr_rtavg'] = F_FMT % g_rtavg[('old', 'wrong')]
+    d['dlwordret_old_incorr_rtsd'] = F_FMT % g_rtsd[('old', 'wrong')]
+
+    # Novel Correct
+    d['dlwordret_novel_corr_acc'] = F_FMT % (float(g_size[('novel', 'correct')]) / sizes['novel'] * 100)
+    d['dlwordret_novel_corr_rtavg'] = F_FMT % g_rtavg[('novel', 'correct')]
+    d['dlwordret_novel_corr_rtsd'] = F_FMT % g_rtsd[('novel', 'correct')]
+    # Novel Incorrect
+    d['dlwordret_novel_incorr_rtavg'] = F_FMT % g_rtavg[('novel', 'wrong')]
+    d['dlwordret_novel_incorr_rtsd'] = F_FMT % g_rtsd[('novel', 'wrong')]
+
+    from scipy.stats import norm
+    hr = float(g_size[('old', 'correct')]) / sizes['old']
+    far = float(g_size[('novel', 'wrong')]) / sizes['novel']
+    dprime = norm.ppf(hr) - norm.ppf(far)
+    d['dlwordret_dprime'] = F_FMT % dprime
+
+    return d
+
+
+def LERDP2B_DLWORDREC(fobj, new_fname=None):
+    """Note, LERDP2B_DLWORDREC & LERDP2B_DLWORDRET are basically the same
+    IF YOU CHANGE ONE, CHANGE THE OTHER
+
+    (note to self: not architected for different keynames/explicit > implicit)
+    """
     df = pd.DataFrame(io.split_dict(fobj))
     # filter only real task
     df = df[df['Running[Trial]'] == 'RetrievalItems']

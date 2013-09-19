@@ -38,7 +38,8 @@ def switchboard_fxn(**kwargs):
                                                       'v2_dlpic_enc_file',
                                                       'v2_dlpic_rec_file',
                                                       'v2_dlword_enc_file',
-                                                      'v2_dlword_rec_file'], 'lerdp2', 'LERDP2'),
+                                                      'v2_dlword_rec_file',
+                                                      'v2_dlword_ret_file',], 'lerdp2', 'LERDP2'),
                      (9257, 'imaging'): (['passages_eprime_file'], 'in-magnet', 'RCLMS'),
                      (9259, 'imaging'): (['lerdlms_srt_eprime', 'lerdlms_pic_eprime'], 'in-magnet', 'NPR'),
                      (13529, 'imaging'): (['srt_file', 'pic2_file'], 'in-magnet', 'LERDP2_IMAGING')}

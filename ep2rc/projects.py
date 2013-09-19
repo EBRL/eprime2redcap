@@ -154,6 +154,7 @@ class LERDP2(BaseProject):
                         "DLPICREC": pf.LERDP2B_DLPICREC,
                         "DLWORDENC": pf.LERDP2B_DLWORDENC,
                         "DLWORDREC": pf.LERDP2B_DLWORDREC,
+                        "DLWORDRET": pf.LERDP2B_DLWORDRET,
                         "SRT2": pf.RCVB_SRT,
                         "SRT": pf.RCVB_SRT,
                         'OLSON': pf.LERDP2_OLSON}
@@ -187,7 +188,7 @@ class LERDP2(BaseProject):
 
     def key_map(self):
         if self.task in ("DLPICENC", "DLPICREC", "OLSON",
-                         "DLWORDENC", "DLWORDREC"):
+                         "DLWORDENC", "DLWORDREC", "DLWORDRET"):
             f = lambda x: '%s_%s' % (self.visit.lower(), x)
         elif self.task in ('SRT2', "SRT"):
             f = lambda x: '%s_srtb_%s' % (self.visit.lower(), x)

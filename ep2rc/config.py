@@ -22,4 +22,4 @@ with open(_ep2rc_cfg) as _f:
 #  Usernames and passwords
 user_pws = _cfg.items('users')
 #  Redcap project names and API keys
-pname_keys = _cfg.items('rc')
+pname_keys = {k:v for (k,v) in _cfg.items('rc')}
