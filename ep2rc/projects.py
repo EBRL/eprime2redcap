@@ -300,7 +300,7 @@ class NFB(BaseProject):
 class RCV(BaseProject):
     def __init__(self, fname, fobj, database='in-magnet'):
         super(RCV, self).__init__(fname, fobj, database)
-        self.parsers = {'PASSAGES': pf.RCV_PASSAGES}
+        self.parsers = {'PASSAGES': pf.RCV_PASSAGES_NEW}
         self.copy_dir = os.path.join(self.prefix(), 'New_Server', 'RCV',
             'In_Behavioral', '_'.join([self.behavid, self.scanid]))
 

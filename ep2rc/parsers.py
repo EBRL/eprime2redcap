@@ -1270,11 +1270,82 @@ def RCV_PASSAGES(fobj, new_fname=None):
     loop = zip((m1_trials, m2_trials, m3_trials, m4_trials),
                ('m1', 'm2', 'm3', 'm4'))
     for trials, mis in loop:
-        pic_result = pic_pct(trials)
-        rep_result = rep_pct(trials)
-        data['%s_pic_pct' % mis] = FZ_FMT % pic_result if pic_result else ''
-        data['%s_rep_pct' % mis] = FZ_FMT % rep_result if rep_result else ''
+        if len(trials) > 0:
+            pic_result = pic_pct(trials)
+            rep_result = rep_pct(trials)
+            data['%s_pic_pct' % mis] = FZ_FMT % pic_result if pic_result != '' else ''
+            data['%s_rep_pct' % mis] = FZ_FMT % rep_result if rep_result != '' else ''
     return data
+
+
+def RCV_PASSAGES_NEW(fobj, new_fname=None):
+    df = pd.DataFrame(io.split_dict(fobj, new_fname))
+
+    try:
+        m1_df = df[df['Block'] == '1']
+        m2_df = df[df['Block'] == '2']
+        m3_df = df[df['Block'] == '3']
+        m4_df = df[df['Block'] == '4']
+    except KeyError:
+        raise errors.BadDataError("Couldn't split missions")
+
+    def total_repetition(x):
+        resp = ('5', '6')
+        accurate_repeat = x['Repeat'] == '1' and (x['Stim.RESP'] in resp or x['Ch.RESP'] in resp)
+        accurate_nonrepeat = x['Repeat'] == '0' and (x['Stim.RESP'] == '' and x['Ch.RESP'] == '')
+        if accurate_repeat or accurate_nonrepeat:
+            return 1
+        else:
+            return 0
+
+    def rep_accuracy(x):
+        resp = ('5', '6')
+        accurate_repeat = x['Stim.RESP'] in resp or x['Ch.RESP'] in resp
+        return 1 if accurate_repeat else 0
+
+    def nonrep_accuracy(x):
+        accurate_repeat = x['Stim.RESP'] == '' and x['Ch.RESP'] == ''
+        return 1 if accurate_repeat else 0
+
+
+    def pic_pct(trials):
+        try:
+            dt = trials[trials['decideScreen'] == '1']
+            assert len(dt) == 1
+            picts1 = dt['Picts1.ACC'].apply(float).sum()
+            picts2 = dt['Picts2.ACC'].apply(float).sum()
+            return (picts1 + picts2) / 2 * 100
+        except (KeyError, AssertionError):
+            return ''
+
+    def fmt(value):
+        if value == '':
+            return ''
+        else:
+            return FZ_FMT % value
+
+    data = {}
+    loop = zip((m1_df, m2_df, m3_df, m4_df),
+               ('m1', 'm2', 'm3', 'm4'))
+    for trials, mis in loop:
+        if len(trials) > 0:
+            pic_result = pic_pct(trials)
+
+            trials['total_rep'] = trials.apply(total_repetition, axis=1)
+            total_rep_accuracy = float(trials['total_rep'].sum()) / len(trials) * 100
+            rep_trials = trials[trials['Repeat'] == '1']
+            nonrep_trials = trials[trials['Repeat'] == '0']
+            rep_trials['acc'] = rep_trials.apply(rep_accuracy, axis=1)
+            rep_acc = float(rep_trials['acc'].sum()) / len(rep_trials) * 100
+            nonrep_trials['acc'] = nonrep_trials.apply(nonrep_accuracy, axis=1)
+            nonrep_acc = float(nonrep_trials['acc'].sum()) / len(nonrep_trials) * 100
+
+            data['%s_pic_pct' % mis] = fmt(pic_result)
+            data['%s_rep_pct' % mis] = fmt(total_rep_accuracy)
+            data['%s_repeat_pct' % mis] = fmt(rep_acc)
+            data['%s_nonrepeat_pct' % mis] = fmt(nonrep_acc)
+    return data
+
 
 
 def RCVB_SRT(fobj, new_fname=None):
