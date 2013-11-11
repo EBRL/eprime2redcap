@@ -1218,7 +1218,8 @@ def LERDP2B_DLPICREC(fobj, new_fname=None):
 
     exp_trials = filter(lambda x: x['Running[Trial]'] == 'RetrievalItems', dl)
     old_trials = filter(is_old, exp_trials)
-    assert len(old_trials) == 64
+    if len(old_trials) != 64:
+        return {'dlpicrec_old_corr_rtavg': 'bad number of items'}
     novel_trials = filter(lambda x: not is_old(x), exp_trials)
     assert len(novel_trials) == 64
 
