@@ -208,32 +208,13 @@ class NF(BaseProject):
         self.parse_fname()
 
     def parse_fname(self):
-        parts = self.split_fname()
-        if self.task in ('SWR', 'PIC', 'MI'):
-            #  GRANT_TASK_BEHAVID_SCANID_VISIT
-            self.visit = parts[4]
-        if self.task in ('SWR', 'PIC'):
-            #  GRANT_TASK_BEHAVID_SCANID_VISIT_LIST
-            self.list = parts[5]
+        self.split_fname()
 
     def project_additions(self):
-        to_add = {}
-        if self.database == 'in-magnet':
-            to_add = {'grant': self.project, 'id': '%s_%s' % (self.behavid, self.scanid)}
-            if self.task == 'REP':
-                to_add['rep1_upload'] = 'yes'
-            else:
-                to_add['%s_%s_upload' % (self.rcmap[self.task], self.visit.lower())] = 'yes'
-        elif self.database in ('nf', 'NF'):
-            to_add['id'] = self.behavid
-        return to_add
+        return {'grant': self.project, 'id': '%s_%s' % (self.behavid, self.scanid)}
 
     def key_map(self):
-        if self.task == 'REP':
-            f = lambda x: 'rep1_%s' % x
-        else:
-            f = lambda x: '%s_%s_%s' % (self.rcmap[self.task], self.visit.lower(), x)
-        return f
+        return lambda x: '%s_%s' % (self.rcmap[self.task], x)
 
 
 class RCK(BaseProject):

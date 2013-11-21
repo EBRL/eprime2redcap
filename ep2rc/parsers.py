@@ -157,9 +157,9 @@ def NF_MI(fobj, new_fname=None):
                     acc = (float(len(corr)) / len(tdata)) * 100
                     results['%s_%s_acc' % (m, ttext)] = F_FMT % acc
                     #  Generate a binary vector
-                    resp = (1,) * len(corr) + (0,) * (len(tdata_noomit) - len(corr))
-                    accsd = np.std(np.array(resp))
-                    results['%s_%s_accsd' % (m, ttext)] = FZ_FMT % accsd
+                    # resp = (1,) * len(corr) + (0,) * (len(tdata_noomit) - len(corr))
+                    # accsd = np.std(np.array(resp))
+                    # results['%s_%s_accsd' % (m, ttext)] = FZ_FMT % accsd
 
                     all_rt = np.array([float(x['Target.RT']) for x in corr])
                     rt_avg = np.mean(all_rt)
