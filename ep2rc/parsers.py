@@ -143,7 +143,7 @@ def NF_MI(fobj, new_fname=None):
                 try:
                     #  Use omit function
                     omit = [x for x in tdata if omitf(x)]
-                    results['%s_%s_omit' % (m, ttext)] = D_FMT % len(omit)
+                    results['%s_%s_nomit' % (m, ttext)] = D_FMT % len(omit)
                     tdata_noomit = filter(lambda x: not omitf(x), tdata)
                     #  Use the correct function
                     corr = [x for x in tdata_noomit if corrf(x)]
