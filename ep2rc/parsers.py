@@ -77,7 +77,7 @@ def NF_REP(fobj, new_fname=None):
                 try:
                     trials = filter(lambda x: REP_DICT[x['text1']] == cat, m_data)
                     n_omit = len(filter(lambda x: x['stim.RESP'] not in good+bad, trials))
-                    results['%s_%s_nomit' % (m, catt)] = D_FMT % n_omit
+                    results['%s_%s_omit' % (m, catt)] = D_FMT % n_omit
                     #  We need to remove omitted trials from trials we peform stats on
                     trials[:] = filter(lambda x: REP_DICT[x['text1']] == cat and x['stim.RESP'] in good+bad, trials)
                     # Now we can proceed
