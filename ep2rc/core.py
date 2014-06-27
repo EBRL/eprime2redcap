@@ -9,7 +9,7 @@ import os
 from . import projects
 
 TASKS = ('MI', 'SWR', 'PIC', 'REP', 'MR', 'FIG', 'MI', 'OLSON', 'SENT', 'NBACK', 'PASSAGES',
-         'DLPICENC', 'DLPICREC', 'SRT', 'PIC2')
+         'DLPICENC', 'DLPICREC', 'SRT', 'PIC2', 'SYM', 'NONSYM')
 
 PROJECT_CLASS = {'RCK': projects.RCK,
                  'NF': projects.NF,

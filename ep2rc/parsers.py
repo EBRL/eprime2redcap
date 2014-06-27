@@ -13,6 +13,7 @@ F_FMT = '%.3f'
 FZ_FMT = '%0.3f'
 D_FMT = '%d'
 
+
 """ TASK PARSING FUNCTIONS """
 
 
@@ -1394,6 +1395,20 @@ def RCVB_SRT(fobj, new_fname=None):
         data['c%s_nomit' % i] = D_FMT % n_omit
         data['c%s_ncomit' % i] = D_FMT % n_comit
         data['c%s_nitems' % i] = D_FMT % n_items
+    # run computation on type
+    loop = zip([['RandomA', 'RandomBlock'], ['Block1', 'Block2', 'Block3', 'Block4']], #allowed Procedure[Block] values
+                ['allrand', 'allimp'], #typee of stimuli
+                [120, 240]) # length of filtered df
+    for allowed, typee, length in loop:
+        sub = df[df['Procedure[Block]'].isin(allowed)]
+        assert len(sub) == length
+        acc_pct, acc_rtavg, acc_rtstd, n_omit, n_comit, n_items = compute_block_stats(sub)
+        data['%s_acc_pct' % typee] = F_FMT % acc_pct
+        data['%s_acc_rtavg' % typee] = F_FMT % acc_rtavg
+        data['%s_acc_rtstd' % typee] = F_FMT % acc_rtstd
+        data['%s_nomit' % typee] = D_FMT % n_omit
+        data['%s_ncomit' % typee] = D_FMT % n_comit
+        data['%s_nitems' % typee] = D_FMT % n_items
     # run computation on total
     acc_pct, acc_rtavg, acc_rtstd, n_omit, n_comit, n_items = compute_block_stats(df)
     data['total_acc_pct'] = F_FMT % acc_pct
@@ -1473,6 +1488,99 @@ def LERD_SRT(fobj, new_fname=None):
 
     return d
 
+
+def load_df(dl, kind="NON"):
+    df = pd.DataFrame(dl).convert_objects(convert_numeric=True)
+    to_keep = ['Procedure',
+               'Running',
+               '{}TaskSlide.RT'.format(kind),
+               '{}TaskSlide.ACC'.format(kind),
+               'ratio' if kind == "SYM" else 'Ratio',
+               ]
+    procedure = 'numbertrial' if kind == 'SYM' else 'dottrial'
+    df = df[to_keep]
+    filt = df[df['Procedure'] == procedure]
+    # fill NaN in TaskSlide.RT
+    rt_col = '{}TaskSlide.RT'.format(kind)
+    filt[rt_col] = filt[rt_col].fillna(value=0)
+    return filt
+
+
+def determine_correct_trials(mdf, kind):
+    """Filter out incorrect & obviously bad trials"""
+    acc_column_name = '{}TaskSlide.ACC'.format(kind)
+    rt_column_name = '{}TaskSlide.RT'.format(kind)
+    correct_filter = mdf[acc_column_name] == 1
+    filt = mdf[correct_filter]
+    rt_col = filt[rt_column_name]
+    rtmean, rtstd = rt_col.mean(), rt_col.std()
+    high_filter = filt[rt_column_name] <= (rtmean + 3 * rtstd)
+    bad_press_filt = filt[rt_column_name] > 100
+    filt = filt[high_filter]
+    filt = filt[bad_press_filt]
+    return filt
+
+def process_price_task(df, kind='NON'):
+    if kind == 'NON':
+        assert len(df) == 70
+
+    elif kind == 'SYM':
+        assert len(df) == 96
+
+    acc_name = '{}TaskSlide.ACC'.format(kind)
+    rt_name = '{}TaskSlide.RT'.format(kind)
+    ratio_name = 'ratio' if kind == 'SYM' else 'Ratio'
+
+    F = '{:0.3f}'
+    data = {}
+
+    key_kind = kind.lower()
+
+    accuracy = float(sum(df[acc_name])) / len(df) * 100.
+    data['price_{}_accuracy'.format(key_kind)] = F.format(accuracy)
+
+    # filter(None, ) removes non-True items from a list-like thing
+    # the len of that list is how many 0 reaction time trials there were
+    omits = len(filter(None, df[rt_name] == 0))
+    data['price_{}_omits'.format(key_kind)] = F.format(omits)
+
+    filt = determine_correct_trials(df, kind=kind)
+
+    rt_col = filt[rt_name]
+    rt_mean, rt_sd = rt_col.mean(), rt_col.std()
+
+    data['price_{}_rtmean'.format(key_kind)] = F.format(rt_mean)
+    data['price_{}_rtsd'.format(key_kind)] = F.format(rt_sd)
+
+    # OLS http://stackoverflow.com/questions/19991445/run-an-ols-regression-with-pandas-data-frame
+    # Always predicting by 'ratio'
+    import statsmodels.formula.api as sm
+
+    filt['X'] = filt[ratio_name]
+    ols_loop = zip(('acc', 'rt'),
+               (acc_name, rt_name))
+    for Y_name, Y_colname  in ols_loop:
+        filt['Y'] = filt[Y_colname]
+        result = sm.ols(formula = 'Y ~ X', data=filt).fit()
+        data['price_{}_{}_slope'.format(key_kind, Y_name)] = '{:.06}'.format(result.params['X'])
+        data['price_{}_{}_pvalue'.format(key_kind, Y_name)] = '{:.06}'.format(result.pvalues['X'])
+    return data
+
+
+def LERDP2_PRICE_NONSYM(fobj, new_fname=None):
+    dl = io.split_dict(fobj, new_fname)
+    kind = 'NON'
+    df = load_df(dl, kind=kind)
+    data = process_price_task(df, kind=kind)
+    return data
+
+def LERDP2_PRICE_SYM(fobj, new_fname=None):
+    dl = io.split_dict(fobj, new_fname)
+    kind = 'SYM'
+    df = load_df(dl, kind=kind)
+    data = process_price_task(df, kind=kind)
+
+    return data
 
 def aprime(tp, tn, fp, fn):
     """

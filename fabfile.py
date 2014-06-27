@@ -3,13 +3,13 @@
 __author__ = 'Scott Burns <scott.s.burns@gmail.com>'
 __license__ = 'BSD 3-Clause'
 
-from fabric.api import run, cd, env, hosts, local, settings, lcd, prefix
+from fabric.api import run, cd, env, local, settings, prefix
 
 env.hosts = ['cutting.accre.vanderbilt.edu']
-env.user = 'burnsss1'
-activate = 'source ~/envs/switchboard/bin/activate'
-code_dir = '/home/burnsss1/Code/eprime2redcap'
-supervisor_dir = '/home/burnsss1/supervisord/'
+env.user = 'cutting'
+activate = 'source activate ~/environments/switchboard'
+code_dir = '/home/cutting/software/eprime2redcap'
+supervisor_dir = '/home/cutting/supervisord/'
 
 
 def rebuild():
